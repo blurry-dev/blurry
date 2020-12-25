@@ -1,7 +1,20 @@
 from typing import Any
 
 import mistune
+import os
+import subprocess
 from docdata.yamldata import get_data
+from formic import FileSet
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+from livereload import Server
+
+PATH = os.path.dirname(os.path.abspath(__file__))
+
+
+env = Environment(
+    loader=FileSystemLoader(os.path.join(PATH, "templates")),
+    autoescape=select_autoescape(["html", "xml"]),
+)
 
 
 def parse_front_matter(md, s, state):
@@ -15,9 +28,7 @@ def plugin_front_matter(md):
 
 
 renderer = mistune.HTMLRenderer(escape=False)
-markdown = mistune.Markdown(
-    renderer, plugins=[plugin_front_matter]
-)
+markdown = mistune.Markdown(renderer, plugins=[plugin_front_matter])
 
 
 def convert_markdown_file_to_html(filename: str) -> tuple[str, dict]:
@@ -27,7 +38,33 @@ def convert_markdown_file_to_html(filename: str) -> tuple[str, dict]:
     return html, meta
 
 
+def build_site():
+    template = env.get_template("post.html")
+    for filepath in FileSet(include="content/**.md"):
+        html, meta = convert_markdown_file_to_html(filepath)
+        print(template.render(body=html, **meta))
+
+
+def start_livereload():
+    livereload_server = Server()
+    for filepath in FileSet(include="content/**.md"):
+        livereload_server.watch(filepath, build_site)
+    livereload_server.serve()
+
+
+def start_http_server():
+    subprocess.run(
+        ["python", "-m", "http.server", "--directory", "build"],
+    )
+
+
 if __name__ == "__main__":
-    import sys
-    html, meta = convert_markdown_file_to_html(sys.argv[1])
-    print(meta)
+    from multiprocessing import Process
+    # TODO: save files to build directory
+
+    livereload_process = Process(target=start_livereload)
+    livereload_process.start()
+    http_process = Process(target=start_http_server)
+    http_process.start()
+    livereload_process.join()
+    http_process.join()
