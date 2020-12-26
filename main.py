@@ -8,10 +8,12 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from livereload import Server
 
 PATH = os.path.dirname(os.path.abspath(__file__))
+BUILD_DIR = os.path.join(PATH, "build")
+TEMPLATE_DIR = os.path.join(PATH, "templates")
 
 
 env = Environment(
-    loader=FileSystemLoader(os.path.join(PATH, "templates")),
+    loader=FileSystemLoader(TEMPLATE_DIR),
     autoescape=select_autoescape(["html", "xml"]),
 )
 
@@ -33,22 +35,32 @@ markdown = mistune.Markdown(renderer, plugins=[plugin_front_matter])
 def convert_markdown_file_to_html(filename: str) -> tuple[str, dict]:
     state: dict[str, Any] = {}
     html = markdown.read(filename, state)
-    meta: dict[str, Any] = state.get("front_matter", {})
-    return html, meta
+    front_matter: dict[str, Any] = state.get("front_matter", {})
+    return html, front_matter
 
 
 def build_site():
     template = env.get_template("post.html")
     for filepath in FileSet(include="content/**.md"):
-        html, meta = convert_markdown_file_to_html(filepath)
-        print(template.render(body=html, **meta))
+        # Convert Markdown file to HTML
+        body, front_matter = convert_markdown_file_to_html(filepath)
+        # TODO: add additional variables, like word count
+        html = template.render(body=body, **front_matter)
+
+        # Write file
+        filename_without_extension = os.path.splitext(os.path.basename(filepath))[0]
+        post_directory = os.path.join(BUILD_DIR, filename_without_extension)
+        os.makedirs(post_directory, exist_ok=True)
+        post_filepath = os.path.join(post_directory, "index.html")
+        with open(post_filepath, "w") as buffer:
+            buffer.write(html)
 
 
 def start_livereload():
     livereload_server = Server()
-    for filepath in FileSet(include="content/**.md"):
-        livereload_server.watch(filepath, build_site)
-    livereload_server.serve(port="8000", root="build")
+    livereload_server.watch("content/**.md", build_site)
+    livereload_server.watch("templates/**", build_site)
+    livereload_server.serve(port="8000", root=BUILD_DIR)
 
 
 if __name__ == "__main__":
