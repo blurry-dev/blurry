@@ -2,7 +2,6 @@ from typing import Any
 
 import mistune
 import os
-import subprocess
 from docdata.yamldata import get_data
 from formic import FileSet
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -49,22 +48,8 @@ def start_livereload():
     livereload_server = Server()
     for filepath in FileSet(include="content/**.md"):
         livereload_server.watch(filepath, build_site)
-    livereload_server.serve()
-
-
-def start_http_server():
-    subprocess.run(
-        ["python", "-m", "http.server", "--directory", "build"],
-    )
+    livereload_server.serve(port="8000", root="build")
 
 
 if __name__ == "__main__":
-    from multiprocessing import Process
-    # TODO: save files to build directory
-
-    livereload_process = Process(target=start_livereload)
-    livereload_process.start()
-    http_process = Process(target=start_http_server)
-    http_process.start()
-    livereload_process.join()
-    http_process.join()
+    start_livereload()
