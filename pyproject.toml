@@ -14,6 +14,8 @@ docdata = {git = "https://github.com/waylan/docdata.git"}
 Jinja2 = "^2.11.2"
 livereload = "^2.6.3"
 formic2 = "^1.0.3"
+htmlmin = "^0.1.12"
+typer = "^0.3.2"
 
 [tool.poetry.dev-dependencies]
 
