@@ -33,14 +33,6 @@ reference = "master"
 resolved_reference = "7a8372597e0888b91665fb8b60a3ff05cdf7af98"
 
 [[package]]
-name = "formic2"
-version = "1.0.3"
-description = "An implementation of Apache Ant FileSet and Globs"
-category = "main"
-optional = false
-python-versions = ">=2.6, <4"
-
-[[package]]
 name = "frozendict"
 version = "1.2"
 description = "An immutable dictionary"
@@ -175,7 +167,7 @@ doc = ["mkdocs (>=1.1.2,<2.0.0)", "mkdocs-material (>=5.4.0,<6.0.0)", "markdown-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "22336b80c537bdc0117f107fee00bfbb69bf2e1193ff922f121b9eae26bfad41"
+content-hash = "0a0b8c8731d9838f217581c8bff7fe2d15c8028a0fd0a960ec2124ba8bc38a70"
 
 [metadata.files]
 cachetools = [
@@ -187,11 +179,6 @@ click = [
     {file = "click-7.1.2.tar.gz", hash = "sha256:d2b5255c7c6349bc1bd1e59e08cd12acbbd63ce649f2588755783aa94dfb6b1a"},
 ]
 docdata = []
-formic2 = [
-    {file = "formic2-1.0.3-py2-none-any.whl", hash = "sha256:94abc00d86403585ad4991dd59a66cadbc9a49143e965e20319d1e44ef030a87"},
-    {file = "formic2-1.0.3-py3-none-any.whl", hash = "sha256:0897c188b7d182525de12bc9c0c1472b88856a9d87884f7c38717f8393366c61"},
-    {file = "formic2-1.0.3.tar.gz", hash = "sha256:21bedd18fbd9010638b7449c7ce008b424a5f8835c224b81fbd07f666bfc6808"},
-]
 frozendict = [
     {file = "frozendict-1.2.tar.gz", hash = "sha256:774179f22db2ef8a106e9c38d4d1f8503864603db08de2e33be5b778230f6e45"},
 ]
