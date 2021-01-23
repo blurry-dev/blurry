@@ -1,4 +1,5 @@
 from typing import Any, Dict, Tuple
+from dataclasses import dataclass
 
 import htmlmin
 import mistune
@@ -50,20 +51,34 @@ def convert_content_path_to_build_path(content_path: Path) -> Path:
     return content_path
 
 
+@dataclass
+class MarkdownFileData:
+    body: str
+    front_matter: dict
+    path: Path
+
 
 @app.command()
 def build(release=True):
     """Generates HTML content from Markdown files."""
     # structured_data_by_directory = {}
     path = Path(CONTENT_DIR)
+    file_data_by_directory: dict[Path, list[MarkdownFileData]] = {}
     for filepath in path.glob("**/*.md"):
         # Extract filepath for storing context data and writing out
         relative_filepath = filepath.relative_to(CONTENT_DIR)
-        # TODO: gather context for files in this directory
-        build_folder = BUILD_DIR.joinpath(relative_filepath.with_suffix(''))
+        directory = relative_filepath.parent
+        if directory not in filepath:
+            file_data_by_directory[directory] = []
 
         # Convert Markdown file to HTML
         body, front_matter = convert_markdown_file_to_html(filepath)
+        file_data = MarkdownFileData(body, front_matter, relative_filepath)
+        file_data_by_directory[directory].append(file_data)
+        # TODO: create a separate loop that compiles the templates.
+
+        # TODO: gather context for files in this directory
+        build_folder = BUILD_DIR.joinpath(relative_filepath.with_suffix(""))
 
         schema_type = front_matter["@type"]
         template = env.get_template(f"{schema_type}.html")
