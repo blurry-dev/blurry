@@ -1,13 +1,15 @@
-from typing import Any, Dict, Tuple
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
 
 import htmlmin
 import mistune
 import typer
 from docdata.yamldata import get_data
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from jinja2 import Environment
+from jinja2 import FileSystemLoader
+from jinja2 import select_autoescape
 from livereload import Server
-from pathlib import Path
 
 from .utils import write_file_creating_path
 
@@ -20,12 +22,11 @@ TEMPLATE_DIR = CURR_DIR / "templates"
 
 
 env = Environment(
-    loader=FileSystemLoader(TEMPLATE_DIR),
-    autoescape=select_autoescape(["html", "xml"]),
+    loader=FileSystemLoader(TEMPLATE_DIR), autoescape=select_autoescape(["html", "xml"])
 )
 
 
-def parse_front_matter(_, s: str, state: dict) -> Tuple[str, dict]:
+def parse_front_matter(_, s: str, state: dict) -> tuple[str, dict]:
     markdown_text, front_matter = get_data(s)
     state["front_matter"] = front_matter
     return markdown_text, state
@@ -39,16 +40,15 @@ renderer = mistune.HTMLRenderer(escape=False)
 markdown = mistune.Markdown(renderer, plugins=[plugin_front_matter])
 
 
-def convert_markdown_file_to_html(filepath: Path) -> Tuple[str, dict]:
-    state: Dict[str, Any] = {}
+def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict]:
+    state: dict[str, Any] = {}
     html = markdown.read(str(filepath), state)
-    front_matter: Dict[str, Any] = state.get("front_matter", {})
+    front_matter: dict[str, Any] = state.get("front_matter", {})
     return html, front_matter
 
 
-def convert_content_path_to_build_path(content_path: Path) -> Path:
-
-    return content_path
+def convert_content_path_to_build_path(path: Path) -> Path:
+    return BUILD_DIR.joinpath(path.with_suffix(""))
 
 
 @dataclass
@@ -68,28 +68,36 @@ def build(release=True):
         # Extract filepath for storing context data and writing out
         relative_filepath = filepath.relative_to(CONTENT_DIR)
         directory = relative_filepath.parent
-        if directory not in filepath:
+        if directory not in file_data_by_directory:
             file_data_by_directory[directory] = []
 
         # Convert Markdown file to HTML
         body, front_matter = convert_markdown_file_to_html(filepath)
         file_data = MarkdownFileData(body, front_matter, relative_filepath)
         file_data_by_directory[directory].append(file_data)
-        # TODO: create a separate loop that compiles the templates.
 
-        # TODO: gather context for files in this directory
-        build_folder = BUILD_DIR.joinpath(relative_filepath.with_suffix(""))
+    for directory, file_data_list in file_data_by_directory.items():
+        directory_file_data = {f.path: f.front_matter for f in file_data_list}
 
-        schema_type = front_matter["@type"]
-        template = env.get_template(f"{schema_type}.html")
-        html = template.render(body=body, **front_matter)
+        for file_data in file_data_list:
+            sibling_data = directory_file_data.copy()
+            del sibling_data[file_data.path]
+            build_folder = convert_content_path_to_build_path(file_data.path)
 
-        if release:
-            # Minify HTML
-            html = htmlmin.minify(html)
+            schema_type = file_data.front_matter["@type"]
+            template = env.get_template(f"{schema_type}.html")
+            html = template.render(
+                body=file_data.body,
+                sibling_pages=sibling_data,
+                **file_data.front_matter,
+            )
 
-        # Write file
-        write_file_creating_path(build_folder, html)
+            if release:
+                # Minify HTML
+                html = htmlmin.minify(html)
+
+            # Write file
+            write_file_creating_path(build_folder, html)
 
 
 def build_development():
