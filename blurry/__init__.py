@@ -35,6 +35,7 @@ def build(release=True):
     # structured_data_by_directory = {}
     path = Path(CONTENT_DIR)
     file_data_by_directory: dict[Path, list[MarkdownFileData]] = {}
+
     for filepath in path.glob("**/*.md"):
         # Extract filepath for storing context data and writing out
         relative_filepath = filepath.relative_to(CONTENT_DIR)
@@ -51,7 +52,7 @@ def build(release=True):
         for file_data in file_data_list:
             extra_context = {}
             # Gather data from other files in this directory if this is an index file
-            if str(file_data.path) == "index.md":
+            if str(file_data.path).endswith("index.md"):
                 sibling_data = {
                     f.path: f.front_matter
                     for f in file_data_list
@@ -82,8 +83,8 @@ def build_development():
 def runserver():
     """Starts HTTP server with live reloading."""
     livereload_server = Server()
-    livereload_server.watch("content/**.md", build_development)
-    livereload_server.watch("templates/*", build_development)
+    livereload_server.watch("content/**/*", build_development)
+    livereload_server.watch("templates/**/*", build_development)
     livereload_server.serve(port="8000", root=BUILD_DIR)
 
 
