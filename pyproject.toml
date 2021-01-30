@@ -17,6 +17,9 @@ htmlmin = "^0.1.12"
 typer = "^0.3.2"
 
 [tool.poetry.dev-dependencies]
+pytest = "^6.2.2"
+pytest-watch = "^4.2.0"
+pytest-cov = "^2.11.1"
 
 [tool.poetry.scripts]
 blurry = 'blurry:main'
