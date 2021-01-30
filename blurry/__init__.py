@@ -1,54 +1,25 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
 
 import htmlmin
-import mistune
 import typer
-from docdata.yamldata import get_data
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
 from jinja2 import select_autoescape
 from livereload import Server
 
-from .utils import write_file_creating_path
+from blurry.constants import BUILD_DIR
+from blurry.constants import CONTENT_DIR
+from blurry.constants import TEMPLATE_DIR
+from blurry.utils import convert_content_path_to_build_directory
+from blurry.utils import convert_markdown_file_to_html
+from blurry.utils import write_index_file_creating_path
 
 app = typer.Typer()
-
-CURR_DIR = Path.cwd()
-BUILD_DIR = CURR_DIR / "build"
-CONTENT_DIR = CURR_DIR / "content"
-TEMPLATE_DIR = CURR_DIR / "templates"
-
 
 env = Environment(
     loader=FileSystemLoader(TEMPLATE_DIR), autoescape=select_autoescape(["html", "xml"])
 )
-
-
-def parse_front_matter(_, s: str, state: dict) -> tuple[str, dict]:
-    markdown_text, front_matter = get_data(s)
-    state["front_matter"] = front_matter
-    return markdown_text, state
-
-
-def plugin_front_matter(md: mistune.Markdown) -> None:
-    md.before_parse_hooks.append(parse_front_matter)
-
-
-renderer = mistune.HTMLRenderer(escape=False)
-markdown = mistune.Markdown(renderer, plugins=[plugin_front_matter])
-
-
-def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict]:
-    state: dict[str, Any] = {}
-    html = markdown.read(str(filepath), state)
-    front_matter: dict[str, Any] = state.get("front_matter", {})
-    return html, front_matter
-
-
-def convert_content_path_to_build_path(path: Path) -> Path:
-    return BUILD_DIR.joinpath(path.with_suffix(""))
 
 
 @dataclass
@@ -76,20 +47,23 @@ def build(release=True):
         file_data = MarkdownFileData(body, front_matter, relative_filepath)
         file_data_by_directory[directory].append(file_data)
 
-    for directory, file_data_list in file_data_by_directory.items():
-        directory_file_data = {f.path: f.front_matter for f in file_data_list}
-
+    for file_data_list in file_data_by_directory.values():
         for file_data in file_data_list:
-            sibling_data = directory_file_data.copy()
-            del sibling_data[file_data.path]
-            build_folder = convert_content_path_to_build_path(file_data.path)
+            extra_context = {}
+            # Gather data from other files in this directory if this is an index file
+            if str(file_data.path) == "index.md":
+                sibling_data = {
+                    f.path: f.front_matter
+                    for f in file_data_list
+                    if f.path != file_data.path
+                }
+                extra_context["sibling_data"] = sibling_data
+            build_folder = convert_content_path_to_build_directory(file_data.path)
 
             schema_type = file_data.front_matter["@type"]
             template = env.get_template(f"{schema_type}.html")
             html = template.render(
-                body=file_data.body,
-                sibling_pages=sibling_data,
-                **file_data.front_matter,
+                body=file_data.body, **file_data.front_matter, **extra_context
             )
 
             if release:
@@ -97,7 +71,7 @@ def build(release=True):
                 html = htmlmin.minify(html)
 
             # Write file
-            write_file_creating_path(build_folder, html)
+            write_index_file_creating_path(build_folder, html)
 
 
 def build_development():
