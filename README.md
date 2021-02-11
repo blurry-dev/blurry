@@ -11,7 +11,10 @@ Blurry stitches together high-quality libraries:
 
 # Features
 
-- First-class Schema.org support
-    - YAML front matter in Markdown files is Schema.org structured data
-    - Jinja templates are named after Schema.org types (`@type`)
-        - Blog, BlogPosting, and WebPage are supported out of the box
+## First-class Schema.org support
+
+- YAML front matter in Markdown files is Schema.org structured data
+- Jinja templates are named after Schema.org types (`@type`)
+    - Blog, BlogPosting, and WebPage are supported out of the box
+
+For more information on valid front matter, see [Google Search Central's "Structured data type definitions"](https://developers.google.com/search/docs/data-types/article#non-amp).
