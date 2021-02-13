@@ -11,8 +11,8 @@ from livereload import Server
 from blurry.constants import BUILD_DIR
 from blurry.constants import CONTENT_DIR
 from blurry.constants import TEMPLATE_DIR
-from blurry.utils import convert_content_path_to_build_directory
-from blurry.utils import convert_markdown_file_to_html
+from blurry.markdown import convert_markdown_file_to_html
+from blurry.utils import convert_content_path_to_directory_in_build
 from blurry.utils import write_index_file_creating_path
 
 app = typer.Typer()
@@ -37,6 +37,8 @@ def build(release=True):
     file_data_by_directory: dict[Path, list[MarkdownFileData]] = {}
 
     for filepath in path.glob("**/*.md"):
+        # TODO: copy images and other files
+
         # Extract filepath for storing context data and writing out
         relative_filepath = filepath.relative_to(CONTENT_DIR)
         directory = relative_filepath.parent
@@ -59,7 +61,7 @@ def build(release=True):
                     if f.path != file_data.path
                 }
                 extra_context["sibling_data"] = sibling_data
-            build_folder = convert_content_path_to_build_directory(file_data.path)
+            folder_in_build = convert_content_path_to_directory_in_build(file_data.path)
 
             schema_type = file_data.front_matter["@type"]
             template = env.get_template(f"{schema_type}.html")
@@ -72,7 +74,7 @@ def build(release=True):
                 html = htmlmin.minify(html)
 
             # Write file
-            write_index_file_creating_path(build_folder, html)
+            write_index_file_creating_path(folder_in_build, html)
 
 
 def build_development():

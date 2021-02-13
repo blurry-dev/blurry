@@ -9,9 +9,9 @@ Blurry stitches together high-quality libraries:
 - [LiveReload](https://livereload.readthedocs.io/en/latest/) for an HTTP server with automatic browser reloading
 - [Typer](https://typer.tiangolo.com/) for the CLI interface
 
-# Features
+## Features
 
-## First-class Schema.org support
+### First-class Schema.org support
 
 - YAML front matter in Markdown files is Schema.org structured data
 - Jinja templates are named after Schema.org types (`@type`)
