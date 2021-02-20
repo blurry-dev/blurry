@@ -4,7 +4,7 @@ from blurry.constants import BUILD_DIR
 
 
 def convert_content_path_to_directory_in_build(path: Path) -> Path:
-    if str(path).endswith("index.md"):
+    if path.name == "index.md":
         path = path.parent
     else:
         path = path.with_suffix("")
