@@ -7,25 +7,18 @@ from docdata.yamldata import get_data
 from blurry.utils import convert_relative_path_in_markdown_to_relative_build_path
 
 
-class CustomRenderer(mistune.HTMLRenderer):
+class BlurryRenderer(mistune.HTMLRenderer):
+    """Renderer that converts relative content URLs to build URLs."""
+
     def image(self, src, alt="", title=None):
-        # Handle relative URLs
-        if str(src.startswith(".")):
+        if src.startswith("."):
             src = convert_relative_path_in_markdown_to_relative_build_path(src)
         return super().image(src, alt, title)
 
     def link(self, link, text=None, title=None):
-        if text is None:
-            text = link
-
-        # Handle relative URLs
         if link.startswith("."):
             link = convert_relative_path_in_markdown_to_relative_build_path(link)
-
-        s = '<a href="' + self._safe_url(link) + '"'
-        if title:
-            s += ' title="' + escape_html(title) + '"'
-        return s + ">" + (text or link) + "</a>"
+        return super().link(link, text, title)
 
 
 def parse_front_matter(_, s: str, state: dict) -> tuple[str, dict]:
@@ -38,7 +31,7 @@ def plugin_front_matter(md: mistune.Markdown) -> None:
     md.before_parse_hooks.append(parse_front_matter)
 
 
-renderer = CustomRenderer(escape=False)
+renderer = BlurryRenderer(escape=False)
 markdown = mistune.Markdown(renderer, plugins=[plugin_front_matter])
 
 
