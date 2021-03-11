@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from blurry.constants import BUILD_DIR
+from blurry.constants import CONTENT_DIR
 
 
 def convert_content_path_to_directory_in_build(path: Path) -> Path:
@@ -19,6 +20,18 @@ def convert_relative_path_in_markdown_to_relative_build_path(relative_path: str)
     elif relative_path.endswith(".md"):
         relative_path = relative_path.replace(".md", "")
     return "../" + relative_path
+
+
+def resolve_relative_path_in_markdown(relative_path: str, markdown_file: Path) -> Path:
+    """Converts a relative path in Markdown to an absolute path."""
+    parent = markdown_file.parent
+    path = parent / Path(relative_path)
+    return path.resolve()
+
+
+def path_to_url_pathname(path: Path) -> str:
+    url_pathname = "/" + str(path.relative_to(CONTENT_DIR))
+    return url_pathname
 
 
 def write_index_file_creating_path(directory_path: Path, content: str):

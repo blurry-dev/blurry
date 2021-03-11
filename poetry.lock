@@ -318,6 +318,18 @@ dev = ["autoflake (>=1.3.1,<2.0.0)", "flake8 (>=3.8.3,<4.0.0)"]
 doc = ["mkdocs (>=1.1.2,<2.0.0)", "mkdocs-material (>=5.4.0,<6.0.0)", "markdown-include (>=0.5.1,<0.6.0)"]
 
 [[package]]
+name = "wand"
+version = "0.6.6"
+description = "Ctypes-based simple MagickWand API binding for Python"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.extras]
+doc = ["Sphinx (>=2.4.1)"]
+test = ["pytest (>=5.3.5)"]
+
+[[package]]
 name = "watchdog"
 version = "1.0.2"
 description = "Filesystem events monitoring"
@@ -331,7 +343,7 @@ watchmedo = ["PyYAML (>=3.10)", "argh (>=0.24.1)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "6d8441c1cf4d2a3de19eed67519211f0b8bbae5fa22b86bbc2a30c0af352c661"
+content-hash = "ef7dc86eebe7b5ff3e025c7b30583d2a27ab9ffa9fdbb36bb24721d147979b9f"
 
 [metadata.files]
 atomicwrites = [
@@ -601,6 +613,10 @@ tornado = [
 typer = [
     {file = "typer-0.3.2-py3-none-any.whl", hash = "sha256:ba58b920ce851b12a2d790143009fa00ac1d05b3ff3257061ff69dbdfc3d161b"},
     {file = "typer-0.3.2.tar.gz", hash = "sha256:5455d750122cff96745b0dec87368f56d023725a7ebc9d2e54dd23dc86816303"},
+]
+wand = [
+    {file = "Wand-0.6.6-py2.py3-none-any.whl", hash = "sha256:b752b2c2ee6ce04210da4b2e591013a4d9303fbed3fcbd3fb450930777dcb117"},
+    {file = "Wand-0.6.6.tar.gz", hash = "sha256:540a2da5fb3ada1f0abf6968e0fa01ca7de6cd517f3be5c52d03a4fc8d54d75e"},
 ]
 watchdog = [
     {file = "watchdog-1.0.2-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:e2a531e71be7b5cc3499ae2d1494d51b6a26684bcc7c3146f63c810c00e8a3cc"},
