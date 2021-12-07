@@ -11,7 +11,7 @@ PyLD = "^2.0.3"
 mistune = "2.0.0"
 PyYAML = "^5.3.1"
 docdata = {git = "https://github.com/waylan/docdata.git"}
-Jinja2 = "^2.11.2"
+Jinja2 = "^3.0.0"
 livereload = "^2.6.3"
 htmlmin = "^0.1.12"
 typer = "^0.3.2"
