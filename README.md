@@ -60,6 +60,7 @@ The corresponding `BlogPosting.html` file might look like this:
     <meta charset="utf-8">
     <meta name="description" content="{{ description }}">
     <title>{{ headline }}</title>
+    <script type="application/ld+json">{{ schema_data|safe }}</script>
 </head>
 
 <body>

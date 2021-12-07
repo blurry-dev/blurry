@@ -1,4 +1,5 @@
 import asyncio
+import json
 import shutil
 from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass
@@ -63,7 +64,10 @@ def write_html_file(
     schema_type = file_data.front_matter["@type"]
     template = env.get_template(f"{schema_type}.html")
     html = template.render(
-        body=file_data.body, **file_data.front_matter, **extra_context
+        body=file_data.body,
+        schema_data=json.dumps(file_data.front_matter),
+        **file_data.front_matter,
+        **extra_context,
     )
 
     if release:
