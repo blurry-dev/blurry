@@ -3,7 +3,7 @@ from typing import Any
 
 import mistune
 from docdata.yamldata import get_data
-from mistune.scanner import escape_html
+from mistune.util import escape_html
 from wand.image import Image
 
 from blurry.images import generate_sizes_string
