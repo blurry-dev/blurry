@@ -2,7 +2,6 @@ import asyncio
 import json
 import shutil
 from concurrent.futures import ProcessPoolExecutor
-from dataclasses import dataclass
 from mimetypes import guess_type
 from pathlib import Path
 
@@ -18,6 +17,8 @@ from blurry.constants import CONTENT_DIR
 from blurry.constants import TEMPLATE_DIR
 from blurry.images import generate_images_for_srcset
 from blurry.markdown import convert_markdown_file_to_html
+from blurry.sitemap import write_sitemap_file
+from blurry.types import MarkdownFileData
 from blurry.utils import convert_content_path_to_directory_in_build
 from blurry.utils import write_index_file_creating_path
 
@@ -26,13 +27,6 @@ app = typer.Typer()
 env = Environment(
     loader=FileSystemLoader(TEMPLATE_DIR), autoescape=select_autoescape(["html", "xml"])
 )
-
-
-@dataclass
-class MarkdownFileData:
-    body: str
-    front_matter: dict
-    path: Path
 
 
 def process_non_markdown_file(filepath: Path):
@@ -105,6 +99,8 @@ def build(release=True):
             body, front_matter = convert_markdown_file_to_html(filepath)
             file_data = MarkdownFileData(body, front_matter, relative_filepath)
             file_data_by_directory[directory].append(file_data)
+
+        executor.submit(write_sitemap_file, file_data_by_directory)
 
         for file_data_list in file_data_by_directory.values():
             for file_data in file_data_list:
