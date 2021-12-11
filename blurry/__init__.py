@@ -17,6 +17,7 @@ from blurry.constants import CONTENT_DIR
 from blurry.constants import TEMPLATE_DIR
 from blurry.images import generate_images_for_srcset
 from blurry.markdown import convert_markdown_file_to_html
+from blurry.open_graph import open_graph_meta_tags
 from blurry.sitemap import write_sitemap_file
 from blurry.types import MarkdownFileData
 from blurry.utils import convert_content_path_to_directory_in_build
@@ -60,6 +61,7 @@ def write_html_file(
     html = template.render(
         body=file_data.body,
         schema_data=json.dumps(file_data.front_matter),
+        open_graph_tags=open_graph_meta_tags(file_data.front_matter),
         **file_data.front_matter,
         **extra_context,
     )
