@@ -3,6 +3,7 @@ import json
 import shutil
 from datetime import datetime
 from mimetypes import guess_type
+from mimetypes import types_map
 from pathlib import Path
 from typing import Coroutine
 
@@ -27,7 +28,7 @@ from blurry.utils import write_index_file_creating_path
 
 app = AsyncTyper()
 
-env = Environment(
+jinja_env = Environment(
     loader=FileSystemLoader(TEMPLATE_DIR), autoescape=select_autoescape(["html", "xml"])
 )
 
@@ -36,7 +37,7 @@ async def process_non_markdown_file(filepath: Path):
     mimetype, _ = guess_type(filepath)
     if not mimetype:
         return
-    if mimetype.startswith("image"):
+    if mimetype in [types_map[".jpg"], types_map[".png"], "image/webp"]:
         # Create srcset images
         await generate_images_for_srcset(filepath)
     relative_filepath = filepath.relative_to(CONTENT_DIR)
@@ -59,7 +60,7 @@ async def write_html_file(
     folder_in_build = convert_content_path_to_directory_in_build(file_data.path)
 
     schema_type = file_data.front_matter["@type"]
-    template = env.get_template(f"{schema_type}.html")
+    template = jinja_env.get_template(f"{schema_type}.html")
     html = template.render(
         body=file_data.body,
         schema_data=json.dumps(file_data.front_matter),

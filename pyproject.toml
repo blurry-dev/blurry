@@ -6,7 +6,7 @@ authors = ["John Franey <johnfraney@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 PyLD = "^2.0.3"
 mistune = "2.0.0"
 PyYAML = "^5.3.1"
