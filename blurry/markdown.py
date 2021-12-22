@@ -9,6 +9,7 @@ from wand.image import Image
 from blurry.images import generate_sizes_string
 from blurry.images import generate_srcset_string
 from blurry.images import get_widths_for_image_width
+from blurry.settings import SETTINGS
 from blurry.utils import convert_relative_path_in_markdown_to_relative_build_path
 from blurry.utils import path_to_url_pathname
 from blurry.utils import resolve_relative_path_in_markdown
@@ -90,5 +91,7 @@ def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict]:
     # Add filepath to the renderer to resolve relative paths
     markdown.renderer.filepath = filepath
     html = markdown.read(str(filepath), state)
-    front_matter: dict[str, Any] = state.get("front_matter", {})
+    # Seed front_matter with schema_data from config file
+    front_matter: dict[str, Any] = dict(SETTINGS.get("schema_data", {}))
+    front_matter.update(state.get("front_matter", {}))
     return html, front_matter
