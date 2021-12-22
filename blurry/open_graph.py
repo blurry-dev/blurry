@@ -1,3 +1,8 @@
+from typing import Literal
+
+from blurry.types import SchemaType
+
+
 OPEN_GRAPH_TEMPLATE = """
 <meta property="og:title" content="{title}" />
 <meta property="og:type" content="{type}" />
@@ -8,7 +13,10 @@ OPEN_GRAPH_TEMPLATE = """
 
 META_TAG_TEMPLATE = '<meta property="og:{property}" content="{content}" />'
 
-schema_type_to_open_graph_type = {
+OpenGraphType = Literal["article", "book", "profile", "website"]
+
+
+schema_type_to_open_graph_type: dict[SchemaType, OpenGraphType] = {
     "Article": "article",
     "BlogPosting": "article",
     "NewsArticle": "article",
@@ -22,9 +30,9 @@ schema_type_to_open_graph_type = {
 }
 
 
-def open_graph_type_from_schema_type(open_graph_type: str) -> str:
+def open_graph_type_from_schema_type(schema_type: SchemaType) -> OpenGraphType:
     try:
-        return schema_type_to_open_graph_type[open_graph_type]
+        return schema_type_to_open_graph_type[schema_type]
     except KeyError:
         return "website"
 
