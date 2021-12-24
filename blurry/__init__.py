@@ -37,14 +37,17 @@ async def process_non_markdown_file(filepath: Path):
     mimetype, _ = guess_type(filepath)
     if not mimetype:
         return
-    if mimetype in [types_map[".jpg"], types_map[".png"], "image/webp"]:
-        # Create srcset images
-        await generate_images_for_srcset(filepath)
     relative_filepath = filepath.relative_to(CONTENT_DIR)
     build_filepath = BUILD_DIR / relative_filepath
     if build_filepath.exists():
         return
+    output_file = Path(build_filepath)
+    output_file.parent.mkdir(exist_ok=True, parents=True)
+
     shutil.copyfile(filepath, build_filepath)
+    if mimetype in [types_map[".jpg"], types_map[".png"]]:
+        # Create srcset images
+        await generate_images_for_srcset(filepath)
 
 
 async def write_html_file(
