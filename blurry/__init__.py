@@ -64,7 +64,7 @@ async def write_html_file(
     if file_data.path.name == "index.md":
         sibling_pages = [
             {
-                "url": f"/{content_path_to_url(f.path)}/",
+                "url": content_path_to_url(f.path),
                 **f.front_matter,
             }
             for f in file_data_list
