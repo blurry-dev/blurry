@@ -3,6 +3,13 @@ from typing import Any
 
 import mistune
 from docdata.yamldata import get_data
+from mistune.plugins import plugin_abbr
+from mistune.plugins import plugin_def_list
+from mistune.plugins import plugin_footnotes
+from mistune.plugins import plugin_strikethrough
+from mistune.plugins import plugin_table
+from mistune.plugins import plugin_task_lists
+from mistune.plugins import plugin_url
 from mistune.util import escape_html
 from wand.image import Image
 
@@ -83,7 +90,19 @@ def plugin_front_matter(md: mistune.Markdown) -> None:
 
 
 renderer = BlurryRenderer(escape=False)
-markdown = mistune.Markdown(renderer, plugins=[plugin_front_matter])
+markdown = mistune.Markdown(
+    renderer,
+    plugins=[
+        plugin_table,
+        plugin_front_matter,
+        plugin_task_lists,
+        plugin_strikethrough,
+        plugin_abbr,
+        plugin_footnotes,
+        plugin_url,
+        plugin_def_list,
+    ],
+)
 
 
 def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict]:
