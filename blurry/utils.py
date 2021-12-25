@@ -38,3 +38,9 @@ def write_index_file_creating_path(directory_path: Path, content: str):
     directory_path.mkdir(parents=True, exist_ok=True)
     filepath = directory_path.joinpath("index.html")
     filepath.write_text(content)
+
+
+def content_path_to_url(path: Path) -> str:
+    build_directory = convert_content_path_to_directory_in_build(path)
+    relative_directory = build_directory.relative_to(BUILD_DIR)
+    return f"/{relative_directory}/"

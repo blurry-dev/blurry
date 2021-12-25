@@ -22,8 +22,14 @@ from blurry.markdown import convert_markdown_file_to_html
 from blurry.open_graph import open_graph_meta_tags
 from blurry.sitemap import write_sitemap_file
 from blurry.types import MarkdownFileData
+from blurry.utils import content_path_to_url
 from blurry.utils import convert_content_path_to_directory_in_build
 from blurry.utils import write_index_file_creating_path
+
+
+def json_converter_with_dates(item):
+    if isinstance(item, datetime):
+        return item.strftime("%Y-%M-%D")
 
 
 app = AsyncTyper()
@@ -56,18 +62,26 @@ async def write_html_file(
     extra_context = {}
     # Gather data from other files in this directory if this is an index file
     if file_data.path.name == "index.md":
-        sibling_data = {
-            f.path: f.front_matter for f in file_data_list if f.path != file_data.path
-        }
-        extra_context["sibling_data"] = sibling_data
+        sibling_pages = [
+            {
+                "url": f"/{content_path_to_url(f.path)}/",
+                **f.front_matter,
+            }
+            for f in file_data_list
+            if f.path != file_data.path
+        ]
+        extra_context["sibling_pages"] = sibling_pages
     folder_in_build = convert_content_path_to_directory_in_build(file_data.path)
 
     schema_type = file_data.front_matter["@type"]
     template = jinja_env.get_template(f"{schema_type}.html")
     html = template.render(
         body=file_data.body,
-        schema_data=json.dumps(file_data.front_matter),
+        schema_data=json.dumps(
+            file_data.front_matter, default=json_converter_with_dates
+        ),
         open_graph_tags=open_graph_meta_tags(file_data.front_matter),
+        build_path=folder_in_build,
         **file_data.front_matter,
         **extra_context,
     )
