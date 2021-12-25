@@ -129,12 +129,17 @@ async def build_development():
     await build(release=False)
 
 
-@app.async_command()
-async def runserver():
+@app.command()
+def runserver():
     """Starts HTTP server with live reloading."""
+    event_loop = asyncio.get_event_loop()
     livereload_server = Server()
-    livereload_server.watch("content/**/*", lambda: asyncio.run(build_development()))
-    livereload_server.watch("templates/**/*", lambda: asyncio.run(build_development()))
+    livereload_server.watch(
+        "content/**/*", lambda: event_loop.create_task(build_development())
+    )
+    livereload_server.watch(
+        "templates/**/*", lambda: event_loop.create_task(build_development())
+    )
     livereload_server.serve(port="8000", root=BUILD_DIR)
 
 
