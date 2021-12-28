@@ -59,7 +59,7 @@ async def process_non_markdown_file(filepath: Path):
 async def write_html_file(
     file_data: MarkdownFileData,
     file_data_list: list[MarkdownFileData],
-    file_data_by_directory: dict[Path, MarkdownFileData],
+    file_data_by_directory: dict[Path, list[MarkdownFileData]],
     release: bool,
 ):
     extra_context = {}
