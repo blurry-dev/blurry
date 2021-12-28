@@ -57,7 +57,10 @@ async def process_non_markdown_file(filepath: Path):
 
 
 async def write_html_file(
-    file_data: MarkdownFileData, file_data_list: list[MarkdownFileData], release: bool
+    file_data: MarkdownFileData,
+    file_data_list: list[MarkdownFileData],
+    file_data_by_directory: dict[Path, MarkdownFileData],
+    release: bool,
 ):
     extra_context = {}
     # Gather data from other files in this directory if this is an index file
@@ -82,6 +85,9 @@ async def write_html_file(
         ),
         open_graph_tags=open_graph_meta_tags(file_data.front_matter),
         build_path=folder_in_build,
+        file_data_by_directory={
+            str(path): data for path, data in file_data_by_directory.items()
+        },
         **file_data.front_matter,
         **extra_context,
     )
@@ -128,7 +134,11 @@ async def build(release=True):
 
     for file_data_list in file_data_by_directory.values():
         for file_data in file_data_list:
-            tasks.append(write_html_file(file_data, file_data_list, release))
+            tasks.append(
+                write_html_file(
+                    file_data, file_data_list, file_data_by_directory, release
+                )
+            )
 
     print(f"Gathered {len(tasks)} tasks (sitemap and {len(tasks) - 1} content files)")
 
