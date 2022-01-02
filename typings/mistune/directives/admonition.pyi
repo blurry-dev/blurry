@@ -6,10 +6,10 @@ from .base import Directive
 
 class Admonition(Directive):
     SUPPORTED_NAMES = ...
-    def parse(self, block, m, state):
+    def parse(self, block, m, state): # -> dict[str, str] | dict[str, Unknown]:
         ...
     
-    def __call__(self, md):
+    def __call__(self, md): # -> None:
         ...
     
 
@@ -17,6 +17,6 @@ class Admonition(Directive):
 def render_html_admonition(text, name, title=...):
     ...
 
-def render_ast_admonition(children, name, title=...):
+def render_ast_admonition(children, name, title=...): # -> dict[str, Unknown]:
     ...
 

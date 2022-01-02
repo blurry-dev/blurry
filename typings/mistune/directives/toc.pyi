@@ -21,39 +21,39 @@ class DirectiveToc(Directive):
     def __init__(self, depth=...) -> None:
         ...
     
-    def parse(self, block, m, state):
+    def parse(self, block, m, state): # -> dict[str, str] | dict[str, Unknown]:
         ...
     
-    def reset_toc_state(self, md, s, state):
+    def reset_toc_state(self, md, s, state): # -> tuple[Unknown, Unknown]:
         ...
     
-    def register_plugin(self, md):
+    def register_plugin(self, md): # -> None:
         ...
     
-    def __call__(self, md):
+    def __call__(self, md): # -> None:
         ...
     
 
 
-def record_toc_heading(text, level, state):
+def record_toc_heading(text, level, state): # -> dict[str, Unknown]:
     ...
 
 def md_toc_hook(md, tokens, state):
     ...
 
-def render_ast_toc(items, title, depth):
+def render_ast_toc(items, title, depth): # -> dict[str, Unknown]:
     ...
 
-def render_ast_theading(children, level, tid):
+def render_ast_theading(children, level, tid): # -> dict[str, Unknown]:
     ...
 
-def render_html_toc(items, title, depth):
+def render_html_toc(items, title, depth): # -> str:
     ...
 
 def render_html_theading(text, level, tid):
     ...
 
-def extract_toc_items(md, s):
+def extract_toc_items(md, s): # -> list[tuple[Unknown, str, Unknown]]:
     """Extract TOC headings into list structure of::
 
         [
@@ -68,7 +68,7 @@ def extract_toc_items(md, s):
     """
     ...
 
-def render_toc_ul(toc):
+def render_toc_ul(toc): # -> str:
     """Render a <ul> table of content HTML. The param "toc" should
     be formatted into this structure::
 

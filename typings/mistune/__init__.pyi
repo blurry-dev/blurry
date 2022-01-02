@@ -6,13 +6,14 @@ from .markdown import Markdown
 from .block_parser import BlockParser
 from .inline_parser import InlineParser
 from .renderers import AstRenderer, HTMLRenderer
-from .scanner import escape, escape_html, escape_url, unikey
 from .plugins import PLUGINS
+from .util import escape, escape_html, escape_url, unikey
 
-def create_markdown(escape=..., renderer=..., plugins=...):
+def create_markdown(escape=..., hard_wrap=..., renderer=..., plugins=...): # -> Markdown:
     """Create a Markdown instance based on the given condition.
 
     :param escape: Boolean. If using html renderer, escape html.
+    :param hard_wrap: Boolean. Break every new line into ``<br>``.
     :param renderer: renderer instance or string of ``html`` and ``ast``.
     :param plugins: List of plugins, string or callable.
 
@@ -28,8 +29,9 @@ def create_markdown(escape=..., renderer=..., plugins=...):
     """
     ...
 
-html = create_markdown(escape=False, renderer='html', plugins=['strikethrough', 'footnotes', 'table'])
+html = ...
 def markdown(text, escape=..., renderer=..., plugins=...):
     ...
 
-__version__ = '2.0.0a6'
+__all__ = ['Markdown', 'AstRenderer', 'HTMLRenderer', 'BlockParser', 'InlineParser', 'escape', 'escape_url', 'escape_html', 'unikey', 'html', 'create_markdown', 'markdown']
+__version__ = ...

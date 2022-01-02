@@ -8,15 +8,15 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.9"
 PyLD = "^2.0.3"
-mistune = "2.0.0"
+mistune = "^2.0.0"
 PyYAML = "^5.3.1"
 docdata = {git = "https://github.com/waylan/docdata.git"}
 Jinja2 = "^3.0.0"
 livereload = "^2.6.3"
-htmlmin = "^0.1.12"
 typer = "^0.3.2"
 Wand = "^0.6.6"
 toml = "^0.10.2"
+simple-html-minifier = {git = "https://github.com/Tikubonn/simple-html-minifier.git", rev = "5cf2d4d"}
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.2"
