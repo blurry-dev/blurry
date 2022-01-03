@@ -33,6 +33,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
         attributes: dict[str, str] = {
             "alt": escape_html(alt),
             "src": src,
+            "loading": "lazy",
         }
         source_tag = ""
 
@@ -52,6 +53,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
                 image_width = img.width
                 attributes["width"] = image_width
                 attributes["height"] = img.height
+
             image_widths = get_widths_for_image_width(image_width)
 
             attributes["sizes"] = generate_sizes_string(image_widths)
@@ -59,15 +61,15 @@ class BlurryRenderer(mistune.HTMLRenderer):
             avif_srcset = generate_srcset_string(
                 src.replace(img_extension, ".avif"), image_widths
             )
-            source_tag = (
-                f'<source srcset="{avif_srcset}" sizes="{attributes["sizes"]}" />'
+            source_tag = '<source srcset="{}" sizes="{}" loading="lazy" />'.format(
+                avif_srcset, attributes["sizes"]
             )
 
         attributes_str = " ".join(
             f'{name}="{value}"' for name, value in attributes.items()
         )
 
-        return f"<picture>{source_tag}<img {attributes_str} /></picture>"
+        return f'<picture loading="lazy">{source_tag}<img {attributes_str} /></picture>'
 
     def link(self, link: str, text: str | None = None, title: str | None = None) -> str:
         if link.startswith("."):
