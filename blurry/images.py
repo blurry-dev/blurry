@@ -13,7 +13,7 @@ from blurry.settings import SETTINGS
 MAXIMUM_IMAGE_WIDTH = SETTINGS["maximum_image_width"]
 
 TARGET_IMAGE_WIDTHS = [w for w in IMAGE_WIDTHS if w < MAXIMUM_IMAGE_WIDTH]
-TARGET_IMAGE_WIDTHS.append(MAXIMUM_IMAGE_WIDTH)
+TARGET_IMAGE_WIDTHS.insert(0, MAXIMUM_IMAGE_WIDTH)
 
 
 def add_image_width_to_path(image_path: Path, width: int) -> Path:
