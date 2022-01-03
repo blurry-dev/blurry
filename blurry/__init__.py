@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 from typing import Coroutine
 
-import simple_html_minifier
+import htmlmin
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
 from jinja2 import select_autoescape
@@ -95,7 +95,7 @@ async def write_html_file(
 
     if release:
         # Minify HTML
-        html = simple_html_minifier.minify_html(html)
+        html = htmlmin.minify(html)
 
     # Write file
     write_index_file_creating_path(folder_in_build, html)

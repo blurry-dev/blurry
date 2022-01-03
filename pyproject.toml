@@ -16,7 +16,7 @@ livereload = "^2.6.3"
 typer = "^0.3.2"
 Wand = "^0.6.6"
 toml = "^0.10.2"
-simple-html-minifier = {git = "https://github.com/Tikubonn/simple-html-minifier.git", rev = "5cf2d4d"}
+htmlmin = "^0.1.12"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.2"
