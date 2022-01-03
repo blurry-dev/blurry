@@ -1,15 +1,11 @@
 from pathlib import Path
 from typing import Any
+from typing import Type
+from typing import TypeGuard
 
 import mistune
 from docdata.yamldata import get_data
-from mistune.plugins import plugin_abbr
-from mistune.plugins import plugin_def_list
-from mistune.plugins import plugin_footnotes
-from mistune.plugins import plugin_strikethrough
-from mistune.plugins import plugin_table
-from mistune.plugins import plugin_task_lists
-from mistune.plugins import plugin_url
+from mistune.plugins import PLUGINS
 from mistune.util import escape_html
 from wand.image import Image
 
@@ -34,7 +30,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
         # - Adds srcset & sizes attributes
         # - Adds width & height attributes
         src = self._safe_url(src)
-        attributes = {
+        attributes: dict[str, str] = {
             "alt": escape_html(alt),
             "src": src,
         }
@@ -73,19 +69,25 @@ class BlurryRenderer(mistune.HTMLRenderer):
 
         return f"<picture>{source_tag}<img {attributes_str} /></picture>"
 
-    def link(self, link, text=None, title=None):
+    def link(self, link: str, text: str | None = None, title: str | None = None) -> str:
         if link.startswith("."):
             link = convert_relative_path_in_markdown_to_relative_build_path(link)
         return super().link(link, text, title)
 
 
-def parse_front_matter(_, s: str, state: dict) -> tuple[str, dict]:
+def is_blurry_renderer(
+    renderer: Type[mistune.HTMLRenderer],
+) -> TypeGuard[Type[BlurryRenderer]]:
+    return isinstance(renderer, BlurryRenderer)
+
+
+def parse_front_matter(_, s: str, state: dict[str, Any]) -> tuple[str, dict[str, Any]]:
     markdown_text, front_matter = get_data(s)
     state["front_matter"] = front_matter
     return markdown_text, state
 
 
-def plugin_front_matter(md: mistune.Markdown) -> None:
+def blurry_front_matter(md: mistune.Markdown) -> None:
     md.before_parse_hooks.append(parse_front_matter)
 
 
@@ -93,21 +95,25 @@ renderer = BlurryRenderer(escape=False)
 markdown = mistune.Markdown(
     renderer,
     plugins=[
-        plugin_table,
-        plugin_front_matter,
-        plugin_task_lists,
-        plugin_strikethrough,
-        plugin_abbr,
-        plugin_footnotes,
-        plugin_url,
-        plugin_def_list,
+        PLUGINS["table"],
+        PLUGINS["task_lists"],
+        PLUGINS["strikethrough"],
+        PLUGINS["abbr"],
+        PLUGINS["footnotes"],
+        PLUGINS["url"],
+        PLUGINS["def_list"],
+        blurry_front_matter,
     ],
 )
 
 
-def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict]:
+def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict[str, Any]]:
     state: dict[str, Any] = {}
     # Add filepath to the renderer to resolve relative paths
+    if not is_blurry_renderer(markdown.renderer):
+        raise Exception(
+            f"Markdown renderer is not BlurryRenderer {repr(markdown.renderer)}"
+        )
     markdown.renderer.filepath = filepath
     html = markdown.read(str(filepath), state)
     # Seed front_matter with schema_data from config file

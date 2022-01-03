@@ -1,3 +1,4 @@
+from typing import Any
 from typing import Literal
 
 from blurry.types import SchemaType
@@ -17,27 +18,27 @@ OpenGraphType = Literal["article", "book", "profile", "website"]
 
 
 schema_type_to_open_graph_type: dict[SchemaType, OpenGraphType] = {
-    "Article": "article",
-    "BlogPosting": "article",
-    "NewsArticle": "article",
-    "TechArticle": "article",
-    "Book": "book",
-    "Audiobook": "book",
-    "LocalBusiness": "profile",
-    "NewsMediaOrganization": "profile",
-    "Organization": "profile",
-    "Person": "profile",
+    SchemaType.ARTICLE: "article",
+    SchemaType.BLOG_POSTING: "article",
+    SchemaType.NEWS_ARTICLE: "article",
+    SchemaType.TECH_ARTICLE: "article",
+    SchemaType.BOOK: "book",
+    SchemaType.AUDIOBOOK: "book",
+    SchemaType.LOCAL_BUSINESS: "profile",
+    SchemaType.NEWS_MEDIA_ORGANIZATION: "profile",
+    SchemaType.ORGANIZATION: "profile",
+    SchemaType.PERSON: "profile",
 }
 
 
-def open_graph_type_from_schema_type(schema_type: SchemaType) -> OpenGraphType:
+def open_graph_type_from_schema_type(schema_type_str: str) -> OpenGraphType:
     try:
-        return schema_type_to_open_graph_type[schema_type]
+        return schema_type_to_open_graph_type[SchemaType[schema_type_str]]
     except KeyError:
         return "website"
 
 
-def open_graph_meta_tags(schema_data: dict[str, str]) -> str:
+def open_graph_meta_tags(schema_data: dict[str, Any]) -> str:
     open_graph_properties = {}
     if type := schema_data.get("@type"):
         open_graph_properties["type"] = open_graph_type_from_schema_type(type)

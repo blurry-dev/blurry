@@ -127,5 +127,7 @@ class HTMLRenderer(BaseRenderer):
     def finalize(self, data): # -> str:
         ...
     
+    def _safe_url(self, url): # -> str:
+        ...
 
 

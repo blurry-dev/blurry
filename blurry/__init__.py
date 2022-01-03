@@ -5,9 +5,10 @@ from datetime import datetime
 from mimetypes import guess_type
 from mimetypes import types_map
 from pathlib import Path
+from typing import Any
 from typing import Coroutine
 
-import htmlmin
+import simple_html_minifier
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
 from jinja2 import select_autoescape
@@ -27,7 +28,7 @@ from blurry.utils import convert_content_path_to_directory_in_build
 from blurry.utils import write_index_file_creating_path
 
 
-def json_converter_with_dates(item):
+def json_converter_with_dates(item: Any) -> None | str:
     if isinstance(item, datetime):
         return item.strftime("%Y-%M-%D")
 
@@ -94,7 +95,7 @@ async def write_html_file(
 
     if release:
         # Minify HTML
-        html = htmlmin.minify(html)
+        html = simple_html_minifier.minify_html(html)
 
     # Write file
     write_index_file_creating_path(folder_in_build, html)

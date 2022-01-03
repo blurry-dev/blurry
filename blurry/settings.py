@@ -1,6 +1,8 @@
+from typing import Any
+
 import toml
 
-SETTINGS = {
+SETTINGS: dict[str, Any] = {
     "domain": "example.com",
 }
 

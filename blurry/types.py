@@ -1,24 +1,24 @@
 from dataclasses import dataclass
+from enum import Enum
 from pathlib import Path
-from typing import Literal
+from typing import Any
 
 
 @dataclass
 class MarkdownFileData:
     body: str
-    front_matter: dict
+    front_matter: dict[str, Any]
     path: Path
 
 
-SchemaType = Literal[
-    "Article",
-    "BlogPosting",
-    "NewsArticle",
-    "TechArticle",
-    "Book",
-    "Audiobook",
-    "LocalBusiness",
-    "NewsMediaOrganization",
-    "Organization",
-    "Person",
-]
+class SchemaType(Enum):
+    ARTICLE = "Article"
+    BLOG_POSTING = "BlogPosting"
+    NEWS_ARTICLE = "NewsArticle"
+    TECH_ARTICLE = "TechArticle"
+    BOOK = "Book"
+    AUDIOBOOK = "Audiobook"
+    LOCAL_BUSINESS = "LocalBusiness"
+    NEWS_MEDIA_ORGANIZATION = "NewsMediaOrganization"
+    ORGANIZATION = "Organization"
+    PERSON = "Person"
