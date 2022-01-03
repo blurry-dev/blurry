@@ -144,3 +144,4 @@ cython_debug/
 # local test site
 /content
 /templates
+/blurry.toml

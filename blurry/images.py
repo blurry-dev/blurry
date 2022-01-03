@@ -44,13 +44,14 @@ async def generate_images_for_srcset(image_path: Path):
         for target_width in TARGET_IMAGE_WIDTHS:
             if target_width > width:
                 continue
-            img.transform(resize=str(target_width))
-            new_filepath = add_image_width_to_path(image_path, target_width)
-            relative_filepath = new_filepath.resolve().relative_to(CONTENT_DIR)
-            build_filepath = BUILD_DIR / relative_filepath
-            if not build_filepath.exists():
-                img.save(filename=build_filepath)
-            tasks.append(convert_image_to_avif(build_filepath))
+            with img.clone() as resized:
+                resized.transform(resize=str(target_width))
+                new_filepath = add_image_width_to_path(image_path, target_width)
+                relative_filepath = new_filepath.resolve().relative_to(CONTENT_DIR)
+                build_filepath = BUILD_DIR / relative_filepath
+                if not build_filepath.exists():
+                    resized.save(filename=build_filepath)
+                tasks.append(convert_image_to_avif(build_filepath))
         await asyncio.gather(*tasks)
 
 
