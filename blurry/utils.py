@@ -2,6 +2,7 @@ from pathlib import Path
 
 from blurry.constants import BUILD_DIR
 from blurry.constants import CONTENT_DIR
+from blurry.types import DirectoryFileData
 
 
 def convert_content_path_to_directory_in_build(path: Path) -> Path:
@@ -44,3 +45,18 @@ def content_path_to_url(path: Path) -> str:
     build_directory = convert_content_path_to_directory_in_build(path)
     relative_directory = build_directory.relative_to(BUILD_DIR)
     return f"/{relative_directory}/"
+
+
+def sort_directory_file_data_by_date(
+    directory_file_data: DirectoryFileData,
+) -> DirectoryFileData:
+    for path, file_data in directory_file_data.items():
+        file_data.sort(
+            key=lambda page: str(page.front_matter.get("datePublished", ""))
+            or str(page.front_matter.get("dateCreated", ""))
+            or "0000-00-00",
+            reverse=True,
+        )
+        directory_file_data[path] = file_data
+
+    return directory_file_data

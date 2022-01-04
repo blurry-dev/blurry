@@ -22,9 +22,11 @@ from blurry.images import generate_images_for_srcset
 from blurry.markdown import convert_markdown_file_to_html
 from blurry.open_graph import open_graph_meta_tags
 from blurry.sitemap import write_sitemap_file
+from blurry.types import DirectoryFileData
 from blurry.types import MarkdownFileData
 from blurry.utils import content_path_to_url
 from blurry.utils import convert_content_path_to_directory_in_build
+from blurry.utils import sort_directory_file_data_by_date
 from blurry.utils import write_index_file_creating_path
 
 
@@ -106,7 +108,7 @@ async def build(release=True):
     """Generates HTML content from Markdown files."""
     start = datetime.now()
     path = Path(CONTENT_DIR)
-    file_data_by_directory: dict[Path, list[MarkdownFileData]] = {}
+    file_data_by_directory: DirectoryFileData = {}
     if not BUILD_DIR.exists():
         BUILD_DIR.mkdir()
 
@@ -128,10 +130,17 @@ async def build(release=True):
 
         # Convert Markdown file to HTML
         body, front_matter = convert_markdown_file_to_html(filepath)
-        file_data = MarkdownFileData(body, front_matter, relative_filepath)
+        file_data = MarkdownFileData(
+            body=body,
+            front_matter=front_matter,
+            path=relative_filepath,
+        )
         file_data_by_directory[directory].append(file_data)
 
     tasks.append(write_sitemap_file(file_data_by_directory))
+
+    # Sort file data by publishedDate/createdDate, descending, if present
+    file_data_by_directory = sort_directory_file_data_by_date(file_data_by_directory)
 
     for file_data_list in file_data_by_directory.values():
         for file_data in file_data_list:

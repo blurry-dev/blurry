@@ -22,3 +22,6 @@ class SchemaType(Enum):
     NEWS_MEDIA_ORGANIZATION = "NewsMediaOrganization"
     ORGANIZATION = "Organization"
     PERSON = "Person"
+
+
+DirectoryFileData = dict[Path, list[MarkdownFileData]]
