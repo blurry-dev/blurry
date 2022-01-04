@@ -10,7 +10,7 @@ from blurry.constants import CONTENT_DIR
 from blurry.constants import IMAGE_WIDTHS
 from blurry.settings import SETTINGS
 
-MAXIMUM_IMAGE_WIDTH = SETTINGS["maximum_image_width"]
+MAXIMUM_IMAGE_WIDTH = int(SETTINGS["MAXIMUM_IMAGE_WIDTH"])
 
 TARGET_IMAGE_WIDTHS = [w for w in IMAGE_WIDTHS if w < MAXIMUM_IMAGE_WIDTH]
 TARGET_IMAGE_WIDTHS.insert(0, MAXIMUM_IMAGE_WIDTH)

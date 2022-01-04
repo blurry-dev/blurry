@@ -21,11 +21,13 @@ from blurry.constants import TEMPLATE_DIR
 from blurry.images import generate_images_for_srcset
 from blurry.markdown import convert_markdown_file_to_html
 from blurry.open_graph import open_graph_meta_tags
+from blurry.settings import SETTINGS
 from blurry.sitemap import write_sitemap_file
 from blurry.types import DirectoryFileData
 from blurry.types import MarkdownFileData
 from blurry.utils import content_path_to_url
 from blurry.utils import convert_content_path_to_directory_in_build
+from blurry.utils import set_runserver_env_var
 from blurry.utils import sort_directory_file_data_by_date
 from blurry.utils import write_index_file_creating_path
 
@@ -166,6 +168,8 @@ async def build_development():
 @app.command()
 def runserver():
     """Starts HTTP server with live reloading."""
+    set_runserver_env_var()
+
     event_loop = asyncio.get_event_loop()
     livereload_server = Server()
     livereload_server.watch(
@@ -174,7 +178,9 @@ def runserver():
     livereload_server.watch(
         "templates/**/*", lambda: event_loop.create_task(build_development())
     )
-    livereload_server.serve(port="8000", root=BUILD_DIR)
+    livereload_server.serve(
+        host=SETTINGS["DEV_HOST"], port=SETTINGS["DEV_PORT"], root=BUILD_DIR
+    )
 
 
 def main():

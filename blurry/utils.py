@@ -1,8 +1,20 @@
+import os
 from pathlib import Path
 
 from blurry.constants import BUILD_DIR
 from blurry.constants import CONTENT_DIR
+from blurry.constants import ENV_VAR_PREFIX
+from blurry.settings import SETTINGS
 from blurry.types import DirectoryFileData
+
+
+def get_domain_with_scheme():
+    if os.environ.get(f"{ENV_VAR_PREFIX}RUNSERVER"):
+        host = SETTINGS["DEV_HOST"]
+        port = SETTINGS["DEV_PORT"]
+        return f"http://{host}:{port}"
+    domain = SETTINGS["DOMAIN"]
+    return f"https://{domain}"
 
 
 def convert_content_path_to_directory_in_build(path: Path) -> Path:
@@ -44,7 +56,7 @@ def write_index_file_creating_path(directory_path: Path, content: str):
 def content_path_to_url(path: Path) -> str:
     build_directory = convert_content_path_to_directory_in_build(path)
     relative_directory = build_directory.relative_to(BUILD_DIR)
-    return f"/{relative_directory}/"
+    return f"{get_domain_with_scheme()}/{relative_directory}/"
 
 
 def sort_directory_file_data_by_date(
@@ -60,3 +72,7 @@ def sort_directory_file_data_by_date(
         directory_file_data[path] = file_data
 
     return directory_file_data
+
+
+def set_runserver_env_var():
+    os.environ[f"{ENV_VAR_PREFIX}RUNSERVER"] = "True"
