@@ -171,6 +171,8 @@ def runserver():
     set_runserver_env_var()
 
     event_loop = asyncio.get_event_loop()
+    event_loop.create_task(build_development())
+
     livereload_server = Server()
     livereload_server.watch(
         "content/**/*", lambda: event_loop.create_task(build_development())
