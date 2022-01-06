@@ -46,6 +46,8 @@ def open_graph_meta_tags(schema_data: dict[str, Any]) -> str:
         open_graph_properties["title"] = headline
     if url := schema_data.get("url"):
         open_graph_properties["url"] = url
+    if abstract := schema_data.get("abstract"):
+        open_graph_properties["description"] = abstract
     if image := schema_data.get("image"):
         open_graph_properties["image"] = image
     if audio := schema_data.get("audio"):

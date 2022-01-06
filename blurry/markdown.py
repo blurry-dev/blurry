@@ -9,10 +9,14 @@ from mistune.plugins import PLUGINS
 from mistune.util import escape_html
 from wand.image import Image
 
+from blurry.constants import CONTENT_DIR
+from blurry.images import add_image_width_to_path
 from blurry.images import generate_sizes_string
 from blurry.images import generate_srcset_string
 from blurry.images import get_widths_for_image_width
+from blurry.images import THUMBNAIL_WIDTH
 from blurry.settings import SETTINGS
+from blurry.utils import content_path_to_url
 from blurry.utils import convert_relative_path_in_markdown_to_relative_build_path
 from blurry.utils import path_to_url_pathname
 from blurry.utils import resolve_relative_path_in_markdown
@@ -54,16 +58,19 @@ class BlurryRenderer(mistune.HTMLRenderer):
                 attributes["width"] = image_width
                 attributes["height"] = img.height
 
-            image_widths = get_widths_for_image_width(image_width)
+            if img_extension in [".webp", ".gif"]:
+                source_tag = ""
+            else:
+                image_widths = get_widths_for_image_width(image_width)
 
-            attributes["sizes"] = generate_sizes_string(image_widths)
-            attributes["srcset"] = generate_srcset_string(src, image_widths)
-            avif_srcset = generate_srcset_string(
-                src.replace(img_extension, ".avif"), image_widths
-            )
-            source_tag = '<source srcset="{}" sizes="{}" loading="lazy" />'.format(
-                avif_srcset, attributes["sizes"]
-            )
+                attributes["sizes"] = generate_sizes_string(image_widths)
+                attributes["srcset"] = generate_srcset_string(src, image_widths)
+                avif_srcset = generate_srcset_string(
+                    src.replace(img_extension, ".avif"), image_widths
+                )
+                source_tag = '<source srcset="{}" sizes="{}" loading="lazy" />'.format(
+                    avif_srcset, attributes["sizes"]
+                )
 
         attributes_str = " ".join(
             f'{name}="{value}"' for name, value in attributes.items()
@@ -118,7 +125,16 @@ def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict[str, Any]]:
         )
     markdown.renderer.filepath = filepath
     html = markdown.read(str(filepath), state)
+
     # Seed front_matter with schema_data from config file
-    front_matter: dict[str, Any] = dict(SETTINGS.get("schema_data", {}))
+    front_matter: dict[str, Any] = dict(SETTINGS.get("SCHEMA_DATA", {}))
     front_matter.update(state.get("front_matter", {}))
+
+    # Add inferred/computed/relative values
+    front_matter.update({"url": content_path_to_url(filepath.relative_to(CONTENT_DIR))})
+    if image := front_matter.get("image"):
+        front_matter["image"] = content_path_to_url(filepath.parent / Path(image))
+        front_matter["thumbnailUrl"] = content_path_to_url(
+            filepath.parent / add_image_width_to_path(Path(image), THUMBNAIL_WIDTH)
+        )
     return html, front_matter

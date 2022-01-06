@@ -14,7 +14,8 @@ def get_domain_with_scheme():
         port = SETTINGS["DEV_PORT"]
         return f"http://{host}:{port}"
     domain = SETTINGS["DOMAIN"]
-    return f"https://{domain}"
+    protocol = "http" if SETTINGS.get("USE_HTTP") else "https"
+    return f"{protocol}://{domain}"
 
 
 def convert_content_path_to_directory_in_build(path: Path) -> Path:
@@ -54,9 +55,12 @@ def write_index_file_creating_path(directory_path: Path, content: str):
 
 
 def content_path_to_url(path: Path) -> str:
-    build_directory = convert_content_path_to_directory_in_build(path)
-    relative_directory = build_directory.relative_to(BUILD_DIR)
-    return f"{get_domain_with_scheme()}/{relative_directory}/"
+    if path.suffix == ".md":
+        build_directory = convert_content_path_to_directory_in_build(path)
+        relative_directory = build_directory.relative_to(BUILD_DIR)
+        return f"{get_domain_with_scheme()}/{relative_directory}/"
+
+    return f"{get_domain_with_scheme()}{path_to_url_pathname(path)}"
 
 
 def sort_directory_file_data_by_date(

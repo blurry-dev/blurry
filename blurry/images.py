@@ -11,9 +11,12 @@ from blurry.constants import IMAGE_WIDTHS
 from blurry.settings import SETTINGS
 
 MAXIMUM_IMAGE_WIDTH = int(SETTINGS["MAXIMUM_IMAGE_WIDTH"])
+THUMBNAIL_WIDTH = int(SETTINGS["THUMBNAIL_WIDTH"])
 
 TARGET_IMAGE_WIDTHS = [w for w in IMAGE_WIDTHS if w < MAXIMUM_IMAGE_WIDTH]
 TARGET_IMAGE_WIDTHS.insert(0, MAXIMUM_IMAGE_WIDTH)
+if THUMBNAIL_WIDTH not in TARGET_IMAGE_WIDTHS:
+    TARGET_IMAGE_WIDTHS.append(THUMBNAIL_WIDTH)
 
 
 def add_image_width_to_path(image_path: Path, width: int) -> Path:
@@ -25,6 +28,8 @@ def add_image_width_to_path(image_path: Path, width: int) -> Path:
 
 async def convert_image_to_avif(image_path: Path, target_path: Optional[Path] = None):
     image_suffix = image_path.suffix
+    if image_suffix in [".webp", ".gif"]:
+        return
     avif_filepath = str(target_path or image_path).replace(image_suffix, ".avif")
     if Path(avif_filepath).exists():
         return
@@ -35,6 +40,8 @@ async def convert_image_to_avif(image_path: Path, target_path: Optional[Path] = 
 
 async def generate_images_for_srcset(image_path: Path):
     tasks: list[Coroutine] = []
+    if image_path.suffix in [".webp", ".gif"]:
+        return
     with Image(filename=str(image_path)) as img:
         width = img.width
         # Convert original image
