@@ -4,11 +4,12 @@ from typing import Type
 from typing import TypeGuard
 
 import mistune
-from docdata.yamldata import get_data
 from mistune.plugins import PLUGINS
 from mistune.util import escape_html
 from wand.image import Image
 
+from .container import blurry_container
+from .front_matter import blurry_front_matter
 from blurry.constants import CONTENT_DIR
 from blurry.images import add_image_width_to_path
 from blurry.images import generate_sizes_string
@@ -85,19 +86,9 @@ class BlurryRenderer(mistune.HTMLRenderer):
 
 
 def is_blurry_renderer(
-    renderer: Type[mistune.HTMLRenderer],
+    renderer: mistune.HTMLRenderer,
 ) -> TypeGuard[Type[BlurryRenderer]]:
     return isinstance(renderer, BlurryRenderer)
-
-
-def parse_front_matter(_, s: str, state: dict[str, Any]) -> tuple[str, dict[str, Any]]:
-    markdown_text, front_matter = get_data(s)
-    state["front_matter"] = front_matter
-    return markdown_text, state
-
-
-def blurry_front_matter(md: mistune.Markdown) -> None:
-    md.before_parse_hooks.append(parse_front_matter)
 
 
 renderer = BlurryRenderer(escape=False)
@@ -112,6 +103,7 @@ markdown = mistune.Markdown(
         PLUGINS["url"],
         PLUGINS["def_list"],
         blurry_front_matter,
+        blurry_container,
     ],
 )
 

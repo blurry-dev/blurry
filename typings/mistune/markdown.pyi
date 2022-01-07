@@ -9,7 +9,7 @@ from .renderers import HTMLRenderer
 class Markdown:
     block: BlockParser
     inline: InlineParser
-    renderer: Type[HTMLRenderer]
+    renderer: HTMLRenderer
     before_parse_hooks = []
     before_render_hooks = []
     after_render_hooks = []
