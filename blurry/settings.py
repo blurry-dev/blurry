@@ -13,6 +13,7 @@ SETTINGS: dict[str, Any] = {
     "MAXIMUM_IMAGE_WIDTH": IMAGE_WIDTHS[0],
     "THUMBNAIL_WIDTH": 250,
     "USE_HTTP": False,
+    "RUNSERVER": False,
 }
 
 try:

@@ -9,7 +9,7 @@ from blurry.types import DirectoryFileData
 
 
 def get_domain_with_scheme():
-    if os.environ.get(f"{ENV_VAR_PREFIX}RUNSERVER"):
+    if SETTINGS.get("RUNSERVER"):
         host = SETTINGS["DEV_HOST"]
         port = SETTINGS["DEV_PORT"]
         return f"http://{host}:{port}"

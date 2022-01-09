@@ -5,11 +5,15 @@ from unittest import mock
 import pytest
 
 from blurry.constants import BUILD_DIR
+from blurry.constants import CONTENT_DIR
 from blurry.settings import SETTINGS
 from blurry.types import MarkdownFileData
 from blurry.utils import content_path_to_url
 from blurry.utils import convert_content_path_to_directory_in_build
 from blurry.utils import convert_relative_path_in_markdown_to_relative_build_path
+from blurry.utils import format_schema_data
+from blurry.utils import get_domain_with_scheme
+from blurry.utils import path_to_url_pathname
 from blurry.utils import sort_directory_file_data_by_date
 
 
@@ -88,3 +92,43 @@ def test_sort_directory_file_data_by_date():
 def test_content_path_to_url(path, expected_url):
     with mock.patch.dict(SETTINGS, {"DOMAIN": "a.com"}):
         assert content_path_to_url(path) == expected_url
+
+
+@pytest.mark.parametrize(
+    "settings, expected_domain_with_scheme",
+    [
+        ({"RUNSERVER": True}, "http://127.0.0.1:8000"),
+        ({"RUNSERVER": False}, "https://example.com"),
+        (
+            {
+                "RUNSERVER": True,
+                "USE_HTTP": True,
+                "DEV_HOST": "localhost",
+                "DEV_PORT": 8001,
+            },
+            "http://localhost:8001",
+        ),
+        ({"RUNSERVER": False, "DOMAIN": "banana.biz"}, "https://banana.biz"),
+    ],
+)
+def test_get_domain_with_scheme(settings, expected_domain_with_scheme):
+    with mock.patch.dict(SETTINGS, settings):
+        assert get_domain_with_scheme() == expected_domain_with_scheme
+
+
+@pytest.mark.parametrize(
+    "path, expected_url_pathname",
+    [
+        (CONTENT_DIR / "favicon.png", "/favicon.png"),
+        (CONTENT_DIR / "images" / "some-image.jpg", "/images/some-image.jpg"),
+    ],
+)
+def test_path_to_url_pathname(path, expected_url_pathname):
+    assert path_to_url_pathname(path) == expected_url_pathname
+
+
+def test_format_schema_data():
+    assert format_schema_data({"@type": "BlogPosting"}) == {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+    }
