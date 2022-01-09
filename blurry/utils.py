@@ -80,3 +80,9 @@ def sort_directory_file_data_by_date(
 
 def set_runserver_env_var():
     os.environ[f"{ENV_VAR_PREFIX}RUNSERVER"] = "True"
+
+
+def format_schema_data(schema_data: dict) -> dict:
+    formatted_schema_data = {"@context": "https://schema.org"}
+    formatted_schema_data.update(schema_data)
+    return formatted_schema_data

@@ -27,6 +27,7 @@ from blurry.types import DirectoryFileData
 from blurry.types import MarkdownFileData
 from blurry.utils import content_path_to_url
 from blurry.utils import convert_content_path_to_directory_in_build
+from blurry.utils import format_schema_data
 from blurry.utils import set_runserver_env_var
 from blurry.utils import sort_directory_file_data_by_date
 from blurry.utils import write_index_file_creating_path
@@ -86,7 +87,8 @@ async def write_html_file(
     html = template.render(
         body=file_data.body,
         schema_data=json.dumps(
-            file_data.front_matter, default=json_converter_with_dates
+            format_schema_data(file_data.front_matter),
+            default=json_converter_with_dates,
         ),
         open_graph_tags=open_graph_meta_tags(file_data.front_matter),
         build_path=folder_in_build,
