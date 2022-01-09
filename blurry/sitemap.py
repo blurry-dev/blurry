@@ -16,16 +16,6 @@ SITEMAP_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
 URL_TEMPLATE = "    <url><loc>{url}</loc></url>"
 
 
-def convert_filepath_to_url_pathname(filepath: str) -> str:
-    if filepath.endswith("index.md"):
-        filepath = filepath.replace("index.md", "")
-    elif filepath.endswith(".md"):
-        filepath = filepath.replace(".md", "")
-    if "/" in filepath and not filepath.endswith("/"):
-        filepath = filepath + "/"
-    return filepath
-
-
 def generate_sitemap_for_urls(urls: list[str]) -> str:
     sitemap_url_tags = "\n".join(URL_TEMPLATE.format(url=url) for url in urls)
     return SITEMAP_TEMPLATE.format(urls=sitemap_url_tags)

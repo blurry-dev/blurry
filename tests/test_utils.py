@@ -1,10 +1,13 @@
 from datetime import date
 from pathlib import Path
+from unittest import mock
 
 import pytest
 
 from blurry.constants import BUILD_DIR
+from blurry.settings import SETTINGS
 from blurry.types import MarkdownFileData
+from blurry.utils import content_path_to_url
 from blurry.utils import convert_content_path_to_directory_in_build
 from blurry.utils import convert_relative_path_in_markdown_to_relative_build_path
 from blurry.utils import sort_directory_file_data_by_date
@@ -71,3 +74,17 @@ def test_sort_directory_file_data_by_date():
     assert "post-2" in str(file_data[1].path)
     assert "post-1" in str(file_data[2].path)
     assert "post-4" in str(file_data[3].path)
+
+
+@pytest.mark.parametrize(
+    "path, expected_url",
+    [
+        (Path("index.md"), "https://a.com/"),
+        (Path("contact.md"), "https://a.com/contact/"),
+        (Path("blog/index.md"), "https://a.com/blog/"),
+        (Path("blog/my-post.md"), "https://a.com/blog/my-post/"),
+    ],
+)
+def test_content_path_to_url(path, expected_url):
+    with mock.patch.dict(SETTINGS, {"DOMAIN": "a.com"}):
+        assert content_path_to_url(path) == expected_url

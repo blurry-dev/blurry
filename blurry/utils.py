@@ -58,6 +58,9 @@ def content_path_to_url(path: Path) -> str:
     if path.suffix == ".md":
         build_directory = convert_content_path_to_directory_in_build(path)
         relative_directory = build_directory.relative_to(BUILD_DIR)
+        # Handle root page
+        if str(relative_directory) == ".":
+            return f"{get_domain_with_scheme()}/"
         return f"{get_domain_with_scheme()}/{relative_directory}/"
 
     return f"{get_domain_with_scheme()}{path_to_url_pathname(path)}"
