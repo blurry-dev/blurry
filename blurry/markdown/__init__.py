@@ -80,9 +80,27 @@ class BlurryRenderer(mistune.HTMLRenderer):
         return f'<picture loading="lazy">{source_tag}<img {attributes_str} /></picture>'
 
     def link(self, link: str, text: str | None = None, title: str | None = None) -> str:
+        link_is_relative = False
         if link.startswith("."):
             link = convert_relative_path_in_markdown_to_relative_build_path(link)
-        return super().link(link, text, title)
+            link_is_relative = True
+
+        if text is None:
+            text = link
+        attrs = {
+            "href": self._safe_url(link),
+        }
+        if title:
+            attrs["title"] = escape_html(title)
+        if not link_is_relative:
+            attrs["target"] = "_blank"
+            attrs["rel"] = "noopener"
+
+        attrs_string = " ".join(
+            f'{attribute}="{value}"' for attribute, value in attrs.items()
+        )
+
+        return f"<a {attrs_string}>{text}</a>"
 
 
 def is_blurry_renderer(
