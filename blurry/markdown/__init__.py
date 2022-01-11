@@ -143,8 +143,12 @@ def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict[str, Any]]:
     # Add inferred/computed/relative values
     front_matter.update({"url": content_path_to_url(filepath.relative_to(CONTENT_DIR))})
     if image := front_matter.get("image"):
-        front_matter["image"] = content_path_to_url(filepath.parent / Path(image))
-        front_matter["thumbnailUrl"] = content_path_to_url(
-            filepath.parent / add_image_width_to_path(Path(image), THUMBNAIL_WIDTH)
-        )
+        image_path = filepath.parent / Path(image)
+        front_matter["image"] = content_path_to_url(image_path)
+        # Add thumbnail URL, using the full image if the thumbnail doesn't exist
+        thumbnail_image_path = add_image_width_to_path(Path(image), THUMBNAIL_WIDTH)
+        if thumbnail_image_path.exists():
+            front_matter["thumbnailUrl"] = content_path_to_url(thumbnail_image_path)
+        else:
+            front_matter["thumbnailUrl"] = front_matter["image"]
     return html, front_matter
