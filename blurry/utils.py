@@ -66,6 +66,11 @@ def content_path_to_url(path: Path) -> str:
     return f"{get_domain_with_scheme()}{path_to_url_pathname(path)}"
 
 
+def build_path_to_url(path: Path) -> str:
+    pathname = "/" + str(path.relative_to(BUILD_DIR))
+    return f"{get_domain_with_scheme()}{pathname}"
+
+
 def sort_directory_file_data_by_date(
     directory_file_data: DirectoryFileData,
 ) -> DirectoryFileData:

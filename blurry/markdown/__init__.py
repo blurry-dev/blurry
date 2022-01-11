@@ -10,6 +10,7 @@ from wand.image import Image
 
 from .container import blurry_container
 from .front_matter import blurry_front_matter
+from blurry.constants import BUILD_DIR
 from blurry.constants import CONTENT_DIR
 from blurry.images import add_image_width_to_path
 from blurry.images import generate_sizes_string
@@ -17,6 +18,7 @@ from blurry.images import generate_srcset_string
 from blurry.images import get_widths_for_image_width
 from blurry.images import THUMBNAIL_WIDTH
 from blurry.settings import SETTINGS
+from blurry.utils import build_path_to_url
 from blurry.utils import content_path_to_url
 from blurry.utils import convert_relative_path_in_markdown_to_relative_build_path
 from blurry.utils import path_to_url_pathname
@@ -146,9 +148,12 @@ def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict[str, Any]]:
         image_path = filepath.parent / Path(image)
         front_matter["image"] = content_path_to_url(image_path)
         # Add thumbnail URL, using the full image if the thumbnail doesn't exist
-        thumbnail_image_path = add_image_width_to_path(Path(image), THUMBNAIL_WIDTH)
-        if thumbnail_image_path.exists():
-            front_matter["thumbnailUrl"] = content_path_to_url(thumbnail_image_path)
+        thumbnail_image_path = add_image_width_to_path(image_path, THUMBNAIL_WIDTH)
+        thumbnail_image_build_path = BUILD_DIR / thumbnail_image_path.relative_to(
+            CONTENT_DIR
+        )
+        if thumbnail_image_build_path.exists():
+            front_matter["thumbnailUrl"] = build_path_to_url(thumbnail_image_build_path)
         else:
             front_matter["thumbnailUrl"] = front_matter["image"]
     return html, front_matter
