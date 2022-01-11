@@ -75,4 +75,11 @@ def generate_srcset_string(image_path: str, image_widths: list[int]) -> str:
 
 
 def generate_sizes_string(image_widths: list[int]) -> str:
-    return ", ".join(f"(max-width: {w}px) {w}px" for w in reversed(image_widths))
+    if not image_widths:
+        return ""
+    size_strings = []
+    for width in image_widths:
+        size_strings.append(f"(max-width: {width}px) {width}px")
+    largest_width = image_widths[0]
+    size_strings.insert(0, f"(min-width: {largest_width + 1}px) {largest_width}px")
+    return ", ".join(size_strings)
