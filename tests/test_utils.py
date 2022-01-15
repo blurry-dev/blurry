@@ -14,6 +14,7 @@ from blurry.utils import convert_relative_path_in_markdown_to_relative_build_pat
 from blurry.utils import format_schema_data
 from blurry.utils import get_domain_with_scheme
 from blurry.utils import path_to_url_pathname
+from blurry.utils import remove_lazy_loading_from_first_image
 from blurry.utils import sort_directory_file_data_by_date
 
 
@@ -109,6 +110,10 @@ def test_content_path_to_url(path, expected_url):
             "http://localhost:8001",
         ),
         ({"RUNSERVER": False, "DOMAIN": "banana.biz"}, "https://banana.biz"),
+        (
+            {"RUNSERVER": False, "USE_HTTP": True, "DOMAIN": "banana.biz"},
+            "http://banana.biz",
+        ),
     ],
 )
 def test_get_domain_with_scheme(settings, expected_domain_with_scheme):
@@ -132,3 +137,18 @@ def test_format_schema_data():
         "@context": "https://schema.org",
         "@type": "BlogPosting",
     }
+
+
+def test_remove_lazy_loading_from_first_image():
+    html = """
+    <body>
+    <picture loading="lazy"><img class="one" src="one.png" loading="lazy"></picture>
+    <picture loading="lazy"><img class="two" src="two.png" loading="lazy"></picture>
+    </body>
+    """
+    updated_html = remove_lazy_loading_from_first_image(html)
+    assert '<picture><img class="one" src="one.png"></picture>' in updated_html
+    assert (
+        '<picture loading="lazy"><img class="two" src="two.png" loading="lazy">'
+        in updated_html
+    )

@@ -22,6 +22,7 @@ from blurry.utils import build_path_to_url
 from blurry.utils import content_path_to_url
 from blurry.utils import convert_relative_path_in_markdown_to_relative_build_path
 from blurry.utils import path_to_url_pathname
+from blurry.utils import remove_lazy_loading_from_first_image
 from blurry.utils import resolve_relative_path_in_markdown
 
 
@@ -137,6 +138,9 @@ def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict[str, Any]]:
         )
     markdown.renderer.filepath = filepath
     html = markdown.read(str(filepath), state)
+
+    # Post-process HTML
+    html = remove_lazy_loading_from_first_image(html)
 
     # Seed front_matter with schema_data from config file
     front_matter: dict[str, Any] = dict(SETTINGS.get("SCHEMA_DATA", {}))

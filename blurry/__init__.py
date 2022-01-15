@@ -28,7 +28,6 @@ from blurry.types import MarkdownFileData
 from blurry.utils import content_path_to_url
 from blurry.utils import convert_content_path_to_directory_in_build
 from blurry.utils import format_schema_data
-from blurry.utils import set_runserver_env_var
 from blurry.utils import sort_directory_file_data_by_date
 from blurry.utils import write_index_file_creating_path
 
@@ -170,7 +169,7 @@ async def build_development():
 @app.command()
 def runserver():
     """Starts HTTP server with live reloading."""
-    set_runserver_env_var()
+    SETTINGS["RUNSERVER"] = True
 
     event_loop = asyncio.get_event_loop()
     event_loop.create_task(build_development())

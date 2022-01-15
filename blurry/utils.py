@@ -1,9 +1,9 @@
-import os
 from pathlib import Path
+
+from selectolax.parser import HTMLParser
 
 from blurry.constants import BUILD_DIR
 from blurry.constants import CONTENT_DIR
-from blurry.constants import ENV_VAR_PREFIX
 from blurry.settings import SETTINGS
 from blurry.types import DirectoryFileData
 
@@ -86,11 +86,21 @@ def sort_directory_file_data_by_date(
     return directory_file_data
 
 
-def set_runserver_env_var():
-    os.environ[f"{ENV_VAR_PREFIX}RUNSERVER"] = "True"
-
-
 def format_schema_data(schema_data: dict) -> dict:
     formatted_schema_data = {"@context": "https://schema.org"}
     formatted_schema_data.update(schema_data)
     return formatted_schema_data
+
+
+def remove_lazy_loading_from_first_image(html: str) -> str:
+    parser = HTMLParser(html, use_meta_tags=False)
+    for image_related_tag_name in ["picture", "img"]:
+        first_tag = parser.css_first(image_related_tag_name)
+        if not first_tag:
+            return html
+        updated_tag = first_tag
+        del updated_tag.attrs["loading"]  # type: ignore
+        first_tag.replace_with(HTMLParser(updated_tag.html).body.child)  # type: ignore
+    if not parser.body or not parser.body.html:
+        raise Exception("Could not parse HTML")
+    return parser.body.html
