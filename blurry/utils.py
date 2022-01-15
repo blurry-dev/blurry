@@ -94,7 +94,7 @@ def format_schema_data(schema_data: dict) -> dict:
 
 def remove_lazy_loading_from_first_image(html: str) -> str:
     parser = HTMLParser(html, use_meta_tags=False)
-    for image_related_tag_name in ["picture", "img"]:
+    for image_related_tag_name in ["picture", "source", "img"]:
         first_tag = parser.css_first(image_related_tag_name)
         if not first_tag:
             return html
