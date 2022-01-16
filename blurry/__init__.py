@@ -94,6 +94,7 @@ async def write_html_file(
         file_data_by_directory={
             str(path): data for path, data in file_data_by_directory.items()
         },
+        settings=SETTINGS,
         **file_data.front_matter,
         **extra_context,
     )
