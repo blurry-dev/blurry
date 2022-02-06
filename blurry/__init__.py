@@ -28,6 +28,7 @@ from blurry.types import MarkdownFileData
 from blurry.utils import content_path_to_url
 from blurry.utils import convert_content_path_to_directory_in_build
 from blurry.utils import format_schema_data
+from blurry.utils import minify_style_tags
 from blurry.utils import sort_directory_file_data_by_date
 from blurry.utils import write_index_file_creating_path
 
@@ -100,8 +101,9 @@ async def write_html_file(
     )
 
     if release:
-        # Minify HTML
-        html = htmlmin.minify(html)
+        # Minify HTML and CSS
+        html = htmlmin.minify(html, remove_empty_space=True)
+        html = minify_style_tags(html)
 
     # Write file
     write_index_file_creating_path(folder_in_build, html)

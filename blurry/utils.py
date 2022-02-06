@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 
 from selectolax.parser import HTMLParser
@@ -104,3 +105,28 @@ def remove_lazy_loading_from_first_image(html: str) -> str:
     if not parser.body or not parser.body.html:
         raise Exception("Could not parse HTML")
     return parser.body.html
+
+
+def minify_css(css: str) -> str:
+    minified_css = css.strip()
+    characters_around_which_to_remove_whitespace = ["}", "{", ":", ";", ","]
+    for character in characters_around_which_to_remove_whitespace:
+        minified_css = re.sub(
+            rf"\s*{character}\s*", character, minified_css, flags=re.M
+        )
+
+    return minified_css
+
+
+def minify_style_tags(html: str) -> str:
+    parser = HTMLParser(html, use_meta_tags=False)
+    style_tags = parser.css("style")
+    for style_tag in style_tags:
+        css = style_tag.text()
+        minified_css = minify_css(css)
+        minified_style_tag = HTMLParser(
+            f"<style>{minified_css}</style>"
+        ).head.child  # type: ignore
+        style_tag.replace_with(minified_style_tag)  # type: ignore
+
+    return parser.html or html
