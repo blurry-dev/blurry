@@ -80,7 +80,12 @@ class BlurryRenderer(mistune.HTMLRenderer):
             f'{name}="{value}"' for name, value in attributes.items()
         )
 
-        return f'<picture loading="lazy">{source_tag}<img {attributes_str} /></picture>'
+        return (
+            f"<figure>"
+            f'<picture loading="lazy">{source_tag}<img {attributes_str} /></picture>'
+            f'<figcaption>{attributes["alt"]}</figcaption>'
+            f"</figure>"
+        )
 
     def link(self, link: str, text: str | None = None, title: str | None = None) -> str:
         link_is_relative = False
