@@ -1,16 +1,29 @@
 from os import environ
-from typing import Any
+from typing import TypedDict
 
 import toml
 
 from blurry.constants import ENV_VAR_PREFIX
-from blurry.constants import IMAGE_WIDTHS
 
-SETTINGS: dict[str, Any] = {
+
+class Settings(TypedDict):
+    DEV_HOST: str
+    DEV_PORT: int
+    DOMAIN: str
+    IMAGE_WIDTHS: list[int]
+    MAXIMUM_IMAGE_WIDTH: int
+    THUMBNAIL_WIDTH: int
+    USE_HTTP: bool
+    RUNSERVER: bool
+
+
+SETTINGS: Settings = {
     "DEV_HOST": "127.0.0.1",
     "DEV_PORT": 8000,
     "DOMAIN": "example.com",
-    "MAXIMUM_IMAGE_WIDTH": IMAGE_WIDTHS[0],
+    # Sizes adapted from: https://link.medium.com/UqzDeLKwyeb
+    "IMAGE_WIDTHS": [360, 640, 768, 1024, 1366, 1600, 1920],
+    "MAXIMUM_IMAGE_WIDTH": 1920,
     "THUMBNAIL_WIDTH": 250,
     "USE_HTTP": False,
     "RUNSERVER": False,

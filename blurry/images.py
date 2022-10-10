@@ -7,16 +7,18 @@ from wand.image import Image
 
 from blurry.constants import BUILD_DIR
 from blurry.constants import CONTENT_DIR
-from blurry.constants import IMAGE_WIDTHS
 from blurry.settings import SETTINGS
 
+IMAGE_WIDTHS = SETTINGS["IMAGE_WIDTHS"]
 MAXIMUM_IMAGE_WIDTH = int(SETTINGS["MAXIMUM_IMAGE_WIDTH"])
 THUMBNAIL_WIDTH = int(SETTINGS["THUMBNAIL_WIDTH"])
 
 TARGET_IMAGE_WIDTHS = [w for w in IMAGE_WIDTHS if w < MAXIMUM_IMAGE_WIDTH]
-TARGET_IMAGE_WIDTHS.insert(0, MAXIMUM_IMAGE_WIDTH)
+TARGET_IMAGE_WIDTHS.append(MAXIMUM_IMAGE_WIDTH)
 if THUMBNAIL_WIDTH not in TARGET_IMAGE_WIDTHS:
     TARGET_IMAGE_WIDTHS.append(THUMBNAIL_WIDTH)
+
+TARGET_IMAGE_WIDTHS.sort()
 
 
 def add_image_width_to_path(image_path: Path, width: int) -> Path:
@@ -51,13 +53,14 @@ async def generate_images_for_srcset(image_path: Path):
         for target_width in TARGET_IMAGE_WIDTHS:
             if target_width > width:
                 continue
+            new_filepath = add_image_width_to_path(image_path, target_width)
+            relative_filepath = new_filepath.resolve().relative_to(CONTENT_DIR)
+            build_filepath = BUILD_DIR / relative_filepath
+            if build_filepath.exists():
+                continue
             with img.clone() as resized:
                 resized.transform(resize=str(target_width))
-                new_filepath = add_image_width_to_path(image_path, target_width)
-                relative_filepath = new_filepath.resolve().relative_to(CONTENT_DIR)
-                build_filepath = BUILD_DIR / relative_filepath
-                if not build_filepath.exists():
-                    resized.save(filename=build_filepath)
+                resized.save(filename=build_filepath)
                 tasks.append(convert_image_to_avif(build_filepath))
         await asyncio.gather(*tasks)
 
@@ -77,9 +80,12 @@ def generate_srcset_string(image_path: str, image_widths: list[int]) -> str:
 def generate_sizes_string(image_widths: list[int]) -> str:
     if not image_widths:
         return ""
+    # Ensure widths are in ascending order
+    image_widths.sort()
     size_strings = []
-    for width in image_widths:
+    for width in image_widths[0:-1]:
         size_strings.append(f"(max-width: {width}px) {width}px")
-    largest_width = image_widths[0]
-    size_strings.insert(0, f"(min-width: {largest_width + 1}px) {largest_width}px")
+    second_largest_width = image_widths[-2]
+    largest_width = image_widths[-1]
+    size_strings.append(f"(min-width: {second_largest_width + 1}px) {largest_width}px")
     return ", ".join(size_strings)
