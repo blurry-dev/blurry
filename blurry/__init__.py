@@ -15,12 +15,12 @@ from jinja2 import select_autoescape
 from livereload import Server
 
 from blurry.async_typer import AsyncTyper
-from blurry.constants import BUILD_DIR
 from blurry.constants import CONTENT_DIR
 from blurry.constants import TEMPLATE_DIR
 from blurry.images import generate_images_for_srcset
 from blurry.markdown import convert_markdown_file_to_html
 from blurry.open_graph import open_graph_meta_tags
+from blurry.settings import get_build_directory
 from blurry.settings import SETTINGS
 from blurry.sitemap import write_sitemap_file
 from blurry.types import DirectoryFileData
@@ -37,6 +37,8 @@ def json_converter_with_dates(item: Any) -> None | str:
     if isinstance(item, datetime):
         return item.strftime("%Y-%M-%D")
 
+
+BUILD_DIR = get_build_directory()
 
 app = AsyncTyper()
 
@@ -112,6 +114,7 @@ async def write_html_file(
 @app.async_command()
 async def build(release=True):
     """Generates HTML content from Markdown files."""
+    print(f"Building site in {BUILD_DIR}")
     start = datetime.now()
     path = Path(CONTENT_DIR)
     file_data_by_directory: DirectoryFileData = {}

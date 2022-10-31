@@ -5,10 +5,11 @@ from typing import Optional
 
 from wand.image import Image
 
-from blurry.constants import BUILD_DIR
 from blurry.constants import CONTENT_DIR
+from blurry.settings import get_build_directory
 from blurry.settings import SETTINGS
 
+BUILD_DIR = get_build_directory()
 IMAGE_WIDTHS = SETTINGS["IMAGE_WIDTHS"]
 MAXIMUM_IMAGE_WIDTH = int(SETTINGS["MAXIMUM_IMAGE_WIDTH"])
 THUMBNAIL_WIDTH = int(SETTINGS["THUMBNAIL_WIDTH"])

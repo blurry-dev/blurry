@@ -3,10 +3,12 @@ from typing import TypedDict
 
 import toml
 
+from blurry.constants import CURR_DIR
 from blurry.constants import ENV_VAR_PREFIX
 
 
 class Settings(TypedDict):
+    BUILD_DIRECTORY_NAME: str
     DEV_HOST: str
     DEV_PORT: int
     DOMAIN: str
@@ -18,6 +20,7 @@ class Settings(TypedDict):
 
 
 SETTINGS: Settings = {
+    "BUILD_DIRECTORY_NAME": "build",
     "DEV_HOST": "127.0.0.1",
     "DEV_PORT": 8000,
     "DOMAIN": "example.com",
@@ -44,3 +47,7 @@ for key, value in environ.items():
     setting_name_start_index = len(ENV_VAR_PREFIX) - 1
     settings_key = key[setting_name_start_index:]
     SETTINGS[settings_key] = value
+
+
+def get_build_directory():
+    return CURR_DIR / SETTINGS["BUILD_DIRECTORY_NAME"]

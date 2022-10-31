@@ -1,7 +1,9 @@
 from pathlib import Path
 
-from blurry.constants import BUILD_DIR
+from blurry.settings import get_build_directory
 from blurry.types import MarkdownFileData
+
+BUILD_DIR = get_build_directory()
 
 SITEMAP_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
 <urlset

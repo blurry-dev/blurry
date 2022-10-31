@@ -5,8 +5,8 @@ from unittest import mock
 import pytest
 from selectolax.parser import HTMLParser
 
-from blurry.constants import BUILD_DIR
 from blurry.constants import CONTENT_DIR
+from blurry.settings import get_build_directory
 from blurry.settings import SETTINGS
 from blurry.types import MarkdownFileData
 from blurry.utils import content_path_to_url
@@ -19,6 +19,9 @@ from blurry.utils import minify_style_tags
 from blurry.utils import path_to_url_pathname
 from blurry.utils import remove_lazy_loading_from_first_image
 from blurry.utils import sort_directory_file_data_by_date
+
+
+BUILD_DIR = get_build_directory()
 
 
 @pytest.mark.parametrize(
