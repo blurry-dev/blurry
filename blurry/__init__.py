@@ -15,12 +15,12 @@ from jinja2 import select_autoescape
 from livereload import Server
 
 from blurry.async_typer import AsyncTyper
-from blurry.constants import TEMPLATE_DIR
 from blurry.images import generate_images_for_srcset
 from blurry.markdown import convert_markdown_file_to_html
 from blurry.open_graph import open_graph_meta_tags
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
+from blurry.settings import get_templates_directory
 from blurry.settings import SETTINGS
 from blurry.sitemap import write_sitemap_file
 from blurry.types import DirectoryFileData
@@ -40,6 +40,7 @@ def json_converter_with_dates(item: Any) -> None | str:
 
 BUILD_DIR = get_build_directory()
 CONTENT_DIR = get_content_directory()
+TEMPLATE_DIR = get_templates_directory()
 
 app = AsyncTyper()
 
