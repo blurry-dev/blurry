@@ -1,7 +1,7 @@
 exclude: '\/migrations\/.*.py'
 repos:
   - repo: https://github.com/python/black
-    rev: 20.8b1
+    rev: 22.10.0
     hooks:
       - id: black
         language_version: python3
