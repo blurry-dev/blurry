@@ -9,6 +9,7 @@ from blurry.constants import ENV_VAR_PREFIX
 
 class Settings(TypedDict):
     BUILD_DIRECTORY_NAME: str
+    CONTENT_DIRECTORY_NAME: str
     DEV_HOST: str
     DEV_PORT: int
     DOMAIN: str
@@ -21,6 +22,7 @@ class Settings(TypedDict):
 
 SETTINGS: Settings = {
     "BUILD_DIRECTORY_NAME": "build",
+    "CONTENT_DIRECTORY_NAME": "content",
     "DEV_HOST": "127.0.0.1",
     "DEV_PORT": 8000,
     "DOMAIN": "example.com",
@@ -51,3 +53,7 @@ for key, value in environ.items():
 
 def get_build_directory():
     return CURR_DIR / SETTINGS["BUILD_DIRECTORY_NAME"]
+
+
+def get_content_directory():
+    return CURR_DIR / SETTINGS["CONTENT_DIRECTORY_NAME"]

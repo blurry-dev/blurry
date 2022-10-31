@@ -10,13 +10,13 @@ from wand.image import Image
 
 from .container import blurry_container
 from .front_matter import blurry_front_matter
-from blurry.constants import CONTENT_DIR
 from blurry.images import add_image_width_to_path
 from blurry.images import generate_sizes_string
 from blurry.images import generate_srcset_string
 from blurry.images import get_widths_for_image_width
 from blurry.images import THUMBNAIL_WIDTH
 from blurry.settings import get_build_directory
+from blurry.settings import get_content_directory
 from blurry.settings import SETTINGS
 from blurry.utils import build_path_to_url
 from blurry.utils import content_path_to_url
@@ -26,6 +26,7 @@ from blurry.utils import remove_lazy_loading_from_first_image
 from blurry.utils import resolve_relative_path_in_markdown
 
 BUILD_DIR = get_build_directory()
+CONTENT_DIR = get_content_directory()
 
 
 class BlurryRenderer(mistune.HTMLRenderer):

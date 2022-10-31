@@ -3,12 +3,13 @@ from pathlib import Path
 
 from selectolax.parser import HTMLParser
 
-from blurry.constants import CONTENT_DIR
 from blurry.settings import get_build_directory
+from blurry.settings import get_content_directory
 from blurry.settings import SETTINGS
 from blurry.types import DirectoryFileData
 
 BUILD_DIR = get_build_directory()
+CONTENT_DIR = get_content_directory()
 
 
 def get_domain_with_scheme():
