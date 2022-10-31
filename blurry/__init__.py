@@ -123,12 +123,13 @@ async def build(release=True):
     if not BUILD_DIR.exists():
         BUILD_DIR.mkdir()
 
-    tasks: list[Coroutine] = []
+    markdown_tasks: list[Coroutine] = []
+    non_markdown_tasks: list[Coroutine] = []
 
     for filepath in path.glob("**/*.*"):
         # Handle images and other files
         if filepath.suffix != ".md":
-            tasks.append(process_non_markdown_file(filepath))
+            non_markdown_tasks.append(process_non_markdown_file(filepath))
             continue
 
         # Handle Markdown files
@@ -148,22 +149,24 @@ async def build(release=True):
         )
         file_data_by_directory[directory].append(file_data)
 
-    tasks.append(write_sitemap_file(file_data_by_directory))
+    non_markdown_tasks.append(write_sitemap_file(file_data_by_directory))
 
     # Sort file data by publishedDate/createdDate, descending, if present
     file_data_by_directory = sort_directory_file_data_by_date(file_data_by_directory)
 
     for file_data_list in file_data_by_directory.values():
         for file_data in file_data_list:
-            tasks.append(
+            markdown_tasks.append(
                 write_html_file(
                     file_data, file_data_list, file_data_by_directory, release
                 )
             )
 
-    print(f"Gathered {len(tasks)} tasks (sitemap and {len(tasks) - 1} content files)")
+    task_count = len(markdown_tasks) + len(non_markdown_tasks)
+    print(f"Gathered {task_count} tasks (sitemap and {task_count - 1} content files)")
 
-    await asyncio.wait(tasks)
+    await asyncio.wait(markdown_tasks)
+    await asyncio.wait(non_markdown_tasks)
     end = datetime.now()
 
     difference = end - start
