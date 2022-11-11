@@ -88,7 +88,10 @@ def generate_sizes_string(image_widths: list[int]) -> str:
     size_strings = []
     for width in image_widths[0:-1]:
         size_strings.append(f"(max-width: {width}px) {width}px")
-    second_largest_width = image_widths[-2]
+    try:
+        min_width = image_widths[-2] + 1
+    except IndexError:
+        min_width = image_widths[-1]
     largest_width = image_widths[-1]
-    size_strings.append(f"(min-width: {second_largest_width + 1}px) {largest_width}px")
+    size_strings.append(f"(min-width: {min_width}px) {largest_width}px")
     return ", ".join(size_strings)
