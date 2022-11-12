@@ -20,6 +20,7 @@ class Settings(TypedDict):
     THUMBNAIL_WIDTH: int
     USE_HTTP: bool
     RUNSERVER: bool
+    FRONTMATTER_NON_SCHEMA_VARIABLE_PREFIX: str
 
 
 SETTINGS: Settings = {
@@ -35,6 +36,7 @@ SETTINGS: Settings = {
     "THUMBNAIL_WIDTH": 250,
     "USE_HTTP": False,
     "RUNSERVER": False,
+    "FRONTMATTER_NON_SCHEMA_VARIABLE_PREFIX": "~",
 }
 
 try:

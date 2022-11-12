@@ -88,6 +88,19 @@ async def write_html_file(
 
     schema_type = file_data.front_matter["@type"]
     template = jinja_env.get_template(f"{schema_type}.html")
+
+    # Include non-schema variables as top-level context values, removing them from
+    # front_matter
+    front_matter = file_data.front_matter
+    schema_variables = {}
+    template_context = {}
+    non_schema_variable_prefix = SETTINGS["FRONTMATTER_NON_SCHEMA_VARIABLE_PREFIX"]
+    for key, value in front_matter.items():
+        if key.startswith(non_schema_variable_prefix):
+            template_context[key.replace(non_schema_variable_prefix, "", 1)] = value
+            continue
+        schema_variables[key] = value
+
     html = template.render(
         body=file_data.body,
         schema_data=json.dumps(
@@ -100,8 +113,9 @@ async def write_html_file(
             str(path): data for path, data in file_data_by_directory.items()
         },
         settings=SETTINGS,
-        **file_data.front_matter,
+        **schema_variables,
         **extra_context,
+        **template_context,
     )
 
     if release:
