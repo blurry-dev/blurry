@@ -8,7 +8,6 @@ from blurry.settings import get_content_directory
 from blurry.settings import SETTINGS
 from blurry.types import DirectoryFileData
 
-BUILD_DIR = get_build_directory()
 CONTENT_DIR = get_content_directory()
 
 
@@ -23,6 +22,7 @@ def get_domain_with_scheme():
 
 
 def convert_content_path_to_directory_in_build(path: Path) -> Path:
+    BUILD_DIR = get_build_directory()
     if path.name == "index.md":
         path = path.parent
     else:
@@ -59,6 +59,7 @@ def write_index_file_creating_path(directory_path: Path, content: str):
 
 
 def content_path_to_url(path: Path) -> str:
+    BUILD_DIR = get_build_directory()
     if path.suffix == ".md":
         build_directory = convert_content_path_to_directory_in_build(path)
         relative_directory = build_directory.relative_to(BUILD_DIR)
@@ -71,6 +72,7 @@ def content_path_to_url(path: Path) -> str:
 
 
 def build_path_to_url(path: Path) -> str:
+    BUILD_DIR = get_build_directory()
     pathname = "/" + str(path.relative_to(BUILD_DIR))
     return f"{get_domain_with_scheme()}{pathname}"
 

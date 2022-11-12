@@ -3,7 +3,6 @@ from pathlib import Path
 from blurry.settings import get_build_directory
 from blurry.types import MarkdownFileData
 
-BUILD_DIR = get_build_directory()
 
 SITEMAP_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
 <urlset
@@ -26,6 +25,7 @@ def generate_sitemap_for_urls(urls: list[str]) -> str:
 async def write_sitemap_file(
     file_data_by_directory: dict[Path, list[MarkdownFileData]]
 ):
+    BUILD_DIR = get_build_directory()
     urls: list[str] = []
     for file_data_list in file_data_by_directory.values():
         for file_data in file_data_list:

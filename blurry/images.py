@@ -9,7 +9,6 @@ from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
 from blurry.settings import SETTINGS
 
-BUILD_DIR = get_build_directory()
 CONTENT_DIR = get_content_directory()
 
 IMAGE_WIDTHS = SETTINGS["IMAGE_WIDTHS"]
@@ -44,6 +43,7 @@ async def convert_image_to_avif(image_path: Path, target_path: Optional[Path] = 
 
 
 async def generate_images_for_srcset(image_path: Path):
+    BUILD_DIR = get_build_directory()
     tasks: list[Coroutine] = []
     if image_path.suffix in [".webp", ".gif"]:
         return

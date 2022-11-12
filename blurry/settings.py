@@ -55,6 +55,9 @@ for key, value in environ.items():
 
 
 def get_build_directory():
+    is_dev_build = environ.get("BLURRY_BUILD_MODE") == "dev"
+    if is_dev_build:
+        return CURR_DIR / ".blurry" / SETTINGS["BUILD_DIRECTORY_NAME"]
     return CURR_DIR / SETTINGS["BUILD_DIRECTORY_NAME"]
 
 

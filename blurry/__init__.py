@@ -1,5 +1,6 @@
 import asyncio
 import json
+import os
 import shutil
 from datetime import datetime
 from mimetypes import guess_type
@@ -38,7 +39,6 @@ def json_converter_with_dates(item: Any) -> None | str:
         return item.strftime("%Y-%M-%D")
 
 
-BUILD_DIR = get_build_directory()
 CONTENT_DIR = get_content_directory()
 TEMPLATE_DIR = get_templates_directory()
 
@@ -54,7 +54,7 @@ async def process_non_markdown_file(filepath: Path):
     if not mimetype:
         return
     relative_filepath = filepath.relative_to(CONTENT_DIR)
-    build_filepath = BUILD_DIR / relative_filepath
+    build_filepath = get_build_directory() / relative_filepath
     if build_filepath.exists():
         return
     output_file = Path(build_filepath)
@@ -116,12 +116,13 @@ async def write_html_file(
 @app.async_command()
 async def build(release=True):
     """Generates HTML content from Markdown files."""
-    print(f"Building site in {BUILD_DIR}")
+    os.environ.setdefault("BLURRY_BUILD_MODE", "prod" if release else "dev")
+    build_dir = get_build_directory()
     start = datetime.now()
     path = Path(CONTENT_DIR)
     file_data_by_directory: DirectoryFileData = {}
-    if not BUILD_DIR.exists():
-        BUILD_DIR.mkdir()
+    if not build_dir.exists():
+        build_dir.mkdir(parents=True)
 
     markdown_tasks: list[Coroutine] = []
     non_markdown_tasks: list[Coroutine] = []
@@ -180,6 +181,8 @@ async def build_development():
 @app.command()
 def runserver():
     """Starts HTTP server with live reloading."""
+    os.environ.setdefault("BLURRY_BUILD_MODE", "dev")
+
     SETTINGS["RUNSERVER"] = True
 
     event_loop = asyncio.get_event_loop()
@@ -193,7 +196,7 @@ def runserver():
         "templates/**/*", lambda: event_loop.create_task(build_development())
     )
     livereload_server.serve(
-        host=SETTINGS["DEV_HOST"], port=SETTINGS["DEV_PORT"], root=BUILD_DIR
+        host=SETTINGS["DEV_HOST"], port=SETTINGS["DEV_PORT"], root=get_build_directory()
     )
 
 

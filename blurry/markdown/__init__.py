@@ -25,7 +25,6 @@ from blurry.utils import path_to_url_pathname
 from blurry.utils import remove_lazy_loading_from_first_image
 from blurry.utils import resolve_relative_path_in_markdown
 
-BUILD_DIR = get_build_directory()
 CONTENT_DIR = get_content_directory()
 
 
@@ -137,6 +136,7 @@ markdown = mistune.Markdown(
 
 
 def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict[str, Any]]:
+    BUILD_DIR = get_build_directory()
     state: dict[str, Any] = {}
     # Add filepath to the renderer to resolve relative paths
     if not is_blurry_renderer(markdown.renderer):
