@@ -86,6 +86,11 @@ def generate_sizes_string(image_widths: list[int]) -> str:
     # Ensure widths are in ascending order
     image_widths.sort()
     size_strings = []
+    if len(image_widths) == 0:
+        raise Exception("Image widths missing for image")
+    if len(image_widths) == 1:
+        return f"(min-width: 0px) {image_widths[0]}px"
+
     for width in image_widths[0:-1]:
         size_strings.append(f"(max-width: {width}px) {width}px")
     try:
