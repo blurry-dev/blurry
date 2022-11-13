@@ -16,13 +16,13 @@ def get_data(doc: str) -> tuple[str, object]:
     https://github.com/waylan/docdata/blob/master/docdata/yamldata.py
     """
     data = {}
-    m = TOML_BLOCK_RE.match(doc)
-    if m:
+    toml_block_match = TOML_BLOCK_RE.match(doc)
+    if toml_block_match:
         try:
-            data = toml.loads(m.group(1))
+            data = toml.loads(toml_block_match.group(1))
 
             if isinstance(data, dict):
-                doc = doc[m.end() :].lstrip("\n")  # noqa: E203
+                doc = doc[toml_block_match.end() :].lstrip("\n")  # noqa: E203
             else:
                 data = {}
         except Exception:
