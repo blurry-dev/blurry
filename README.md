@@ -28,7 +28,7 @@ Blurry's directory structure is used as the website's navigation structure.
 
 ### Content
 
-Blurry content files are Markdown files with YAML front matter, which is a common pattern in other static site generators like [Hugo](https://gohugo.io/content-management/front-matter/) and [Jekyll](https://jekyllrb.com/docs/front-matter/).
+Blurry content files are Markdown files with [TOML](https://toml.io/en/) front matter, which is a common pattern in other static site generators like [Hugo](https://gohugo.io/content-management/front-matter/) and [Jekyll](https://jekyllrb.com/docs/front-matter/).
 The front matter should conform to a [Schema.org](https://schema.org/) Type, and the front matter will be available as template context for the Jinja template named after the schema type.
 The Markdown content is converted to HTML and is added to the Jinja template context as `body`.
 
@@ -87,7 +87,7 @@ To start the development server, run:
 blurry runserver
 ```
 
-Then visit http://localhost:8000 in your browser to see your site.
+Then visit <http://localhost:8000> in your browser to see your site.
 The site is rebuilt when files in the `templates` and `content` directories are saved.
 
 ## Features
