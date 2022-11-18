@@ -86,7 +86,9 @@ async def write_html_file(
         extra_context["sibling_pages"] = sibling_pages
     folder_in_build = convert_content_path_to_directory_in_build(file_data.path)
 
-    schema_type = file_data.front_matter["@type"]
+    schema_type = file_data.front_matter.get("@type")
+    if not schema_type:
+        raise ValueError(f"Required @type value missing in file: {file_data.path}")
     template = jinja_env.get_template(f"{schema_type}.html")
 
     # Include non-schema variables as top-level context values, removing them from
