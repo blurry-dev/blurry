@@ -55,14 +55,14 @@ async def process_non_markdown_file(filepath: Path):
         return
     relative_filepath = filepath.relative_to(CONTENT_DIR)
     build_filepath = get_build_directory() / relative_filepath
-    if build_filepath.exists():
-        return
     output_file = Path(build_filepath)
     output_file.parent.mkdir(exist_ok=True, parents=True)
 
+    # Copy file to build directory
     shutil.copyfile(filepath, build_filepath)
+
+    # Create srcset images
     if mimetype in [types_map[".jpg"], types_map[".png"]]:
-        # Create srcset images
         await generate_images_for_srcset(filepath)
 
 
@@ -106,7 +106,7 @@ async def write_html_file(
     html = template.render(
         body=file_data.body,
         schema_data=json.dumps(
-            format_schema_data(file_data.front_matter),
+            format_schema_data(schema_variables),
             default=json_converter_with_dates,
         ),
         open_graph_tags=open_graph_meta_tags(file_data.front_matter),
