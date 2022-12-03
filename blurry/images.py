@@ -53,9 +53,7 @@ async def generate_images_for_srcset(image_path: Path):
         build_path = BUILD_DIR / image_path.resolve().relative_to(CONTENT_DIR)
         await convert_image_to_avif(image_path=image_path, target_path=build_path)
 
-        for target_width in TARGET_IMAGE_WIDTHS:
-            if target_width > width:
-                continue
+        for target_width in get_widths_for_image_width(width):
             new_filepath = add_image_width_to_path(image_path, target_width)
             relative_filepath = new_filepath.resolve().relative_to(CONTENT_DIR)
             build_filepath = BUILD_DIR / relative_filepath
@@ -69,7 +67,9 @@ async def generate_images_for_srcset(image_path: Path):
 
 
 def get_widths_for_image_width(image_width: int) -> list[int]:
-    widths = [w for w in TARGET_IMAGE_WIDTHS if w <= image_width]
+    widths = [tw for tw in TARGET_IMAGE_WIDTHS if tw < image_width]
+    if image_width < TARGET_IMAGE_WIDTHS[-1]:
+        widths.append(image_width)
     return widths
 
 
@@ -86,17 +86,9 @@ def generate_sizes_string(image_widths: list[int]) -> str:
     # Ensure widths are in ascending order
     image_widths.sort()
     size_strings = []
-    if len(image_widths) == 0:
-        raise Exception("Image widths missing for image")
-    if len(image_widths) == 1:
-        return f"(min-width: 0px) {image_widths[0]}px"
 
     for width in image_widths[0:-1]:
         size_strings.append(f"(max-width: {width}px) {width}px")
-    try:
-        min_width = image_widths[-2] + 1
-    except IndexError:
-        min_width = image_widths[-1]
     largest_width = image_widths[-1]
-    size_strings.append(f"(min-width: {min_width}px) {largest_width}px")
+    size_strings.append(f"{largest_width}px")
     return ", ".join(size_strings)
