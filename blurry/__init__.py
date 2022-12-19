@@ -51,8 +51,6 @@ jinja_env = Environment(
 
 async def process_non_markdown_file(filepath: Path):
     mimetype, _ = guess_type(filepath)
-    if not mimetype:
-        return
     relative_filepath = filepath.relative_to(CONTENT_DIR)
     build_filepath = get_build_directory() / relative_filepath
     output_file = Path(build_filepath)
@@ -182,8 +180,8 @@ async def build(release=True):
     task_count = len(markdown_tasks) + len(non_markdown_tasks)
     print(f"Gathered {task_count} tasks (sitemap and {task_count - 1} content files)")
 
-    await asyncio.wait(markdown_tasks)
-    await asyncio.wait(non_markdown_tasks)
+    await asyncio.gather(*markdown_tasks)
+    await asyncio.gather(*non_markdown_tasks)
     end = datetime.now()
 
     difference = end - start
