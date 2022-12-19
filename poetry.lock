@@ -170,7 +170,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "mistune"
-version = "2.0.1"
+version = "3.0.0rc4"
 description = "A sane Markdown parser with useful plugins and renderers"
 category = "main"
 optional = false
@@ -410,7 +410,7 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "142e6e087f80f6f70120d3d016da60266d451f7b9b62302c5ccf1049b7962d1e"
+content-hash = "be3157054cbb11d6b3fba7e77fe14f1f8f2d6bc81c305465242401d4b9ac1174"
 
 [metadata.files]
 atomicwrites = [

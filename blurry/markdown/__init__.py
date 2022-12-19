@@ -4,12 +4,19 @@ from typing import Type
 from typing import TypeGuard
 
 import mistune
-from mistune.plugins import PLUGINS
-from mistune.util import escape_html
+from mistune.plugins.task_lists import task_lists
+from mistune.plugins.formatting import strikethrough
+from mistune.plugins.abbr import abbr
+from mistune.plugins.footnotes import footnotes
+from mistune.plugins.url import url
+from mistune.plugins.def_list import def_list
+from mistune.plugins.table import table
+from mistune.util import escape
+from mistune import BlockState
 from wand.image import Image
 
 from .container import blurry_container
-from .front_matter import blurry_front_matter
+from .front_matter import parse_front_matter
 from blurry.images import add_image_width_to_path
 from blurry.images import generate_sizes_string
 from blurry.images import generate_srcset_string
@@ -33,22 +40,22 @@ class BlurryRenderer(mistune.HTMLRenderer):
 
     filepath: Path
 
-    def image(self, src: str, alt="", title=None) -> str:
+    def image(self, alt, url, title=None) -> str:
         # Improve images:
         # - Converts relative paths to web server paths
         # - Convert to <picture> tag with AVIF <source>
         # - Adds srcset & sizes attributes
         # - Adds width & height attributes
-        src = self._safe_url(src)
+        src = self.safe_url(url)
         attributes: dict[str, str] = {
-            "alt": escape_html(alt),
+            "alt": escape(alt),
             "src": src,
             "loading": "lazy",
         }
         source_tag = ""
 
         if title:
-            attributes["title"] = escape_html(title)
+            attributes["title"] = escape(title)
 
         # Make local images responsive
         if src.startswith("."):
@@ -89,18 +96,18 @@ class BlurryRenderer(mistune.HTMLRenderer):
             f"</figure>"
         )
 
-    def link(self, link: str, text: str | None = None, title: str | None = None) -> str:
-        link_is_relative = link.startswith(".")
+    def link(self, text, url, title: str | None = None) -> str:
+        link_is_relative = url.startswith(".")
         if link_is_relative:
-            link = convert_relative_path_in_markdown_to_relative_build_path(link)
+            url = convert_relative_path_in_markdown_to_relative_build_path(url)
 
         if text is None:
-            text = link
+            text = url
         attrs = {
-            "href": self._safe_url(link),
+            "href": self.safe_url(url),
         }
         if title:
-            attrs["title"] = escape_html(title)
+            attrs["title"] = escape(title)
         if not link_is_relative:
             attrs["target"] = "_blank"
             attrs["rel"] = "noopener"
@@ -122,36 +129,40 @@ renderer = BlurryRenderer(escape=False)
 markdown = mistune.Markdown(
     renderer,
     plugins=[
-        PLUGINS["table"],
-        PLUGINS["task_lists"],
-        PLUGINS["strikethrough"],
-        PLUGINS["abbr"],
-        PLUGINS["footnotes"],
-        PLUGINS["url"],
-        PLUGINS["def_list"],
-        blurry_front_matter,
+        abbr,
+        def_list,
+        footnotes,
+        strikethrough,
+        table,
+        task_lists,
+        url,
         blurry_container,
     ],
 )
 
 
 def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict[str, Any]]:
+    if not markdown.renderer:
+        raise Exception("Blurry markdown renderer not set on Mistune Markdown instance")
+
     BUILD_DIR = get_build_directory()
-    state: dict[str, Any] = {}
     # Add filepath to the renderer to resolve relative paths
     if not is_blurry_renderer(markdown.renderer):
         raise Exception(
             f"Markdown renderer is not BlurryRenderer {repr(markdown.renderer)}"
         )
     markdown.renderer.filepath = filepath
-    html = markdown.read(str(filepath), state)
+    initial_state = BlockState()
+    initial_state.env["__file__"] = str(filepath)
+    markdown_text, state = parse_front_matter(markdown, state=initial_state)
+    html, state = markdown.parse(markdown_text, state=state)
 
     # Post-process HTML
     html = remove_lazy_loading_from_first_image(html)
 
     # Seed front_matter with schema_data from config file
     front_matter: dict[str, Any] = dict(SETTINGS.get("SCHEMA_DATA", {}))
-    front_matter.update(state.get("front_matter", {}))
+    front_matter.update(state.env.get("front_matter", {}))
 
     # Add inferred/computed/relative values
     front_matter.update({"url": content_path_to_url(filepath.relative_to(CONTENT_DIR))})

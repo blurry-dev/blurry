@@ -18,7 +18,7 @@ def parse_container(inline: mistune.InlineParser, m: re.Match, state):
         _trim_pattern = re.compile("^" + spaces, re.M)
         content = _trim_pattern.sub("", content)
 
-    children = inline.parse(content, state)
+    children = inline.parse(state)
     token = {"type": "container", "children": children}
     if kind:
         token["params"] = (kind,)
@@ -30,8 +30,9 @@ def render_html_container(content: str, kind: str = "") -> str:
 
 
 def blurry_container(md: Type[mistune.Markdown]) -> None:
-    md.block.register_rule("container", CONTAINER_PATTERN, parse_container)
-    md.block.rules.append("container")
+    md.block.register(
+        "container", CONTAINER_PATTERN, parse_container, before="list"
+    )
 
-    if md.renderer.NAME == "html":
+    if md.renderer and md.renderer.NAME == "html":
         md.renderer.register("container", render_html_container)

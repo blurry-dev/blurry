@@ -1,7 +1,7 @@
 import re
-from typing import Any
+from pathlib import Path
 
-import mistune
+from mistune import Markdown, BlockState
 import toml
 
 TOML_BLOCK_RE = re.compile(
@@ -9,7 +9,7 @@ TOML_BLOCK_RE = re.compile(
 )
 
 
-def get_data(doc: str) -> tuple[str, object]:
+def get_data(doc: str) -> tuple[str, dict]:
     """
     Extract frontmatter from Markdown-style text.
     Code adapted from docdata.yamldata:
@@ -30,11 +30,11 @@ def get_data(doc: str) -> tuple[str, object]:
     return doc, data
 
 
-def parse_front_matter(_, s: str, state: dict[str, Any]) -> tuple[str, dict[str, Any]]:
-    markdown_text, front_matter = get_data(s)
-    state["front_matter"] = front_matter
+def parse_front_matter(_: Markdown, state: BlockState) -> tuple[str, BlockState]:
+    filepath = state.env.get("__file__")
+    if not isinstance(filepath, str):
+        raise Exception(f"Count not find filepath {filepath}")
+    file_contents = Path(filepath).read_text()
+    markdown_text, front_matter = get_data(file_contents)
+    state.env["front_matter"] = front_matter
     return markdown_text, state
-
-
-def blurry_front_matter(md: mistune.Markdown) -> None:
-    md.before_parse_hooks.append(parse_front_matter)
