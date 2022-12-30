@@ -18,6 +18,7 @@ from wand.image import Image
 
 from .container import Container
 from .front_matter import parse_front_matter
+from .punctuation import punctuation
 from blurry.images import add_image_width_to_path
 from blurry.images import generate_sizes_string
 from blurry.images import generate_srcset_string
@@ -49,7 +50,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
         # - Adds width & height attributes
         src = self.safe_url(url)
         attributes: dict[str, str] = {
-            "alt": escape(alt),
+            "alt": alt,
             "src": src,
             "loading": "lazy",
         }
@@ -133,6 +134,7 @@ markdown = mistune.Markdown(
         abbr,
         def_list,
         footnotes,
+        punctuation,
         strikethrough,
         table,
         task_lists,
