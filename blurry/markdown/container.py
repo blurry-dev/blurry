@@ -1,38 +1,41 @@
-import re
-from typing import Type
-
-import mistune
-
-
-CONTAINER_PATTERN = re.compile(
-    r"( {0,3})(:{3,}|~{3,})([^`\n]*)\n" r"(?:|([\s\S]*?)\n)" r"(?: {0,3}\2[~:]* *\n+|$)"
+from mistune.directives import Admonition
+from mistune.directives.admonition import (
+    render_admonition_title,
+    render_admonition_content,
 )
 
 
-def parse_container(inline: mistune.InlineParser, m: re.Match, state):
-    kind = m.group(3).strip()
-    spaces = m.group(1)
-    content = m.group(4) or ""
+class Container(Admonition):
+    """Custom admonition directive using an <aside> HTML element"""
 
-    if spaces and content:
-        _trim_pattern = re.compile("^" + spaces, re.M)
-        content = _trim_pattern.sub("", content)
+    SUPPORTED_NAMES = {
+        "attention",
+        "caution",
+        "danger",
+        "error",
+        "hint",
+        "important",
+        "note",
+        "tip",
+        "warning",
+        "info",
+    }
 
-    children = inline.parse(state)
-    token = {"type": "container", "children": children}
-    if kind:
-        token["params"] = (kind,)
-    return token
+    def __call__(self, directive, md):
+        for name in self.SUPPORTED_NAMES:
+            directive.register(name, self.parse)
+
+        if md.renderer.NAME == "html":
+            md.renderer.register("admonition", render_admonition)
+            md.renderer.register("admonition_title", render_admonition_title)
+            md.renderer.register("admonition_content", render_admonition_content)
 
 
-def render_html_container(content: str, kind: str = "") -> str:
-    return f'<aside role="note" class="{kind}">{content}</aside>'
+def render_admonition(self, text, name, **attrs):
+    _cls = attrs.get("class")
+    class_attribute = f"{name} {_cls}".strip()
+    return f'<aside role="note" class="{class_attribute}">{text}</aside>'
 
 
-def blurry_container(md: Type[mistune.Markdown]) -> None:
-    md.block.register(
-        "container", CONTAINER_PATTERN, parse_container, before="list"
-    )
-
-    if md.renderer and md.renderer.NAME == "html":
-        md.renderer.register("container", render_html_container)
+def render_admonition_title(self, text):
+    return ""

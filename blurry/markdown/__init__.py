@@ -4,6 +4,7 @@ from typing import Type
 from typing import TypeGuard
 
 import mistune
+from mistune.directives import FencedDirective
 from mistune.plugins.task_lists import task_lists
 from mistune.plugins.formatting import strikethrough
 from mistune.plugins.abbr import abbr
@@ -15,7 +16,7 @@ from mistune.util import escape
 from mistune import BlockState
 from wand.image import Image
 
-from .container import blurry_container
+from .container import Container
 from .front_matter import parse_front_matter
 from blurry.images import add_image_width_to_path
 from blurry.images import generate_sizes_string
@@ -136,7 +137,7 @@ markdown = mistune.Markdown(
         table,
         task_lists,
         url,
-        blurry_container,
+        FencedDirective([Container()], ":"),
     ],
 )
 
