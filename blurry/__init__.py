@@ -50,7 +50,7 @@ jinja_env = Environment(
 
 
 async def process_non_markdown_file(filepath: Path):
-    mimetype, _ = guess_type(filepath)
+    mimetype, _ = guess_type(filepath, strict=False)
     relative_filepath = filepath.relative_to(CONTENT_DIR)
     build_filepath = get_build_directory() / relative_filepath
     output_file = Path(build_filepath)
@@ -101,12 +101,16 @@ async def write_html_file(
             continue
         schema_variables[key] = value
 
+    schema_data = json.dumps(
+        format_schema_data(schema_variables),
+        default=json_converter_with_dates,
+    )
+    schema_type_tag = f'<script type="application/ld+json">{schema_data}</script>'
+
     html = template.render(
         body=file_data.body,
-        schema_data=json.dumps(
-            format_schema_data(schema_variables),
-            default=json_converter_with_dates,
-        ),
+        schema_data=schema_data,
+        schema_type_tag=schema_type_tag,
         open_graph_tags=open_graph_meta_tags(file_data.front_matter),
         build_path=folder_in_build,
         file_data_by_directory={
