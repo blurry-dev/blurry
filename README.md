@@ -4,7 +4,7 @@
 
 ### Requirements
 
-- [Python](https://www.python.org/) >= 3.9
+- [Python](https://www.python.org/) >= 3.10
 - [ImageMagick](https://imagemagick.org/index.php)
 
 ### Directory structure
@@ -12,7 +12,7 @@
 A Blurry project uses a simple directory structure consisting of a `content` directory for [Markdown](https://daringfireball.net/projects/markdown/) site content and a `templates` directory for [Jinja](https://jinja.palletsprojects.com/en/) templates used to generate HTML pages from that Markdown content.
 Blurry outputs a built site into a `build` directory.
 
-```
+```text
 .
 ├──🗀 build
 ├──🗀 content
@@ -35,15 +35,14 @@ The Markdown content is converted to HTML and is added to the Jinja template con
 If the [Bacon Ipsum homepage](https://baconipsum.com/) were a blog post, for example, it might look something like this (some metadata omitted for brevity):
 
 ```markdown
----
-"@type": BlogPosting
-headline: Bacon Ipsum!
-description: Does your lorem ipsum text long for something a little meatier? Give our generator a try… it’s tasty!
-author:
-  "@type": "Person"
-  givenName: Pete
-  familyName: Nelson
----
++++
+"@type" = "BlogPosting"
+headline = "Bacon Ipsum!"
+description = "Does your lorem ipsum text long for something a little meatier? Give our generator a try… it’s tasty!"
+author."@type" = "Person"
+author.givenName = "Pete"
+author.familyName = "Nelson"
++++
 
 # Bacon Ipsum
 
@@ -60,7 +59,8 @@ The corresponding `BlogPosting.html` file might look like this:
     <meta charset="utf-8">
     <meta name="description" content="{{ description }}">
     <title>{{ headline }}</title>
-    <script type="application/ld+json">{{ schema_data|safe }}</script>
+    {{ schema_type_tag|safe }}
+    {{ open_graph_tags|safe }}
 </head>
 
 <body>
@@ -87,7 +87,7 @@ To start the development server, run:
 blurry runserver
 ```
 
-Then visit <http://localhost:8000> in your browser to see your site.
+Then visit <http://127.0.0.1:8000> in your browser to see your site.
 The site is rebuilt when files in the `templates` and `content` directories are saved.
 
 ## Features
