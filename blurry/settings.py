@@ -24,7 +24,7 @@ class Settings(TypedDict):
 
 
 SETTINGS: Settings = {
-    "BUILD_DIRECTORY_NAME": "build",
+    "BUILD_DIRECTORY_NAME": "dist",
     "CONTENT_DIRECTORY_NAME": "content",
     "TEMPLATES_DIRECTORY_NAME": "templates",
     "DEV_HOST": "127.0.0.1",
