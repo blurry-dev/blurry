@@ -83,7 +83,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
                 avif_srcset = generate_srcset_string(
                     src.replace(img_extension, ".avif"), image_widths
                 )
-                source_tag = '<source srcset="{}" sizes="{}" loading="lazy" />'.format(
+                source_tag = '<source srcset="{}" sizes="{}" />'.format(
                     avif_srcset, attributes["sizes"]
                 )
 
@@ -93,7 +93,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
 
         return (
             f"<figure>"
-            f'<picture loading="lazy">{source_tag}<img {attributes_str} /></picture>'
+            f"<picture>{source_tag}<img {attributes_str} /></picture>"
             f'<figcaption>{attributes["alt"]}</figcaption>'
             f"</figure>"
         )
