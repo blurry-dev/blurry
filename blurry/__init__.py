@@ -16,6 +16,7 @@ from jinja2 import select_autoescape
 from livereload import Server
 
 from blurry.async_typer import AsyncTyper
+from blurry.constants import ENV_VAR_PREFIX
 from blurry.images import generate_images_for_srcset
 from blurry.markdown import convert_markdown_file_to_html
 from blurry.open_graph import open_graph_meta_tags
@@ -134,7 +135,7 @@ async def write_html_file(
 @app.async_command()
 async def build(release=True):
     """Generates HTML content from Markdown files."""
-    os.environ.setdefault("BLURRY_BUILD_MODE", "prod" if release else "dev")
+    os.environ.setdefault(f"{ENV_VAR_PREFIX}BUILD_MODE", "prod" if release else "dev")
     build_dir = get_build_directory()
     start = datetime.now()
     path = Path(CONTENT_DIR)
@@ -199,7 +200,7 @@ async def build_development():
 @app.command()
 def runserver():
     """Starts HTTP server with live reloading."""
-    os.environ.setdefault("BLURRY_BUILD_MODE", "dev")
+    os.environ.setdefault(f"{ENV_VAR_PREFIX}BUILD_MODE", "dev")
 
     SETTINGS["RUNSERVER"] = True
 
