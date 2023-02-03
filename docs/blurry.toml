@@ -1,0 +1,11 @@
+[blurry]
+domain = 'blurry.johnfraney.ca'
+maximum_image_width = 750
+thumbnail_width = 285
+
+[blurry.schema_data.author]
+name = 'John Franey'
+url = 'https://johnfraney.ca'
+
+[blurry.schema_data.sourceOrganization]
+name = 'Blurry'
