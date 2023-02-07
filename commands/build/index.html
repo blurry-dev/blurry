@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="en"><head><title>Commands: build · Blurry</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Documentation for Blurry's build command"><link href="https://blurry-docs.netlify.app/commands/build/" rel="canonical"><link rel="shortcut icon" href="/favicon.png"><script type="application/ld+json">{"@context": "https://schema.org", "author": {"name": "John Franey", "url": "https://johnfraney.ca"}, "sourceOrganization": {"name": "Blurry"}, "@type": "WebPage", "name": "Commands: build", "abstract": "Documentation for Blurry's build command", "url": "https://blurry-docs.netlify.app/commands/build/"}</script><meta property="og:type" content="website"><meta content="https://blurry-docs.netlify.app/commands/build/" property="og:url"><meta property="og:description" content="Documentation for Blurry's build command"><meta property="og:site_name" content="Blurry"><style>:root{--box-shadow:1px 1px 3px #999;--color-blue:aliceblue;--color-yellow:cornsilk;--dark:#111;--light:#f7f7f7;--line-height:1.8;--color:#805c06;--color-background:var(--light);--color-background-accent:#fff;--color-faint:#d9d9d9;--color-text:var(--dark);}@media (prefers-color-scheme:dark){:root{--color:wheat;--color-background:var(--dark);--color-background-accent:#000;--color-faint:#333;--color-text:var(--light);}}body{background-color:var(--color-background);color:var(--color-text);column-gap:2rem;display:grid;font-family:sans-serif;grid-template:"header header" auto
+                "nav    main" auto
+                "nav    footer" auto / 24ch 1fr;margin:0 auto;max-width:1400px;padding:0 0.75rem;row-gap:1rem;}@media(max-width:800px){body{grid-template:"header" auto
+                    "nav" auto
+                    "main" auto
+                    "footer" auto;}}body>header{grid-area:header;padding:0.5em 0;border-bottom:1px solid var(--color-faint);}body>nav{grid-area:nav;overflow-y:auto;}body>footer{grid-area:footer;}body>main{grid-area:main;}main>h1,nav>ul{margin-top:0;}main a{text-decoration:underline;}main p{line-height:var(--line-height);}main ul{line-height:var(--line-height);}nav>ul{padding-left:0;}nav ul li{list-style:none;margin:0.25em 0;}nav>ul>li{margin-top:0.75em;}nav>ul:first-child>li{margin-top:0;}nav li ul{padding-left:1em;}nav a{display:inline-block;padding:0.5em 0;}a{color:var(--color);text-decoration:none;}figure{margin:1.2em inherit;width:min-content;}figure>figcaption{font-style:italic;text-align:center;}figure>picture+figcaption::before{content:"🖼️ ";font-style:normal;padding-right:0.25em;}picture{text-align:center;}pre{box-shadow:var(--box-shadow);white-space:pre-wrap;}pre>code{display:block;padding:1em;}</style></head><body><header><a href="/" class="blurry">Blurry</a></header><nav><ul><li>Getting Started <ul><li><a href="/getting-started/introduction/">Introduction</a></li><li><a href="/getting-started/quick-start/">Quick Start</a></li></ul></li><li>Commands <ul><li><a href="/commands/build/"><code>build</code></a></li><li><a href="/commands/runserver/"><code>runserver</code></a></li></ul></li><li>Content <ul><li><a href="/content/markdown/">Markdown</a></li><li><a href="/content/images/">Images</a></li><li><a href="/content/plugins/">Plugins</a></li></ul></li><li>Templates <ul><li><a href="/templates/syntax/">Syntax</a></li><li><a href="/templates/context/">Context</a></li></ul></li><li>Configuration <ul><li><a href="/configuration/settings/">Settings</a></li><li><a href="/configuration/blurry.toml/">blurry.toml</a></li><li><a href="/configuration/environment-variables/">Environment variables</a></li></ul></li></ul></nav><main><h1>Commands: build</h1><p><code>build</code> builds a production-ready version of a Blurry static site. It outputs the site in the folder specified by the <code>build_directory_name</code> <a href="../../configuration/settings">setting</a>, which defaults to <code>./dist/</code></p><p>To build the site, Blurry:</p><ul><li>Generates responsive image sizes</li><li>Converts images to AVIF</li><li>Generates HTML pages (minified)</li><li>Generates a sitemap</li></ul><p>For the given <code>content</code> directory contents:</p><pre><code class="language-shell">$ tree content
+content
+├── commands
+│&nbsp;&nbsp; ├── build.md
+│&nbsp;&nbsp; └── runserver.md
+├── configuration
+│&nbsp;&nbsp; ├── blurry.toml.md
+│&nbsp;&nbsp; ├── environment-variables.md
+│&nbsp;&nbsp; └── settings.md
+├── content
+│&nbsp;&nbsp; ├── images.md
+│&nbsp;&nbsp; └── markdown.md
+├── getting-started
+│&nbsp;&nbsp; ├── introduction.md
+│&nbsp;&nbsp; └── quick-start.md
+├── images
+│&nbsp;&nbsp; └── schema.org-logo.png
+├── index.md
+└── templates
+    ├── context.md
+    └── syntax.md
+
+7 directories, 13 files
+</code></pre><p>the <code>build</code> output would look something like:</p><pre><code class="language-shell">$ blurry build
+Gathered 14 tasks (sitemap and 13 content files)
+Took 0.143583 seconds
+</code></pre><p>and the <code>dist/</code> directory would look like:</p><pre><code class="language-shell">$ tree dist
+dist
+├── commands
+│&nbsp;&nbsp; ├── build
+│&nbsp;&nbsp; │&nbsp;&nbsp; └── index.html
+│&nbsp;&nbsp; └── runserver
+│&nbsp;&nbsp;     └── index.html
+├── configuration
+│&nbsp;&nbsp; ├── blurry.toml
+│&nbsp;&nbsp; │&nbsp;&nbsp; └── index.html
+│&nbsp;&nbsp; ├── environment-variables
+│&nbsp;&nbsp; │&nbsp;&nbsp; └── index.html
+│&nbsp;&nbsp; └── settings
+│&nbsp;&nbsp;     └── index.html
+├── content
+│&nbsp;&nbsp; ├── images
+│&nbsp;&nbsp; │&nbsp;&nbsp; └── index.html
+│&nbsp;&nbsp; └── markdown
+│&nbsp;&nbsp;     └── index.html
+├── getting-started
+│&nbsp;&nbsp; ├── introduction
+│&nbsp;&nbsp; │&nbsp;&nbsp; └── index.html
+│&nbsp;&nbsp; └── quick-start
+│&nbsp;&nbsp;     └── index.html
+├── images
+│&nbsp;&nbsp; ├── schema.org-logo-285.avif
+│&nbsp;&nbsp; ├── schema.org-logo-285.png
+│&nbsp;&nbsp; ├── schema.org-logo-354.avif
+│&nbsp;&nbsp; ├── schema.org-logo-354.png
+│&nbsp;&nbsp; ├── schema.org-logo.avif
+│&nbsp;&nbsp; └── schema.org-logo.png
+├── index.html
+├── sitemap.xml
+└── templates
+    ├── context
+    │&nbsp;&nbsp; └── index.html
+    └── syntax
+        └── index.html
+
+18 directories, 19 files
+</code></pre></main><footer><p><small> © 2020-2023 John Franey </small></p></footer><!-- 
+    <script async
+        defer
+        src="https://ackee.punster.ca/tracker.js"
+        data-ackee-server="https://ackee.punster.ca"
+        data-ackee-domain-id="04531be3-ffa1-4368-8cf6-8ffc175e50ad"></script>
+     --><link rel="preload" href="https://unpkg.com/@highlightjs/cdn-assets@11.3.1/styles/a11y-light.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.3.1/styles/a11y-light.min.css"></noscript><script src="https://unpkg.com/@highlightjs/cdn-assets@11.3.1/highlight.min.js" async="" defer=""></script><script>window.addEventListener('load', () => hljs.highlightAll());</script><style>aside[role="note"]{--spacing:0.75rem;box-shadow:var(--box-shadow);background:var(--color-background-accent);margin:1rem 0;padding:var(--spacing);}aside[role="note"]::before{background:var(--color-blue);color:var(--dark);content:"🛈 Info";display:block;line-height:1;margin:calc(var(--spacing) * -1);padding:var(--spacing);}aside[role="note"].note::before{content:"📝 Note";background:var(--color-yellow);}aside[role="note"].tip::before{content:"💡 Tip";background:var(--color-yellow);}aside[role="note"]>p:last-child{margin-bottom:0;}.blurry{color:var(--color);filter:blur(0.6px);}table{border:1px solid var(--color-faint);background-color:var(--color-background-accent);box-shadow:var(--box-shadow);}th,td{border-bottom:1px solid var(--color-faint);padding:0.5em;}tr:last-child td{border-bottom:none;}th{text-align:left;}</style></body></html>
