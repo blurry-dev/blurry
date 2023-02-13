@@ -149,24 +149,19 @@ def test_format_schema_data():
 def test_remove_lazy_loading_from_first_image():
     html = """
     <body>
-    <picture class="one" loading="lazy">
-        <source src="one.avif" loading="lazy">
+    <picture class="one">
+        <source src="one.avif">
         <img src="one.png" loading="lazy">
     </picture>
-    <picture class="two" loading="lazy">
-        <source src="two.avif" loading="lazy">
+    <picture class="two">
+        <source src="two.avif">
         <img src="two.png" loading="lazy">
     </picture>
     </body>
     """
     updated_html = remove_lazy_loading_from_first_image(html)
     parser = HTMLParser(updated_html)
-    assert parser.css_first("picture.one").attributes.get("loading") != "lazy"
-    assert parser.css_first("picture.one source").attributes.get("loading") != "lazy"
     assert parser.css_first("picture.one img").attributes.get("loading") != "lazy"
-
-    assert parser.css_first("picture.two").attributes.get("loading") == "lazy"
-    assert parser.css_first("picture.two source").attributes.get("loading") == "lazy"
     assert parser.css_first("picture.two img").attributes.get("loading") == "lazy"
 
 
