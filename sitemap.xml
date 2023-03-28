@@ -5,16 +5,16 @@
     http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
 >
-    <url><loc>https://blurry-docs.netlify.app/</loc></url>
-    <url><loc>https://blurry-docs.netlify.app/commands/build/</loc></url>
-    <url><loc>https://blurry-docs.netlify.app/commands/runserver/</loc></url>
-    <url><loc>https://blurry-docs.netlify.app/templates/syntax/</loc></url>
-    <url><loc>https://blurry-docs.netlify.app/templates/context/</loc></url>
-    <url><loc>https://blurry-docs.netlify.app/getting-started/quick-start/</loc></url>
-    <url><loc>https://blurry-docs.netlify.app/configuration/blurry.toml/</loc></url>
-    <url><loc>https://blurry-docs.netlify.app/configuration/settings/</loc></url>
-    <url><loc>https://blurry-docs.netlify.app/configuration/environment-variables/</loc></url>
-    <url><loc>https://blurry-docs.netlify.app/content/plugins/</loc></url>
-    <url><loc>https://blurry-docs.netlify.app/content/markdown/</loc></url>
-    <url><loc>https://blurry-docs.netlify.app/content/images/</loc></url>
+    <url><loc>https://blurry-docs.netlify.app/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/commands/build/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/commands/runserver/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/templates/syntax/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/templates/context/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/getting-started/quick-start/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/configuration/blurry.toml/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/configuration/settings/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/configuration/environment-variables/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/content/plugins/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/content/markdown/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/content/images/</loc><lastmod>None</lastmod></url>
 </urlset>
