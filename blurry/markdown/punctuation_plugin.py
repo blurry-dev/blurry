@@ -1,22 +1,22 @@
 from re import Match
-from mistune import InlineState, InlineParser
+from mistune import InlineState, InlineParser, Markdown
 
-EM_DASH_PATTERN = r"""---"""
-EN_DASH_PATTERN = r"""--"""
+EM_DASH_PATTERN = r"---"
+EN_DASH_PATTERN = r"--"
 
 
-def parse_em_dash(inline: InlineParser, m: Match, state: InlineState):
+def parse_em_dash(_: InlineParser, m: Match, state: InlineState):
     pos = m.end()
     state.append_token({"type": "text", "raw": "—"})
     return pos
 
 
-def parse_en_dash(inline: InlineParser, m: Match, state: InlineState):
+def parse_en_dash(_: InlineParser, m: Match, state: InlineState):
     pos = m.end()
     state.append_token({"type": "text", "raw": "–"})
     return pos
 
 
-def punctuation(md):
+def punctuation(md: Markdown):
     md.inline.register("punctuation_em_dash", EM_DASH_PATTERN, parse_em_dash)
     md.inline.register("punctuation_en_dash", EN_DASH_PATTERN, parse_en_dash)

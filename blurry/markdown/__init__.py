@@ -16,9 +16,12 @@ from mistune.util import escape
 from mistune import BlockState
 from wand.image import Image
 
+from .blur_blurry_name_plugin import blur_blurry_name
 from .container import Container
 from .front_matter import parse_front_matter
-from .punctuation import punctuation
+from .punctuation_plugin import punctuation
+from .python_code_plugin import python_code
+from .python_code_plugin import python_code_in_list
 from blurry.images import add_image_width_to_path
 from blurry.images import generate_sizes_string
 from blurry.images import generate_srcset_string
@@ -132,9 +135,12 @@ markdown = mistune.Markdown(
     renderer,
     plugins=[
         abbr,
+        blur_blurry_name,
         def_list,
         footnotes,
         punctuation,
+        python_code,
+        python_code_in_list,
         strikethrough,
         table,
         task_lists,

@@ -1,8 +1,6 @@
 from mistune.directives import Admonition
-from mistune.directives.admonition import (
-    render_admonition_title,
-    render_admonition_content,
-)
+from mistune.directives.admonition import render_admonition_content
+from mistune.directives.admonition import render_admonition_title
 
 
 class Container(Admonition):
@@ -15,10 +13,10 @@ class Container(Admonition):
         "error",
         "hint",
         "important",
+        "info",
         "note",
         "tip",
         "warning",
-        "info",
     }
 
     def __call__(self, directive, md):
@@ -32,7 +30,7 @@ class Container(Admonition):
 
 
 def render_admonition(self, text, name, **attrs):
-    _cls = attrs.get("class")
+    _cls = attrs.get("class", "")
     class_attribute = f"{name} {_cls}".strip()
     return f'<aside role="note" class="{class_attribute}">{text}</aside>'
 

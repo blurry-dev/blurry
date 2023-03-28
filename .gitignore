@@ -140,8 +140,3 @@ cython_debug/
 # IDE
 .vim
 .vscode
-
-# local test site
-/content
-/templates
-/blurry.toml

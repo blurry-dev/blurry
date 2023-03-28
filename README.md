@@ -10,11 +10,11 @@
 ### Directory structure
 
 A Blurry project uses a simple directory structure consisting of a `content` directory for [Markdown](https://daringfireball.net/projects/markdown/) site content and a `templates` directory for [Jinja](https://jinja.palletsprojects.com/en/) templates used to generate HTML pages from that Markdown content.
-Blurry outputs a built site into a `build` directory.
+Blurry outputs a built site into a `dist` directory.
 
 ```text
 .
-├──🗀 build
+├──🗀 dist
 ├──🗀 content
 │  ├──🗎 index.md
 │  └──🗀 posts
@@ -28,26 +28,38 @@ Blurry's directory structure is used as the website's navigation structure.
 
 ### Content
 
-Blurry content files are Markdown files with [TOML](https://toml.io/en/) front matter, which is a common pattern in other static site generators like [Hugo](https://gohugo.io/content-management/front-matter/) and [Jekyll](https://jekyllrb.com/docs/front-matter/).
+Blurry content files are Markdown files with front matter, which is a common pattern in other static site generators like [Hugo](https://gohugo.io/content-management/front-matter/) and [Jekyll](https://jekyllrb.com/docs/front-matter/).
+Blurry's front matter is written in [TOML](https://toml.io/en/).
 The front matter should conform to a [Schema.org](https://schema.org/) Type, and the front matter will be available as template context for the Jinja template named after the schema type.
 The Markdown content is converted to HTML and is added to the Jinja template context as `body`.
 
-If the [Bacon Ipsum homepage](https://baconipsum.com/) were a blog post, for example, it might look something like this (some metadata omitted for brevity):
+If the [Bacon Ipsum homepage](https://baconipsum.com/) were a blog post, for example, it might look something like this (some front matter omitted for brevity):
+
+Let's look at the homepage for Table to Markdown, a site using Blurry in production:
 
 ```markdown
 +++
-"@type" = "BlogPosting"
-headline = "Bacon Ipsum!"
-description = "Does your lorem ipsum text long for something a little meatier? Give our generator a try… it’s tasty!"
-author."@type" = "Person"
-author.givenName = "Pete"
-author.familyName = "Nelson"
+"@type" = "WebApplication"
+name = "Home"
+abstract = "Table to Markdown is a simple Markdown table generator that converts tables from spreadsheet applications and websites into well-formatted Markdown tables."
 +++
 
-# Bacon Ipsum
+# Easy Markdown Tables with Table to Markdown
 
-Does your lorem ipsum text long for something a little meatier? Give our generator a try… it’s tasty!
+<div class="custom-element-container">
+  <table-converter></table-converter>
+</div>
+
+## A beginner's guide to Markdown
+
+In the [original Markdown spec](https://daringfireball.net/projects/markdown/), John Gruber describes Markdown as "a text-to-HTML conversion tool for web writers."
 ```
+
+:::{info}
+The Table to Markdown homepage includes a small amount of HTML in its Markdown content, including the `<table-converter>` [Web Component](https://developer.mozilla.org/en-US/docs/Web/Web_Components).
+
+Web Components are a great way to sprinkle interactivity into a Markdown-based website.
+:::
 
 The corresponding `BlogPosting.html` file might look like this:
 
