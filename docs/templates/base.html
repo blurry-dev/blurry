@@ -154,7 +154,8 @@
 
         figure {
             margin: 1.2em inherit;
-            width: min-content;
+            width: auto;
+            max-width: 100%;
         }
 
         figure>figcaption {
@@ -166,6 +167,11 @@
             content: "🖼️ ";
             font-style: normal;
             padding-right: 0.25em;
+        }
+
+        figure picture img {
+            max-width: 100%;
+            height: auto;
         }
 
         picture {
