@@ -11,6 +11,7 @@ from blurry.settings import SETTINGS
 
 CONTENT_DIR = get_content_directory()
 
+AVIF_COMPRESSION_QUALITY = SETTINGS["AVIF_COMPRESSION_QUALITY"]
 IMAGE_WIDTHS = SETTINGS["IMAGE_WIDTHS"]
 MAXIMUM_IMAGE_WIDTH = int(SETTINGS["MAXIMUM_IMAGE_WIDTH"])
 THUMBNAIL_WIDTH = int(SETTINGS["THUMBNAIL_WIDTH"])
@@ -39,6 +40,7 @@ async def convert_image_to_avif(image_path: Path, target_path: Optional[Path] = 
         return
     with Image(filename=str(image_path)) as image:
         image.format = "avif"
+        image.compression_quality = AVIF_COMPRESSION_QUALITY
         image.save(filename=avif_filepath)
 
 

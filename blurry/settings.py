@@ -8,6 +8,7 @@ from blurry.constants import ENV_VAR_PREFIX
 
 
 class Settings(TypedDict):
+    AVIF_COMPRESSION_QUALITY: int
     BUILD_DIRECTORY_NAME: str
     CONTENT_DIRECTORY_NAME: str
     TEMPLATES_DIRECTORY_NAME: str
@@ -24,6 +25,7 @@ class Settings(TypedDict):
 
 
 SETTINGS: Settings = {
+    "AVIF_COMPRESSION_QUALITY": 90,
     "BUILD_DIRECTORY_NAME": "dist",
     "CONTENT_DIRECTORY_NAME": "content",
     "TEMPLATES_DIRECTORY_NAME": "templates",
