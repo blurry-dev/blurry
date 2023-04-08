@@ -1,14 +1,34 @@
 [tool.poetry]
-name = "blurry"
+name = "blurry-cli"
 version = "0.1.0"
 description = "A Mistune-based static site generator for Python"
-authors = ["John Franey <johnfraney@gmail.com>"]
+authors = ["John Franey <franey@duck.com>"]
 license = "MIT"
+readme = "README.md"
+repository = "https://github.com/blurry-dev/blurry"
+keywords = ["static-site-generator", "seo", "pagespeed"]
+classifiers = [
+    "Environment :: Console",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content :: Content Management System",
+    "Topic :: Internet :: WWW/HTTP :: Site Management ",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Markup :: HTML ",
+    "Topic :: Text Processing :: Markup :: Markdown ",
+]
+include = [
+    "LICENSE",
+]
+packages = [
+    { include = "blurry" }
+]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 PyLD = "^2.0.3"
-mistune = "3.0.0rc5"
+mistune = "^3.0.0rc5"
 Jinja2 = "^3.0.0"
 livereload = "^2.6.3"
 typer = "^0.6.1"
