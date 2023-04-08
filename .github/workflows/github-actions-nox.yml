@@ -13,4 +13,4 @@ jobs:
     steps:
     - uses: wntrblm/nox@2022.11.21
       with:
-          python-versions: "3.10, 3.11"
+        python-versions: "3.10, 3.11"
