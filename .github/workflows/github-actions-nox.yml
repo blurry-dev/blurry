@@ -1,16 +1,25 @@
 name: Nox
-on:
-  push:
-    branches: [ $default-branch ]
-  pull_request:
-    branches: [ $default-branch ]
+on: push
 
 permissions:
   contents: read
 
 jobs:
   build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]
     steps:
-    - uses: wntrblm/nox@2022.11.21
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
       with:
-        python-versions: "3.10, 3.11"
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry nox nox-poetry
+    - name: Run Nox
+      run: |
+        nox -p ${{ matrix.python-version }}
