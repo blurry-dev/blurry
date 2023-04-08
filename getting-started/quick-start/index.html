@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="en"><head><title>Getting started: quick start · Blurry</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content=""><link href="https://blurry-docs.netlify.app/getting-started/quick-start/" rel="canonical"><link rel="shortcut icon" href="/favicon.png"><script type="application/ld+json">{"@context": "https://schema.org", "author": {"name": "John Franey", "url": "https://johnfraney.ca"}, "sourceOrganization": {"name": "Blurry"}, "@type": "WebPage", "name": "Getting started: quick start", "url": "https://blurry-docs.netlify.app/getting-started/quick-start/"}</script><meta property="og:type" content="website"><meta content="https://blurry-docs.netlify.app/getting-started/quick-start/" property="og:url"><meta property="og:site_name" content="Blurry"><style>:root{--box-shadow:1px 1px 3px #999;--color-blue:aliceblue;--color-yellow:cornsilk;--dark:#111;--light:#f9f9f9;--line-height:1.8;--color:#805c06;--color-background:var(--light);--color-background-accent:#fff;--color-faint:#d9d9d9;--color-text:var(--dark);}@media (prefers-color-scheme:dark){:root{--color:wheat;--color-background:var(--dark);--color-background-accent:#000;--color-faint:#333;--color-text:var(--light);}}body{background-color:var(--color-background);color:var(--color-text);column-gap:2rem;display:grid;font-family:-system,sans-serif;grid-template:"header header" auto
+                "nav    main" auto
+                "nav    footer" auto / 24ch 1fr;margin:0 auto;max-width:1400px;padding:0 0.75rem;row-gap:1rem;}@media(max-width:800px){body{grid-template:"header" auto
+                    "nav" auto
+                    "main" auto
+                    "footer" auto;}}body>header{grid-area:header;padding:0.5em 0;border-bottom:1px solid var(--color-faint);}body>details>summary{display:none;}@media(max-width:800px){body>details>summary{border:1px solid var(--color-faint);border-radius:0.25rem;display:inline-block;padding:0.25rem 0.5rem;}body>details>summary::before{content:'📘';margin-right:0.25rem;}body>details[open]>summary::before{transform:rotate(90);content:'📖';}}body>nav{grid-area:nav;overflow-y:auto;}body>footer{grid-area:footer;}body>main{grid-area:main;}main>h1,nav>ul{margin-top:0;}main a{text-decoration:underline;}main p{line-height:var(--line-height);}main ul{line-height:var(--line-height);}nav>ul{padding-left:0;}nav ul li{list-style:none;margin:0.25em 0;}nav>ul>li{margin-top:0.75em;}nav>ul:first-child>li{margin-top:0;}nav li ul{padding-left:1em;}nav a{display:inline-block;padding:0.5em 0;}a{color:var(--color);text-decoration:none;}figure{margin:1.2em inherit;width:auto;max-width:100%;}figure>figcaption{font-style:italic;text-align:center;}figure>picture+figcaption::before{content:"🖼️ ";font-style:normal;padding-right:0.25em;}figure picture img{max-width:100%;height:auto;}picture{text-align:center;}pre{box-shadow:var(--box-shadow);white-space:pre-wrap;}pre>code{display:block;padding:1em;}</style></head><body><header><a href="/" class="blurry">Blurry</a></header><details open=""><summary>Menu</summary><nav><ul><li>Getting Started <ul><li><a href="/getting-started/quick-start/">Quick Start</a></li></ul></li><li>Commands <ul><li><a href="/commands/build/"><code>build</code></a></li><li><a href="/commands/runserver/"><code>runserver</code></a></li></ul></li><li>Content <ul><li><a href="/content/markdown/">Markdown</a></li><li><a href="/content/images/">Images</a></li><li><a href="/content/plugins/">Plugins</a></li></ul></li><li>Templates <ul><li><a href="/templates/syntax/">Syntax</a></li><li><a href="/templates/context/">Context</a></li></ul></li><li>Configuration <ul><li><a href="/configuration/settings/">Settings</a></li><li><a href="/configuration/blurry.toml/">blurry.toml</a></li><li><a href="/configuration/environment-variables/">Environment variables</a></li></ul></li></ul></nav></details><main><h1>Getting started: quick start</h1><h2>Requirements</h2><ul><li><a href="https://www.python.org/" target="_blank" rel="noopener">Python</a> &gt;= 3.10</li><li><a href="https://imagemagick.org/index.php" target="_blank" rel="noopener">ImageMagick</a> &gt;= <a href="https://github.com/ImageMagick/Website/blob/main/ChangeLog.md#710-20---2022-01-22" target="_blank" rel="noopener">7.1.0-20</a></li></ul><h2>Installation</h2><p>Use your preferred Python package manager to install <code>blurry</code>:</p><pre><code class="language-bash"># Poetry
+poetry add blurry
+
+# Pipenv
+pipenv install blurry
+
+# pip
+pip install blurry
+</code></pre><h2>Directory structure</h2><p>A <span class="blurry">Blurry</span> project uses a simple directory structure consisting of a <code>content</code> directory for <a href="https://daringfireball.net/projects/markdown/" target="_blank" rel="noopener">Markdown</a> site content and a <code>templates</code> directory for <a href="https://jinja.palletsprojects.com/en/" target="_blank" rel="noopener">Jinja</a> templates used to generate HTML pages from that Markdown content. <span class="blurry">Blurry</span> outputs a built site into <code>dist/</code> by default, and this is configurable in <a href="../../configuration/settings"><span class="blurry">Blurry</span>'s settings</a>.</p><p><span class="blurry">Blurry</span>'s directory structure is used as the website's navigation structure by converting <code>index.md</code> files into <code>index.html</code> files, and other Markdown files, like <code>about.md</code>, into a directory with a single <code>index.html</code> file, like <code>about/index.html</code>, which makes for clean, SEO-friendly URLs.</p><p>For example, this <span class="blurry">Blurry</span> project:</p><pre><code class="language-text">.
+├──🗀 content
+│  ├──🗎 index.md
+│  ├──🗎 about.md
+│  └──🗀 posts
+│     ├──🗎 index.md
+│     └──🗎 welcome.md
+└──🗀 templates
+   ├──🗎 base.html
+   ├──🗎 AboutPage.html
+   ├──🗎 Blog.html
+   ├──🗎 BlogPosting.html
+   └──🗎 HomePage.html
+</code></pre><p>Will result in the following URLs:</p><ul><li><code>/</code></li><li><code>/about/</code></li><li><code>/posts/</code></li><li><code>/posts/welcome/</code></li></ul><h2>Content</h2><p><span class="blurry">Blurry</span> content files are <a href="../../content/markdown">Markdown files with front matter</a>, which is a common pattern in other static site generators like <a href="https://gohugo.io/content-management/front-matter/" target="_blank" rel="noopener">Hugo</a> and <a href="https://jekyllrb.com/docs/front-matter/" target="_blank" rel="noopener">Jekyll</a>. <span class="blurry">Blurry</span>'s front matter is written in <a href="https://toml.io/en/" target="_blank" rel="noopener">TOML</a>. The front matter should conform to a <a href="https://schema.org/" target="_blank" rel="noopener">Schema.org</a> Type, and the front matter is passed into the template as <a href="../../templates/context">template context</a> for the Jinja template named after the schema type. The Markdown content is converted to HTML and is added to the Jinja template context as <code>body</code>.</p><p>Let's look at the homepage for <a href="https://tabletomarkdown.com/" target="_blank" rel="noopener">Table to Markdown</a>, a site in production that uses <span class="blurry">Blurry</span>:</p><pre><code class="language-markdown">+++
+"@type" = "WebApplication"
+name = "Home"
+abstract = "Table to Markdown is a simple Markdown table generator that converts tables from spreadsheet applications and websites into well-formatted Markdown tables."
++++
+
+# Easy Markdown Tables with Table to Markdown
+
+&lt;div class="custom-element-container"&gt;
+  &lt;table-converter&gt;&lt;/table-converter&gt;
+&lt;/div&gt;
+
+## A beginner's guide to Markdown
+
+In the [original Markdown spec](https://daringfireball.net/projects/markdown/), John Gruber describes Markdown as "a text-to-HTML conversion tool for web writers."
+
+[...]
+</code></pre><aside role="note" class="info"><p>The Table to Markdown homepage includes a small amount of HTML in its Markdown content, including the <code>&lt;table-converter&gt;</code> <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components" target="_blank" rel="noopener">Web Component</a>.</p><p>Web Components are a great way to sprinkle interactivity into a static site.</p></aside><h2>Templates</h2><p>The corresponding <code>WebApplication.html</code> <a href="../../templates/syntax">template file</a> might look like this:</p><pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="description" content="{{ abstract }}"&gt;
+    &lt;title&gt;{{ name }}&lt;/title&gt;
+    {{ schema_type_tag|safe }}
+    {{ open_graph_tags|safe }}
+&lt;/head&gt;
+
+&lt;body&gt;
+  {{ body|safe }}
+
+  &lt;p&gt;Published by: {{ author.givenName }} {{ author.familyName }}&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>See the <a href="../../templates/syntax">Templates: syntax</a> and <a href="../../templates/context">Templates: context</a> docs for more information.</p><h2>Commands</h2><p><span class="blurry">Blurry</span> can build a static site to prepare for deployment, or it can be run as a server with live reload.</p><p>To build for production (<a href="../../commands/build">docs</a>), run:</p><pre><code class="language-bash">blurry build
+</code></pre><p>To start the development server (<a href="../../commands/runserver">docs</a>), run:</p><pre><code class="language-bash">blurry runserver
+</code></pre><p>Then visit <a href="http://127.0.0.1:8000" target="_blank" rel="noopener">http://127.0.0.1:8000</a> in your browser to see your site. The site is rebuilt when files in the <code>templates</code> and <code>content</code> directories are modified.</p></main><footer><p><small> © 2020-2023 <a href="https://johnfraney.ca/">John Franey</a></small></p></footer><!-- 
+    <script async
+        defer
+        src="https://ackee.punster.ca/tracker.js"
+        data-ackee-server="https://ackee.punster.ca"
+        data-ackee-domain-id="04531be3-ffa1-4368-8cf6-8ffc175e50ad"></script>
+     --><link rel="preload" href="https://unpkg.com/@highlightjs/cdn-assets@11.3.1/styles/a11y-light.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.3.1/styles/a11y-light.min.css"></noscript><script src="https://unpkg.com/@highlightjs/cdn-assets@11.3.1/highlight.min.js" async="" defer=""></script><script>window.addEventListener('load', () => hljs.highlightAll());</script><style>aside[role="note"]{--spacing:0.75rem;box-shadow:var(--box-shadow);background:var(--color-background-accent);margin:1rem 0;padding:var(--spacing);}aside[role="note"]::before{background:var(--color-blue);color:var(--dark);content:"🛈 Info";display:block;line-height:1;margin:calc(var(--spacing) * -1);padding:var(--spacing);}aside[role="note"].note::before{content:"📝 Note";background:var(--color-yellow);}aside[role="note"].tip::before{content:"💡 Tip";background:var(--color-yellow);}aside[role="note"]>p:last-child{margin-bottom:0;}.blurry{color:var(--color);filter:blur(0.6px);}table{border:1px solid var(--color-faint);background-color:var(--color-background-accent);box-shadow:var(--box-shadow);}th,td{border-bottom:1px solid var(--color-faint);padding:0.5em;}tr:last-child td{border-bottom:none;}th{text-align:left;}</style><script>
+        function onWindowResize(event) {
+            const detailsElement = document.querySelector('details')
+            console.info(window.innerWidth)
+            window.innerWidth > 800 ? detailsElement.setAttribute("open", "") : detailsElement.removeAttribute("open")
+        }
+        addEventListener("resize", onWindowResize);
+        onWindowResize()
+    </script></body></html>

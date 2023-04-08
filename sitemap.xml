@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+    http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+>
+    <url><loc>https://blurry-docs.netlify.app/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/getting-started/quick-start/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/templates/syntax/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/templates/context/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/commands/runserver/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/commands/build/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/content/plugins/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/content/markdown/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/content/images/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/configuration/environment-variables/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/configuration/blurry.toml/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/configuration/settings/</loc><lastmod>None</lastmod></url>
+</urlset>
