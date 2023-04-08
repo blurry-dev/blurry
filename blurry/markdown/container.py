@@ -24,7 +24,7 @@ class Container(Admonition):
 
         if md.renderer.NAME == "html":
             md.renderer.register("admonition", render_admonition)
-            md.renderer.register("admonition_title", lambda: "")
+            md.renderer.register("admonition_title", lambda plugin, text: "")
             md.renderer.register("admonition_content", render_admonition_content)
 
 
