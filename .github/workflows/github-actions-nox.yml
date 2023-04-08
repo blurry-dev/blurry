@@ -1,0 +1,9 @@
+name: Nox
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+- uses: wntrblm/nox@2022.11.21
+  with:
+      python-versions: "3.10, 3.11"
