@@ -12,17 +12,17 @@ name = "Getting started: quick start"
 
 ## Installation
 
-Use your preferred Python package manager to install `blurry`:
+Use your preferred Python package manager to install `blurry-cli`:
 
 ```bash
 # Poetry
-poetry add blurry
+poetry add blurry-cli
 
 # Pipenv
-pipenv install blurry
+pipenv install blurry-cli
 
 # pip
-pip install blurry
+pip install blurry-cli
 ```
 
 ## Directory structure
