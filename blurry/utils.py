@@ -100,12 +100,12 @@ def format_schema_data(schema_data: dict) -> dict:
 
 def remove_lazy_loading_from_first_image(html: str) -> str:
     parser = HTMLParser(html, use_meta_tags=False)
-    first_image_tag = parser.css_first("img")
-    if not first_image_tag:
+    first_img_tag = parser.css_first("img")
+    if not first_img_tag:
         return html
-    updated_tag = first_image_tag
+    updated_tag = first_img_tag
     del updated_tag.attrs["loading"]  # type: ignore
-    first_image_tag.replace_with(HTMLParser(updated_tag.html).body.child)  # type: ignore
+    first_img_tag.replace_with(HTMLParser(updated_tag.html).body.child)  # type: ignore
     if not parser.body or not parser.body.html:
         raise Exception("Could not parse HTML")
     return parser.body.html

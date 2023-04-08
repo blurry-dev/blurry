@@ -1,4 +1,3 @@
-import inspect
 from blurry.markdown.python_code_plugin import render_python_code
 
 
