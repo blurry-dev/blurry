@@ -1,5 +1,5 @@
 +++
-"@type" = "WebPage"
+"@type" = "ContextWebPage"
 name = "Templates: context"
 +++
 
@@ -7,16 +7,7 @@ name = "Templates: context"
 
 Blurry populates Jinja templates with context from multiple sources:
 
-1. `blurry.toml` configuration file, using `blurry.schema_data`:
-
-    ```toml
-    [blurry.schema_data.author]
-    "@type" = "Person"
-    givenName = "John"
-    familyName = "Franey"
-    url = "https://johnfraney.ca/"
-    ```
-
+1. `blurry.toml` configuration file, using `blurry.schema_data` (see [`blurry.toml`](../configuration/blurry.toml.md) for more information)
 2. Dynamic variables constructed by Blurry
 3. Front matter from Markdown files
 
@@ -34,9 +25,9 @@ The template context variables are:
 | `schema_type_tag`        | a `<script type="application/ld+json">` tag containing Schema.org markup                       |
 | `open_graph_tags`        | [Open Graph](https://ogp.me/) meta tags, like `<meta property="og:title" content="..." />`     |
 | `**schema_variables`     | front matter from the Markdown file, like `datePublished`                                      |
-| `**schema_data`          | Schema data from `blurry.toml`                                                                 |
+| `schema_data`            | Schema data from `blurry.toml`                                                                 |
 | `sibling_pages`          | for `index.md` files, includes `[{"url", **MarkdownFileData}]` for files in the same directory |
-| `file_data_by_directory` | `dict[Path, list[MarkdownFileData]]`                                                           |
+| `file_data_by_directory` | all file data grouped by directory, like `{"path", list[MarkdownFileData]}`                    |
 
 :::{info}
 `MarkdownFileData`'s type is:
@@ -44,18 +35,7 @@ The template context variables are:
 @python<blurry.types.MarkdownFileData>
 :::
 
-```html
-{% if sibling_pages %}
-<h1>Posts</h1>
+## Example: this page's context variables
 
-{% for page in sibling_pages|sort(reverse=true, attribute="datePublished") %}
-<div>
-  <img src="{{page.thumbnailUrl}}" loading="lazy">
-  <h3><a href="{{ page.url }}">{{ page.headline }}</a></h3>
-  <p>{{ page.abstract }}</p>
-  <p><a href="{{ page.url }}">Continue reading &rarr;</a></p>
-</div>
-{% if not loop.last %}<hr>{% endif %}
-{% endfor %}
-{% endif %}
-```
+Some of the context variable types are pretty complex, and a real-world example could be helpful to show what data they contain.
+Below are some context variables available to the template used in this very page.

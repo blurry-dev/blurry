@@ -1,4 +1,5 @@
 import asyncio
+import dataclasses
 import json
 import os
 import shutil
@@ -109,6 +110,7 @@ async def write_html_file(
     schema_type_tag = f'<script type="application/ld+json">{schema_data}</script>'
 
     html = template.render(
+        dataclasses=dataclasses,
         body=file_data.body,
         schema_data=schema_data,
         schema_type_tag=schema_type_tag,
