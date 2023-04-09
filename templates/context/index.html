@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><title>Templates: context · Blurry</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content=""><link href="https://blurry-docs.netlify.app/templates/context/" rel="canonical"><link rel="shortcut icon" href="/favicon.png"><script type="application/ld+json">{"@context": "https://schema.org", "author": {"name": "John Franey", "url": "https://johnfraney.ca"}, "sourceOrganization": {"name": "Blurry"}, "@type": "ContextWebPage", "name": "Templates: context", "url": "https://blurry-docs.netlify.app/templates/context/"}</script><meta property="og:type" content="website"><meta content="https://blurry-docs.netlify.app/templates/context/" property="og:url"><meta property="og:site_name" content="Blurry"><style>:root{--box-shadow:1px 1px 3px #999;--color-blue:aliceblue;--color-yellow:cornsilk;--dark:#1c1b1a;--light:#f9f9f9;--line-height:1.8;--color:#805c06;--color-background:var(--light);--color-background-accent:#fff;--color-faint:#d9d9d9;--color-text:var(--dark);}@media (prefers-color-scheme:dark){:root{--color:wheat;--color-background:var(--dark);--color-background-accent:#000;--color-faint:#333;--color-text:var(--light);}}body{background-color:var(--color-background);color:var(--color-text);column-gap:2rem;display:grid;font-family:-system,sans-serif;grid-template:"header header" auto
+<!DOCTYPE html><html lang="en"><head><title>Templates: context · Blurry</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Documentation for Blurry's template context variables"><link href="https://blurry-docs.netlify.app/templates/context/" rel="canonical"><link rel="shortcut icon" href="/favicon.png"><script type="application/ld+json">{"@context": "https://schema.org", "author": {"name": "John Franey", "url": "https://johnfraney.ca"}, "sourceOrganization": {"name": "Blurry"}, "@type": "ContextWebPage", "name": "Templates: context", "abstract": "Documentation for Blurry's template context variables", "datePublished": null, "url": "https://blurry-docs.netlify.app/templates/context/"}</script><meta property="og:type" content="website"><meta content="https://blurry-docs.netlify.app/templates/context/" property="og:url"><meta property="og:description" content="Documentation for Blurry's template context variables"><meta property="og:site_name" content="Blurry"><style>:root{--box-shadow:1px 1px 3px #999;--color-blue:aliceblue;--color-yellow:cornsilk;--dark:#1c1b1a;--light:#f9f9f9;--line-height:1.8;--color:#805c06;--color-background:var(--light);--color-background-accent:#fff;--color-faint:#d9d9d9;--color-text:var(--dark);}@media (prefers-color-scheme:dark){:root{--color:wheat;--color-background:var(--dark);--color-background-accent:#000;--color-faint:#333;--color-text:var(--light);}}body{background-color:var(--color-background);color:var(--color-text);column-gap:2rem;display:grid;font-family:-system,sans-serif;grid-template:"header header" auto
         "nav    main" auto
         "nav    footer" auto / 24ch 1fr;margin:0 auto;max-width:1400px;padding:0 0.75rem;row-gap:1rem;}@media(max-width:800px){body{grid-template:"header" auto
             "nav" auto
@@ -8,7 +8,7 @@ class MarkdownFileData:
     body: str
     front_matter: dict[str, Any]
     path: Path
-</code></pre></aside><h2>Example: this page's context variables</h2><p>Some of the context variable types are pretty complex, and a real-world example could be helpful to show what data they contain. Below are some context variables available to the template used in this very page.</p><h3><code>schema_data</code></h3><pre><code class="language-json">{"@context": "https://schema.org", "author": {"name": "John Franey", "url": "https://johnfraney.ca"}, "sourceOrganization": {"name": "Blurry"}, "@type": "ContextWebPage", "name": "Templates: context", "url": "https://blurry-docs.netlify.app/templates/context/"}</code></pre><h3><code>file_data_by_directory</code></h3><pre><code>{
+</code></pre></aside><h2>Example: this page's context variables</h2><p>Some of the context variable types are pretty complex, and a real-world example could be helpful to show what data they contain. Below are some context variables available to the template used in this very page.</p><h3><code>schema_data</code></h3><pre><code class="language-json">{"@context": "https://schema.org", "author": {"name": "John Franey", "url": "https://johnfraney.ca"}, "sourceOrganization": {"name": "Blurry"}, "@type": "ContextWebPage", "name": "Templates: context", "abstract": "Documentation for Blurry's template context variables", "datePublished": null, "url": "https://blurry-docs.netlify.app/templates/context/"}</code></pre><h3><code>file_data_by_directory</code></h3><pre><code>{
   '.': [
     {
       'body': '&lt;h1&gt;&lt;span class="blurry"&gt;Blurry&lt;/span&gt;: A Pyt...',
@@ -21,12 +21,12 @@ class MarkdownFileData:
   'commands': [
     {
       'body': '&lt;h1&gt;Commands: build&lt;/h1&gt;&lt;p&gt;&lt;code&gt;build&lt;/code...',
-      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Commands: build', 'abstract': "Documentation for Blurry's build command", 'url': 'https://blurry-docs.netlify.app/commands/build/'},'path': 'commands/build.md',
+      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Commands: build', 'abstract': "Documentation for Blurry's build command", 'datePublished': datetime.date(2022, 4, 9), 'url': 'https://blurry-docs.netlify.app/commands/build/'},'path': 'commands/build.md',
       
     },
     {
       'body': '&lt;h1&gt;Commands: &lt;code&gt;runserver&lt;/code&gt;&lt;/h1&gt;&lt;p&gt;...',
-      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Commands: runserver', 'abstract': "Documentation for Blurry's runserver command", 'url': 'https://blurry-docs.netlify.app/commands/runserver/'},'path': 'commands/runserver.md',
+      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Commands: runserver', 'abstract': "Documentation for Blurry's runserver command", 'datePublished': datetime.date(2022, 4, 9), 'url': 'https://blurry-docs.netlify.app/commands/runserver/'},'path': 'commands/runserver.md',
       
     },
     
@@ -35,17 +35,17 @@ class MarkdownFileData:
   'templates': [
     {
       'body': '&lt;h1&gt;Templates: examples&lt;/h1&gt;&lt;h2&gt;Base templat...',
-      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Templates: examples', 'abstract': 'Example Jinja templates for your Blurry project.', 'url': 'https://blurry-docs.netlify.app/templates/examples/'},'path': 'templates/examples.md',
+      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Templates: examples', 'abstract': 'Example Jinja templates for your Blurry project', 'datePublished': datetime.date(2022, 4, 9), 'url': 'https://blurry-docs.netlify.app/templates/examples/'},'path': 'templates/examples.md',
       
     },
     {
       'body': '&lt;body&gt;&lt;h1&gt;Templates: syntax&lt;/h1&gt;&lt;h2&gt;Overview...',
-      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Templates: syntax', 'url': 'https://blurry-docs.netlify.app/templates/syntax/'},'path': 'templates/syntax.md',
+      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Templates: syntax', 'abstract': "Documentation for Blurry's template files and Jinja syntax", 'datePublished': datetime.date(2022, 4, 9), 'url': 'https://blurry-docs.netlify.app/templates/syntax/'},'path': 'templates/syntax.md',
       
     },
     {
       'body': '&lt;h1&gt;Templates: context&lt;/h1&gt;&lt;p&gt;&lt;span class="b...',
-      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'ContextWebPage', 'name': 'Templates: context', 'url': 'https://blurry-docs.netlify.app/templates/context/'},'path': 'templates/context.md',
+      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'ContextWebPage', 'name': 'Templates: context', 'abstract': "Documentation for Blurry's template context variables", 'datePublished': datetime.date(2022, 4, 9), 'url': 'https://blurry-docs.netlify.app/templates/context/'},'path': 'templates/context.md',
       
     },
     
@@ -54,7 +54,7 @@ class MarkdownFileData:
   'getting-started': [
     {
       'body': '&lt;h1&gt;Getting started: quick start&lt;/h1&gt;&lt;h2&gt;Req...',
-      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Getting started: quick start', 'url': 'https://blurry-docs.netlify.app/getting-started/quick-start/'},'path': 'getting-started/quick-start.md',
+      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Getting started: quick start', 'abstract': 'Documentation for how to get started with Blurry', 'datePublished': datetime.date(2022, 4, 9), 'url': 'https://blurry-docs.netlify.app/getting-started/quick-start/'},'path': 'getting-started/quick-start.md',
       
     },
     
@@ -63,17 +63,17 @@ class MarkdownFileData:
   'configuration': [
     {
       'body': '&lt;h1&gt;blurry.toml&lt;/h1&gt;&lt;p&gt;&lt;span class="blurry"&gt;...',
-      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Configuration: blurry.toml', 'url': 'https://blurry-docs.netlify.app/configuration/blurry.toml/'},'path': 'configuration/blurry.toml.md',
+      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Configuration: blurry.toml', 'abstract': "Documentation for Blurry's blurry.toml configuration file", 'datePublished': datetime.date(2022, 4, 9), 'url': 'https://blurry-docs.netlify.app/configuration/blurry.toml/'},'path': 'configuration/blurry.toml.md',
       
     },
     {
       'body': '&lt;h1&gt;Configuration: settings&lt;/h1&gt;&lt;h2&gt;Reslutio...',
-      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Configuration: settings', 'url': 'https://blurry-docs.netlify.app/configuration/settings/'},'path': 'configuration/settings.md',
+      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Configuration: settings', 'abstract': "Documentation for Blurry's available settings", 'datePublished': datetime.date(2022, 4, 9), 'url': 'https://blurry-docs.netlify.app/configuration/settings/'},'path': 'configuration/settings.md',
       
     },
     {
       'body': '&lt;h1&gt;Configuration: environment variables&lt;/h1&gt;...',
-      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Configuration: environment variables', 'url': 'https://blurry-docs.netlify.app/configuration/environment-variables/'},'path': 'configuration/environment-variables.md',
+      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Configuration: environment variables', 'abstract': "Documentation for Blurry's settings configuration using environment variables", 'datePublished': datetime.date(2022, 4, 9), 'url': 'https://blurry-docs.netlify.app/configuration/environment-variables/'},'path': 'configuration/environment-variables.md',
       
     },
     
@@ -81,25 +81,26 @@ class MarkdownFileData:
 
   'content': [
     {
-      'body': '&lt;h1&gt;Content: Plugins&lt;/h1&gt;&lt;p&gt;&lt;span class="blu...',
-      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Content: Plugins', 'url': 'https://blurry-docs.netlify.app/content/plugins/'},'path': 'content/plugins.md',
-      
-    },
-    {
       'body': '&lt;h1&gt;Content: Markdown&lt;/h1&gt;&lt;p&gt;Content is writ...',
-      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Content: Markdown', 'url': 'https://blurry-docs.netlify.app/content/markdown/'},'path': 'content/markdown.md',
+      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Content: Markdown', 'abstract': "Documentation for Blurry's Markdown handling", 'datePublished': datetime.date(2022, 4, 9), 'url': 'https://blurry-docs.netlify.app/content/markdown/'},'path': 'content/markdown.md',
       
     },
     {
       'body': '&lt;h1&gt;Content: images&lt;/h1&gt;&lt;p&gt;Image handling is...',
-      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Content: images', 'url': 'https://blurry-docs.netlify.app/content/images/'},'path': 'content/images.md',
+      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Content: images', 'abstract': "Documentation for Blurry's image handling", 'datePublished': datetime.date(2022, 4, 9), 'url': 'https://blurry-docs.netlify.app/content/images/'},'path': 'content/images.md',
+      
+    },
+    {
+      'body': '&lt;h1&gt;Content: Plugins&lt;/h1&gt;&lt;p&gt;&lt;span class="blu...',
+      'front_matter': {'author': {'name': 'John Franey', 'url': 'https://johnfraney.ca'}, 'sourceOrganization': {'name': 'Blurry'}, '@type': 'WebPage', 'name': 'Content: Plugins', 'url': 'https://blurry-docs.netlify.app/content/plugins/'},'path': 'content/plugins.md',
       
     },
     
   ],
 }</code></pre><h3><code>open_graph_tags</code></h3><pre><code class="lang-html">&lt;meta property="og:type" content="website" /&gt;
 &lt;meta property="og:url" content="https://blurry-docs.netlify.app/templates/context/" /&gt;
-&lt;meta property="og:site_name" content="Blurry" /&gt;</code></pre><h3><code>schema_type_tag</code></h3><pre><code class="lang-html">&lt;script type="application/ld+json"&gt;{"@context": "https://schema.org", "author": {"name": "John Franey", "url": "https://johnfraney.ca"}, "sourceOrganization": {"name": "Blurry"}, "@type": "ContextWebPage", "name": "Templates: context", "url": "https://blurry-docs.netlify.app/templates/context/"}&lt;/script&gt;</code></pre></main><footer><p><small> © 2020-2023 <a href="https://johnfraney.ca/">John Franey</a></small></p></footer><link rel="preload" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/a11y-light.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/a11y-light.min.css"></noscript><script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js" async="" defer=""></script><script>window.addEventListener('load', () => hljs.highlightAll());</script><style>aside[role="note"]{--spacing:0.75rem;box-shadow:var(--box-shadow);background:var(--color-background-accent);margin:1rem 0;padding:var(--spacing);}aside[role="note"]::before{background:var(--color-blue);color:var(--dark);content:"🛈 Info";display:block;line-height:1;margin:calc(var(--spacing) * -1);padding:var(--spacing);}aside[role="note"].note::before{content:"📝 Note";background:var(--color-yellow);}aside[role="note"].tip::before{content:"💡 Tip";background:var(--color-yellow);}aside[role="note"]>p:last-child{margin-bottom:0;}.blurry{color:var(--color);filter:blur(0.035em);}table{border:1px solid var(--color-faint);background-color:var(--color-background-accent);box-shadow:var(--box-shadow);}th,td{border-bottom:1px solid var(--color-faint);padding:0.5em;}tr:last-child td{border-bottom:none;}th{text-align:left;}</style><script>
+&lt;meta property="og:description" content="Documentation for Blurry's template context variables" /&gt;
+&lt;meta property="og:site_name" content="Blurry" /&gt;</code></pre><h3><code>schema_type_tag</code></h3><pre><code class="lang-html">&lt;script type="application/ld+json"&gt;{"@context": "https://schema.org", "author": {"name": "John Franey", "url": "https://johnfraney.ca"}, "sourceOrganization": {"name": "Blurry"}, "@type": "ContextWebPage", "name": "Templates: context", "abstract": "Documentation for Blurry's template context variables", "datePublished": null, "url": "https://blurry-docs.netlify.app/templates/context/"}&lt;/script&gt;</code></pre></main><footer><p><small> © 2020-2023 <a href="https://johnfraney.ca/">John Franey</a></small></p></footer><link rel="preload" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/a11y-light.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/a11y-light.min.css"></noscript><script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js" async="" defer=""></script><script>window.addEventListener('load', () => hljs.highlightAll());</script><style>aside[role="note"]{--spacing:0.75rem;box-shadow:var(--box-shadow);background:var(--color-background-accent);margin:1rem 0;padding:var(--spacing);}aside[role="note"]::before{background:var(--color-blue);color:var(--dark);content:"🛈 Info";display:block;line-height:1;margin:calc(var(--spacing) * -1);padding:var(--spacing);}aside[role="note"].note::before{content:"📝 Note";background:var(--color-yellow);}aside[role="note"].tip::before{content:"💡 Tip";background:var(--color-yellow);}aside[role="note"]>p:last-child{margin-bottom:0;}.blurry{color:var(--color);filter:blur(0.035em);}table{border:1px solid var(--color-faint);background-color:var(--color-background-accent);box-shadow:var(--box-shadow);}th,td{border-bottom:1px solid var(--color-faint);padding:0.5em;}tr:last-child td{border-bottom:none;}th{text-align:left;}</style><script>
         function onWindowResize(event) {
             const detailsElement = document.querySelector('details')
             console.info(window.innerWidth)
