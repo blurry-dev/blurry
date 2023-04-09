@@ -12,6 +12,7 @@ class Settings(TypedDict):
     BUILD_DIRECTORY_NAME: str
     CONTENT_DIRECTORY_NAME: str
     TEMPLATES_DIRECTORY_NAME: str
+    TEMPLATE_SCHEMA_TYPES: dict[str, str]
 
     DEV_HOST: str
     DEV_PORT: int
@@ -39,6 +40,7 @@ SETTINGS: Settings = {
     "USE_HTTP": False,
     "RUNSERVER": False,
     "FRONTMATTER_NON_SCHEMA_VARIABLE_PREFIX": "~",
+    "TEMPLATE_SCHEMA_TYPES": {},
 }
 
 try:

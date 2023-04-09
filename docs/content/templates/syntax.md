@@ -21,6 +21,7 @@ For example, for a template for a regular web page, the template should be named
 
 Some common types you might use are:
 
+* [WebSite](https://schema.org/WebSite)
 * [WebPage](https://schema.org/WebPage)
 * [AboutPage](https://schema.org/AboutPage)
 * [ContactPage](https://schema.org/ContactPage)
@@ -31,3 +32,12 @@ Some common types you might use are:
 * [SoftwareApplication](https://schema.org/SoftwareApplication)
 
 See [the "More specific Types" section of WebPage](https://schema.org/WebPage#subtypes) here for other WebPage subtypes, and [the "More specific Types" section of CreativeWork](https://schema.org/CreativeWork#subtypes) for other common content types.
+
+## Custom template names
+
+If your templates require more granularity than the Schema.org types, you can write templates with custom names and map them to Schema.org types using the `template_schema_types` setting in your [`blurry.toml` configuration file](../configuration/blurry.toml.md):
+
+```toml
+[blurry.template_schema_types]
+ContextWebPage = 'WebPage'
+```
