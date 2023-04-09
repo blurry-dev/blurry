@@ -36,8 +36,8 @@ def convert_relative_path_in_markdown_to_relative_build_path(relative_path: str)
     if relative_path.endswith("index.md"):
         relative_path = relative_path.replace("index.md", "")
     elif relative_path.endswith(".md"):
-        relative_path = relative_path.replace(".md", "")
-    return "../" + relative_path
+        relative_path = relative_path.replace(".md", "") + "/"
+    return f"../{relative_path}"
 
 
 def resolve_relative_path_in_markdown(relative_path: str, markdown_file: Path) -> Path:

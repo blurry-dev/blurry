@@ -42,8 +42,8 @@ def test_convert_content_path_to_build_path(path_in, expected_build_path):
 @pytest.mark.parametrize(
     "path_in, expected_html_path",
     [
-        ("./cool-post.md", "../cool-post"),
-        ("../home.md", "../../home"),
+        ("./cool-post.md", "../cool-post/"),
+        ("../home.md", "../../home/"),
         ("../index.md", "../../"),
         ("./image.png", "../image.png"),
     ],
