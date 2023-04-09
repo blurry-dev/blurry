@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}{{ name }}{% endblock %}
+
+{% block body %}
+{{ body|safe }}
+
+<h3><code>schema_data</code></h3>
+<pre><code class="language-json">{{ schema_data|safe }}</code></pre>
+
+<h3><code>file_data_by_directory</code></h3>
+<pre><code>{
+{%- for path, file_data_list in file_data_by_directory.items() %}
+  '{{ path }}': [
+    {% for file_data in file_data_list -%}
+    {
+      {% for key, value in dataclasses.asdict(file_data).items() -%}
+      {% if key == 'body' -%}
+        '{{ key }}': '{{ value[0:45].replace('\n', '') }}...',
+      {% elif key == 'path' -%}
+        '{{ key }}': '{{ value }}',
+      {% else -%}
+        '{{ key }}': {{ value }},
+      {%- endif -%}
+      {%- endfor %}
+    },
+    {% endfor %}
+  ],
+{% endfor -%}
+}</code></pre>
+
+<h3><code>open_graph_tags</code></h3>
+<pre><code class="lang-html">{{ open_graph_tags }}</code></pre>
+
+<h3><code>schema_type_tag</code></h3>
+<pre><code class="lang-html">{{ schema_type_tag }}</code></pre>
+{% endblock %}

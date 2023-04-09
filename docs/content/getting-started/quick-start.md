@@ -64,7 +64,7 @@ Blurry's front matter is written in [TOML](https://toml.io/en/).
 The front matter should conform to a [Schema.org](https://schema.org/) Type, and the front matter is passed into the template as [template context](../templates/context.md) for the Jinja template named after the schema type.
 The Markdown content is converted to HTML and is added to the Jinja template context as `body`.
 
-Let's look at the homepage for [Table to Markdown](https://tabletomarkdown.com/), a site in production that uses Blurry:
+Let's look at the homepage for [Table to Markdown](https://tabletomarkdown.com/), a site built with Blurry:
 
 ```markdown
 +++
@@ -89,7 +89,7 @@ In the [original Markdown spec](https://daringfireball.net/projects/markdown/), 
 :::{info}
 The Table to Markdown homepage includes a small amount of HTML in its Markdown content, including the `<table-converter>` [Web Component](https://developer.mozilla.org/en-US/docs/Web/Web_Components).
 
-Web Components are a great way to sprinkle interactivity into a static site.
+Web Components are [a great way to sprinkle interactivity into a static site](https://johnfraney.ca/blog/vue-static-site-web-component-custom-elements/).
 :::
 
 ## Templates
@@ -115,7 +115,7 @@ The corresponding `WebApplication.html` [template file](../templates/syntax.md) 
 </html>
 ```
 
-See the [Templates: syntax](../templates/syntax.md) and [Templates: context](../templates/context.md) docs for more information.
+See the [Templates: syntax](../templates/syntax.md) and [Templates: context](../templates/context.md) docs for more information, and [Templates: examples](../templates/examples.md) for simple and more advanced templates.
 
 ## Commands
 
