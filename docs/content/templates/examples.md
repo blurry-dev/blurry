@@ -1,7 +1,8 @@
 +++
 "@type" = "WebPage"
 name = "Templates: examples"
-abstract = "Example Jinja templates for your Blurry project."
+abstract = "Example Jinja templates for your Blurry project"
+datePublished = 2022-04-09
 +++
 
 # Templates: examples

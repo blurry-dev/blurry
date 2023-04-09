@@ -1,6 +1,8 @@
 +++
 "@type" = "WebPage"
 name = "Configuration: environment variables"
+abstract = "Documentation for Blurry's settings configuration using environment variables"
+datePublished = 2022-04-09
 +++
 
 # Configuration: environment variables

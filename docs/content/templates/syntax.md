@@ -1,13 +1,16 @@
 +++
 "@type" = "WebPage"
 name = "Templates: syntax"
+abstract = "Documentation for Blurry's template files and Jinja syntax"
+datePublished = 2022-04-09
 +++
 
 # Templates: syntax
 
 ## Overview
 
-Templates are written in [Jinja](https://jinja.palletsprojects.com/), populated with context variables from Markdown files and other sources. See [Templates: context](./context.md) for more information on which context variables are available and [Templates: examples](./examples.md) for starter templates with examples of how to use Blurry's context variables.
+Templates are written in [Jinja](https://jinja.palletsprojects.com/), populated with context variables from Markdown files and other sources.
+See [Templates: context](./context.md) for more information on which context variables are available and [Templates: examples](./examples.md) for starter templates with examples of how to use Blurry's context variables.
 
 ## Naming
 

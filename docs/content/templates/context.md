@@ -1,6 +1,8 @@
 +++
 "@type" = "ContextWebPage"
 name = "Templates: context"
+abstract = "Documentation for Blurry's template context variables"
+datePublished = 2022-04-09
 +++
 
 # Templates: context

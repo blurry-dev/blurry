@@ -1,6 +1,8 @@
 +++
 "@type" = "WebPage"
 name = "Content: Markdown"
+abstract = "Documentation for Blurry's Markdown handling"
+datePublished = 2022-04-09
 +++
 
 # Content: Markdown

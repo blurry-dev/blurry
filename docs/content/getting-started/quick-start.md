@@ -1,6 +1,8 @@
 +++
 "@type" = "WebPage"
 name = "Getting started: quick start"
+abstract = "Documentation for how to get started with Blurry"
+datePublished = 2022-04-09
 +++
 
 # Getting started: quick start
