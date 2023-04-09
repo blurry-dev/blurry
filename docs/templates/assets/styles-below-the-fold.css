@@ -1,0 +1,56 @@
+aside[role="note"] {
+    --spacing: 0.75rem;
+    box-shadow: var(--box-shadow);
+    background: var(--color-background-accent);
+    margin: 1rem 0;
+    padding: var(--spacing);
+}
+
+aside[role="note"]::before {
+    background: var(--color-blue);
+    color: var(--dark);
+    content: "🛈 Info";
+    display: block;
+    line-height: 1;
+    margin: calc(var(--spacing) * -1);
+    padding: var(--spacing);
+}
+
+aside[role="note"].note::before {
+    content: "📝 Note";
+    background: var(--color-yellow);
+}
+
+aside[role="note"].tip::before {
+    content: "💡 Tip";
+    background: var(--color-yellow);
+}
+
+aside[role="note"]>p:last-child {
+    margin-bottom: 0;
+}
+
+.blurry {
+    color: var(--color);
+    filter: blur(0.035em);
+}
+
+table {
+    border: 1px solid var(--color-faint);
+    background-color: var(--color-background-accent);
+    box-shadow: var(--box-shadow);
+}
+
+th,
+td {
+    border-bottom: 1px solid var(--color-faint);
+    padding: 0.5em;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+th {
+    text-align: left;
+}
