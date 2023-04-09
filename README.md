@@ -1,5 +1,7 @@
 # Blurry
 
+![build](https://github.com/blurry-dev/blurry/actions/workflows/github-actions-nox.yml/badge.svg?branch=main)
+
 ## Quickstart
 
 ### Requirements
