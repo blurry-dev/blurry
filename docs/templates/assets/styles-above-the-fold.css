@@ -63,18 +63,24 @@ body>details>summary {
     body>details>summary {
         border: 1px solid var(--color-faint);
         border-radius: 0.25rem;
+        cursor: pointer;
         display: inline-block;
         padding: 0.25rem 0.5rem;
     }
 
     body>details>summary::before {
         content: '📘';
+        filter: sepia(100);
         margin-right: 0.25rem;
     }
 
     body>details[open]>summary::before {
         transform: rotate(90);
         content: '📖';
+    }
+
+    body>details>nav {
+        margin-top: 1rem;
     }
 }
 
