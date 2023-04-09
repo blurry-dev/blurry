@@ -91,6 +91,10 @@ async def write_html_file(
         raise ValueError(f"Required @type value missing in file: {file_data.path}")
     template = jinja_env.get_template(f"{schema_type}.html")
 
+    # Map custom template name to Schema.org type
+    if mapped_schema_type := SETTINGS["TEMPLATE_SCHEMA_TYPES"].get(schema_type):
+        file_data.front_matter["@type"] = mapped_schema_type
+
     # Include non-schema variables as top-level context values, removing them from
     # front_matter
     front_matter = file_data.front_matter

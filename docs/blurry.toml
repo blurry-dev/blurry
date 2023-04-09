@@ -4,8 +4,12 @@ maximum_image_width = 1200
 thumbnail_width = 285
 
 [blurry.schema_data.author]
+'@type' = 'Person'
 name = 'John Franey'
 url = 'https://johnfraney.ca'
 
 [blurry.schema_data.sourceOrganization]
 name = 'Blurry'
+
+[blurry.template_schema_types]
+ContextWebPage = 'WebPage'
