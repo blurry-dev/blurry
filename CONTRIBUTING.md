@@ -8,7 +8,7 @@ You can contribute in many ways:
 
 ### Report Bugs
 
-Report bugs at https://gitlab.com/johnfraney/blurry/-/issues
+Report bugs at <https://github.com/blurry-dev/blurry/issues>
 
 If you are reporting a bug, please include:
 
@@ -30,7 +30,7 @@ Blurry could always use more documentation, whether as part of the  official doc
 
 ### Submit Feedback
 
-The best way to send feedback is to file an issue at https://gitlab.com/johnfraney/blurry/-/issues.
+The best way to send feedback is to file an issue at <https://github.com/blurry-dev/blurry/issues>.
 
 If you are proposing a feature:
 
@@ -38,13 +38,13 @@ If you are proposing a feature:
 * Keep the scope as narrow as possible, to make it easier to implement.
 * Remember that this is a volunteer-driven project, and that contributions are welcome :)
 
-## Get Started!
+## Get Started
 
 Ready to contribute? Here's how to set up `blurry` for local development.
 
 1. Fork the `blurry` repo
 1. Clone your fork locally
-1. Install your local copy into a virtualenv. Assuming you have `virtualenvwrapper` installed, this is how you set up your fork for local development
+1. Install your local copy into a virtualenv
 1. Install [pre-commit](https://pre-commit.com/) to run code checks & formatting on your commits
 1. Create a branch for local development
     ```shell
@@ -64,4 +64,4 @@ Before you submit a pull request, check that it meets these guidelines:
 
 1. The pull request should include tests.
 2. If the pull request adds functionality, the docs should be updated. Put your new functionality into a function with a docstring, and add the feature to the list in README.md.
-3. The pull request should work for [Active Python Releases](https://www.python.org/downloads/)
+3. The pull request should work for [Active Python Releases](https://www.python.org/downloads/) >= 3.10.
