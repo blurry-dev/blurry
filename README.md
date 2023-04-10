@@ -1,13 +1,13 @@
 # Blurry
 
-![build](https://github.com/blurry-dev/blurry/actions/workflows/github-actions-nox.yml/badge.svg?branch=main)
-[![PyPI](https://img.shields.io/pypi/v/blurry-cli.svg)](https://pypi.org/project/blurry-cli/)
-![PyPI](https://img.shields.io/pypi/pyversions/blurry-cli.svg)
-![PyPI](https://img.shields.io/github/license/blurry-dev/blurry.svg)
+[![Nox build status](https://github.com/blurry-dev/blurry/actions/workflows/github-actions-nox.yml/badge.svg?branch=main)](https://github.com/blurry-dev/blurry/actions/workflows/github-actions-nox.yml)
+[![PyPI package version](https://img.shields.io/pypi/v/blurry-cli.svg)](https://pypi.org/project/blurry-cli/)
+[![PyPI Python versions](https://img.shields.io/pypi/pyversions/blurry-cli.svg)](https://pypi.org/project/blurry-cli/)
+![Package license](https://img.shields.io/github/license/blurry-dev/blurry.svg)
 
 ## Documentation
 
-View the documentation at <https://blurry-docs.netlify.app/>
+View the documentation site at <https://blurry-docs.netlify.app/>.
 
 ## Quickstart
 
