@@ -59,3 +59,6 @@ exclude = [
     "**/.*",
     "blurry/tests"
 ]
+
+[tool.poetry.plugins."blurry.html_plugins"]
+minify_html = 'blurry.plugins:minify_html'

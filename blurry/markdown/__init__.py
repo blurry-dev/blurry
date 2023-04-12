@@ -4,19 +4,18 @@ from typing import Type
 from typing import TypeGuard
 
 import mistune
-from mistune.directives import FencedDirective
-from mistune.plugins.task_lists import task_lists
-from mistune.plugins.formatting import strikethrough
-from mistune.plugins.abbr import abbr
-from mistune.plugins.footnotes import footnotes
-from mistune.plugins.url import url
-from mistune.plugins.def_list import def_list
-from mistune.plugins.table import table
-from mistune.util import escape
 from mistune import BlockState
+from mistune.directives import FencedDirective
+from mistune.plugins.abbr import abbr
+from mistune.plugins.def_list import def_list
+from mistune.plugins.footnotes import footnotes
+from mistune.plugins.formatting import strikethrough
+from mistune.plugins.table import table
+from mistune.plugins.task_lists import task_lists
+from mistune.plugins.url import url
+from mistune.util import escape
 from wand.image import Image
 
-from .blur_blurry_name_plugin import blur_blurry_name
 from .container import Container
 from .front_matter import parse_front_matter
 from .punctuation_plugin import punctuation
@@ -27,6 +26,7 @@ from blurry.images import generate_sizes_string
 from blurry.images import generate_srcset_string
 from blurry.images import get_widths_for_image_width
 from blurry.images import THUMBNAIL_WIDTH
+from blurry.plugins import discovered_mistune_plugins
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
 from blurry.settings import SETTINGS
@@ -135,7 +135,6 @@ markdown = mistune.Markdown(
     renderer,
     plugins=[
         abbr,
-        blur_blurry_name,
         def_list,
         footnotes,
         punctuation,
@@ -146,7 +145,8 @@ markdown = mistune.Markdown(
         task_lists,
         url,
         FencedDirective([Container()], ":"),
-    ],
+    ]
+    + [plugin.load() for plugin in discovered_mistune_plugins],
 )
 
 

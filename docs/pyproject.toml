@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "blurry-docs"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = []
+
+[tool.poetry.dependencies]
+python = "^3.10"
+blurry-cli = {path = ".."}
+blurry-plugin-blur-blurry-name = {git = "https://github.com/blurry-dev/blurry-plugin-blur-blurry-name"}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
