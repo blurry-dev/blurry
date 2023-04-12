@@ -36,6 +36,7 @@ Wand = "^0.6.6"
 toml = "^0.10.2"
 htmlmin = "^0.1.12"
 selectolax = "^0.3.6"
+rich = "^13.3.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.2"
