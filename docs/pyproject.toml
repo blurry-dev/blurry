@@ -8,8 +8,8 @@ packages = []
 
 [tool.poetry.dependencies]
 python = "^3.10"
-blurry-cli = {path = ".."}
-blurry-plugin-blur-blurry-name = {git = "https://github.com/blurry-dev/blurry-plugin-blur-blurry-name"}
+blurry-cli = {path = "..", develop=true}
+blurry-plugin-blur-blurry-name = {git = "https://github.com/blurry-dev/blurry-plugin-blur-blurry-name.git"}
 
 [build-system]
 requires = ["poetry-core"]

@@ -5,7 +5,6 @@ from typing import TypeGuard
 
 import mistune
 from mistune import BlockState
-from mistune.directives import FencedDirective
 from mistune.plugins.abbr import abbr
 from mistune.plugins.def_list import def_list
 from mistune.plugins.footnotes import footnotes
@@ -16,17 +15,13 @@ from mistune.plugins.url import url
 from mistune.util import escape
 from wand.image import Image
 
-from .container import Container
 from .front_matter import parse_front_matter
-from .punctuation_plugin import punctuation
-from .python_code_plugin import python_code
-from .python_code_plugin import python_code_in_list
 from blurry.images import add_image_width_to_path
 from blurry.images import generate_sizes_string
 from blurry.images import generate_srcset_string
 from blurry.images import get_widths_for_image_width
 from blurry.images import THUMBNAIL_WIDTH
-from blurry.plugins import discovered_mistune_plugins
+from blurry.plugins import discovered_markdown_plugins
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
 from blurry.settings import SETTINGS
@@ -137,16 +132,12 @@ markdown = mistune.Markdown(
         abbr,
         def_list,
         footnotes,
-        punctuation,
-        python_code,
-        python_code_in_list,
         strikethrough,
         table,
         task_lists,
         url,
-        FencedDirective([Container()], ":"),
     ]
-    + [plugin.load() for plugin in discovered_mistune_plugins],
+    + [plugin.load() for plugin in discovered_markdown_plugins],
 )
 
 

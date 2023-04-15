@@ -22,7 +22,7 @@ from blurry.images import generate_images_for_srcset
 from blurry.markdown import convert_markdown_file_to_html
 from blurry.open_graph import open_graph_meta_tags
 from blurry.plugins import discovered_html_plugins
-from blurry.plugins import discovered_mistune_plugins
+from blurry.plugins import discovered_markdown_plugins
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
 from blurry.settings import get_templates_directory
@@ -43,7 +43,7 @@ def json_converter_with_dates(item: Any) -> None | str:
         return item.strftime("%Y-%M-%D")
 
 
-print("Mistune plugins:", [p.name for p in discovered_mistune_plugins])
+print("Markdown plugins:", [p.name for p in discovered_markdown_plugins])
 print("HTML plugins:", [p.name for p in discovered_html_plugins], "\n")
 
 

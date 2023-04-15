@@ -61,4 +61,10 @@ exclude = [
 ]
 
 [tool.poetry.plugins."blurry.html_plugins"]
-minify_html = 'blurry.plugins:minify_html'
+minify_html = 'blurry.plugins.html_plugins.minify_html_plugin:minify_html'
+
+[tool.poetry.plugins."blurry.markdown_plugins"]
+python_code = 'blurry.plugins.markdown_plugins.python_code_plugin:python_code'
+python_code_in_list = 'blurry.plugins.markdown_plugins.python_code_plugin:python_code_in_list'
+punctuation = 'blurry.plugins.markdown_plugins.punctuation_plugin:punctuation'
+container = 'blurry.plugins.markdown_plugins.container_plugin:container'
