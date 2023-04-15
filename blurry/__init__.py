@@ -44,7 +44,7 @@ def json_converter_with_dates(item: Any) -> None | str:
 
 
 print("Markdown plugins:", [p.name for p in discovered_markdown_plugins])
-print("HTML plugins:", [p.name for p in discovered_html_plugins], "\n")
+print("HTML plugins:", [p.name for p in discovered_html_plugins])
 
 
 CONTENT_DIR = get_content_directory()
@@ -94,7 +94,10 @@ async def write_html_file(
 
     schema_type = file_data.front_matter.get("@type")
     if not schema_type:
-        raise ValueError(f"Required @type value missing in file: {file_data.path}")
+        raise ValueError(
+            f"Required @type value missing in file or TOML front matter invalid: "
+            f"{file_data.path}"
+        )
     template = jinja_env.get_template(f"{schema_type}.html")
 
     # Map custom template name to Schema.org type

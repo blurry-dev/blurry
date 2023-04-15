@@ -1,15 +1,13 @@
 import inspect
 import re
-from operator import attrgetter
+import importlib
 
-from mistune import Markdown
-
-__all__ = ["python_code", "python_code_in_list"]
+from mistune import Markdown, BlockState, BlockParser
 
 PYTHON_CODE_PATTERN = r"[\s]*@(?P<language>[a-z]+)<(?P<path>.+)>"
 
 
-def parse_python_code(block, match: re.Match, state):
+def parse_python_code(_: BlockParser, match: re.Match, state: BlockState):
     language = match.group("language")
     path = match.group("path")
     state.append_token(
@@ -22,10 +20,16 @@ def parse_python_code(block, match: re.Match, state):
 
 
 def render_python_code(_, language: str, path: str):
-    package_name, reference_path = path.split(".", 1)
-    package = __import__(package_name)
-    reference = attrgetter(reference_path)(package)
+    module, _, reference_name = path.rpartition(".")
+    module = importlib.import_module(module)
+    try:
+        # If path references a variable within a module
+        reference = getattr(module, reference_name)
+    except AttributeError:
+        # If path references a module
+        reference = importlib.import_module(path)
     reference_source = inspect.getsource(reference)
+
     return f'<pre><code class="language-{language}">{reference_source}</code></pre>'
 
 

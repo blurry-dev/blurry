@@ -5,14 +5,14 @@ EM_DASH_PATTERN = r"---"
 EN_DASH_PATTERN = r"--"
 
 
-def parse_em_dash(_: InlineParser, m: Match, state: InlineState):
-    pos = m.end()
+def parse_em_dash(_: InlineParser, match: Match, state: InlineState):
+    pos = match.end()
     state.append_token({"type": "text", "raw": "—"})
     return pos
 
 
-def parse_en_dash(_: InlineParser, m: Match, state: InlineState):
-    pos = m.end()
+def parse_en_dash(_: InlineParser, match: Match, state: InlineState):
+    pos = match.end()
     state.append_token({"type": "text", "raw": "–"})
     return pos
 
