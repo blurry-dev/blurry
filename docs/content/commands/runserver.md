@@ -12,8 +12,8 @@ It starts a development server on `http://127.0.0.1:8000` and live-reloads when 
 
 `runserver` builds your site, but unlike with the [`build` command](./build.md):
 
-* It is served on `f"http://{DEV_HOST}:{DEV_PORT}"`, which defaults to <http://127.0.0.1:8000/> and can be changed in the [settings](../configuration/settings.md)
-* The `RUNSERVER` setting is set to `True`, which can be useful in conditionally rendering analytics or ad tags in [templates](../templates/syntax.md)
+- It is served on `f"http://{DEV_HOST}:{DEV_PORT}"`, which defaults to <http://127.0.0.1:8000/> and can be changed in the [settings](../configuration/settings.md)
+- The `RUNSERVER` setting is set to `True`, which can be useful in conditionally rendering analytics or ad tags in [templates](../templates/syntax.md)
 
 Its output looks something like:
 

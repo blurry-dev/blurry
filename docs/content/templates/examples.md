@@ -14,9 +14,9 @@ Thanks to [Jinja's template inheritance](https://jinja.palletsprojects.com/en/3.
 
 Here's a simple base template with blocks for:
 
-* `title`
-* `description`
-* `body`
+- `title`
+- `description`
+- `body`
 
 ```html
 <!doctype html>

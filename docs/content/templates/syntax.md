@@ -21,15 +21,15 @@ For example, for a template for a regular web page, the template should be named
 
 Some common types you might use are:
 
-* [WebSite](https://schema.org/WebSite)
-* [WebPage](https://schema.org/WebPage)
-* [AboutPage](https://schema.org/AboutPage)
-* [ContactPage](https://schema.org/ContactPage)
-* [Blog](https://schema.org/Blog)
-* [BlogPosting](https://schema.org/BlogPosting)
-* [Product](https://schema.org/Product)
-* [ProfilePage](https://schema.org/ProfilePage)
-* [SoftwareApplication](https://schema.org/SoftwareApplication)
+- [WebSite](https://schema.org/WebSite)
+- [WebPage](https://schema.org/WebPage)
+- [AboutPage](https://schema.org/AboutPage)
+- [ContactPage](https://schema.org/ContactPage)
+- [Blog](https://schema.org/Blog)
+- [BlogPosting](https://schema.org/BlogPosting)
+- [Product](https://schema.org/Product)
+- [ProfilePage](https://schema.org/ProfilePage)
+- [SoftwareApplication](https://schema.org/SoftwareApplication)
 
 See [the "More specific Types" section of WebPage](https://schema.org/WebPage#subtypes) here for other WebPage subtypes, and [the "More specific Types" section of CreativeWork](https://schema.org/CreativeWork#subtypes) for other common content types.
 

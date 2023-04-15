@@ -12,10 +12,10 @@ It outputs the site in the folder specified by the `build_directory_name` [setti
 
 To build the site, Blurry:
 
-* Generates responsive image sizes
-* Converts images to AVIF
-* Generates HTML pages (minified)
-* Generates a sitemap
+- Generates responsive image sizes
+- Converts images to AVIF
+- Generates HTML pages (minified)
+- Generates a sitemap
 
 For the given `content` directory contents:
 
