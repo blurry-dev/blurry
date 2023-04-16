@@ -9,8 +9,8 @@
 
 ## tl;dr
 
-Blurry is a schema-first static site generator.
-Markdown front matter used to describe pages maps directly to [Schema.org types](https://schema.org/docs/full.html), so your content is SEO-friendly and [rich results-ready](https://developers.google.com/search/docs/appearance/structured-data/search-gallery) out of the box.
+Blurry is a schema-first, plugin-enabled static site generator.
+Markdown front matter directly to [Schema.org types](https://schema.org/docs/full.html), so your content is SEO-friendly and [rich results-ready](https://developers.google.com/search/docs/appearance/structured-data/search-gallery) out of the box.
 
 Blurry also makes your images responsive, supports embedding Python source code in Markdown files, and more.
 

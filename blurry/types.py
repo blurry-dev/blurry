@@ -25,3 +25,5 @@ class SchemaType(Enum):
 
 
 DirectoryFileData = dict[Path, list[MarkdownFileData]]
+
+TemplateContext = dict[str, Any]

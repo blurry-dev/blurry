@@ -1,4 +1,5 @@
 from mistune.directives import Admonition
+from mistune.directives import FencedDirective
 from mistune.directives.admonition import render_admonition_content
 
 
@@ -32,3 +33,6 @@ def render_admonition(self, text, name, **attrs):
     _cls = attrs.get("class", "")
     class_attribute = f"{name} {_cls}".strip()
     return f'<aside role="note" class="{class_attribute}">{text}</aside>'
+
+
+container = FencedDirective([Container()], ":")

@@ -10,17 +10,19 @@ from pathlib import Path
 from typing import Any
 from typing import Coroutine
 
-import htmlmin
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
 from jinja2 import select_autoescape
 from livereload import Server
+from rich import print
 
 from blurry.async_typer import AsyncTyper
 from blurry.constants import ENV_VAR_PREFIX
 from blurry.images import generate_images_for_srcset
 from blurry.markdown import convert_markdown_file_to_html
 from blurry.open_graph import open_graph_meta_tags
+from blurry.plugins import discovered_html_plugins
+from blurry.plugins import discovered_markdown_plugins
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
 from blurry.settings import get_templates_directory
@@ -28,10 +30,10 @@ from blurry.settings import SETTINGS
 from blurry.sitemap import write_sitemap_file
 from blurry.types import DirectoryFileData
 from blurry.types import MarkdownFileData
+from blurry.types import TemplateContext
 from blurry.utils import content_path_to_url
 from blurry.utils import convert_content_path_to_directory_in_build
 from blurry.utils import format_schema_data
-from blurry.utils import minify_style_tags
 from blurry.utils import sort_directory_file_data_by_date
 from blurry.utils import write_index_file_creating_path
 
@@ -39,6 +41,10 @@ from blurry.utils import write_index_file_creating_path
 def json_converter_with_dates(item: Any) -> None | str:
     if isinstance(item, datetime):
         return item.strftime("%Y-%M-%D")
+
+
+print("Markdown plugins:", [p.name for p in discovered_markdown_plugins])
+print("HTML plugins:", [p.name for p in discovered_html_plugins])
 
 
 CONTENT_DIR = get_content_directory()
@@ -72,7 +78,7 @@ async def write_html_file(
     file_data_by_directory: dict[Path, list[MarkdownFileData]],
     release: bool,
 ):
-    extra_context = {}
+    extra_context: TemplateContext = {}
     # Gather data from other files in this directory if this is an index file
     if file_data.path.name == "index.md":
         sibling_pages = [
@@ -88,7 +94,10 @@ async def write_html_file(
 
     schema_type = file_data.front_matter.get("@type")
     if not schema_type:
-        raise ValueError(f"Required @type value missing in file: {file_data.path}")
+        raise ValueError(
+            f"Required @type value missing in file or TOML front matter invalid: "
+            f"{file_data.path}"
+        )
     template = jinja_env.get_template(f"{schema_type}.html")
 
     # Map custom template name to Schema.org type
@@ -98,8 +107,8 @@ async def write_html_file(
     # Include non-schema variables as top-level context values, removing them from
     # front_matter
     front_matter = file_data.front_matter
-    schema_variables = {}
-    template_context = {}
+    schema_variables: TemplateContext = {}
+    template_context: TemplateContext = {}
     non_schema_variable_prefix = SETTINGS["FRONTMATTER_NON_SCHEMA_VARIABLE_PREFIX"]
     for key, value in front_matter.items():
         if key.startswith(non_schema_variable_prefix):
@@ -113,26 +122,27 @@ async def write_html_file(
     )
     schema_type_tag = f'<script type="application/ld+json">{schema_data}</script>'
 
-    html = template.render(
-        dataclasses=dataclasses,
-        body=file_data.body,
-        schema_data=schema_data,
-        schema_type_tag=schema_type_tag,
-        open_graph_tags=open_graph_meta_tags(file_data.front_matter),
-        build_path=folder_in_build,
-        file_data_by_directory={
+    template_context = {
+        "body": file_data.body,
+        "schema_data": schema_data,
+        "schema_type_tag": schema_type_tag,
+        "open_graph_tags": open_graph_meta_tags(file_data.front_matter),
+        "build_path": folder_in_build,
+        "file_data_by_directory": {
             str(path): data for path, data in file_data_by_directory.items()
         },
-        settings=SETTINGS,
+        "settings": SETTINGS,
         **schema_variables,
         **extra_context,
         **template_context,
-    )
+    }
 
-    if release:
-        # Minify HTML and CSS
-        html = htmlmin.minify(html, remove_empty_space=True)
-        html = minify_style_tags(html)
+    html = template.render(dataclasses=dataclasses, **template_context)
+    for html_plugin in discovered_html_plugins:
+        try:
+            html = html_plugin.load()(html, template_context, release)
+        except Exception as err:
+            print(f"Error initializing plugin {html_plugin}: {err}")
 
     # Write file
     write_index_file_creating_path(folder_in_build, html)
@@ -189,14 +199,14 @@ async def build(release=True):
             )
 
     task_count = len(markdown_tasks) + len(non_markdown_tasks)
-    print(f"Gathered {task_count} tasks (sitemap and {task_count - 1} content files)")
+    print(f"Gathered {task_count} tasks")
 
     await asyncio.gather(*markdown_tasks)
     await asyncio.gather(*non_markdown_tasks)
     end = datetime.now()
 
     difference = end - start
-    print(f"Took {difference.total_seconds()} seconds")
+    print(f"Built site in {difference.total_seconds()} seconds")
 
 
 async def build_development():
