@@ -5,7 +5,10 @@
     http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
 >
-    <url><loc>https://blurry-docs.netlify.app/</loc><lastmod>None</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/</loc><lastmod>2022-04-09</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/plugins/intro/</loc><lastmod>2022-04-15</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/plugins/write-an-html-plugin/</loc><lastmod>2022-04-15</lastmod></url>
+    <url><loc>https://blurry-docs.netlify.app/plugins/write-a-markdown-plugin/</loc><lastmod>2022-04-15</lastmod></url>
     <url><loc>https://blurry-docs.netlify.app/commands/build/</loc><lastmod>2022-04-09</lastmod></url>
     <url><loc>https://blurry-docs.netlify.app/commands/runserver/</loc><lastmod>2022-04-09</lastmod></url>
     <url><loc>https://blurry-docs.netlify.app/templates/examples/</loc><lastmod>2022-04-09</lastmod></url>
@@ -17,5 +20,4 @@
     <url><loc>https://blurry-docs.netlify.app/configuration/environment-variables/</loc><lastmod>2022-04-09</lastmod></url>
     <url><loc>https://blurry-docs.netlify.app/content/markdown/</loc><lastmod>2022-04-09</lastmod></url>
     <url><loc>https://blurry-docs.netlify.app/content/images/</loc><lastmod>2022-04-09</lastmod></url>
-    <url><loc>https://blurry-docs.netlify.app/content/plugins/</loc><lastmod>None</lastmod></url>
 </urlset>
