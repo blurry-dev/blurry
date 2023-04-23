@@ -13,7 +13,7 @@ SITEMAP_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
 >
 {urls}
 </urlset>
-"""
+""".strip()
 URL_TEMPLATE = "    <url><loc>{url}</loc><lastmod>{lastmod}</lastmod></url>"
 
 

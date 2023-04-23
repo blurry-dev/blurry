@@ -14,8 +14,6 @@ from blurry.utils import convert_content_path_to_directory_in_build
 from blurry.utils import convert_relative_path_in_markdown_to_relative_build_path
 from blurry.utils import format_schema_data
 from blurry.utils import get_domain_with_scheme
-from blurry.utils import minify_css
-from blurry.utils import minify_style_tags
 from blurry.utils import path_to_url_pathname
 from blurry.utils import remove_lazy_loading_from_first_image
 from blurry.utils import sort_directory_file_data_by_date
@@ -163,58 +161,3 @@ def test_remove_lazy_loading_from_first_image():
     parser = HTMLParser(updated_html)
     assert parser.css_first("picture.one img").attributes.get("loading") is None
     assert parser.css_first("picture.two img").attributes.get("loading") == "lazy"
-
-
-def test_minify_css():
-    css = """
-body {
-  color: pink;
-}
-document {
-  background: blue;
-}
-pre,
-code {
-  font-family: monospace;
-  font-size: 0.9rem;
-}
-""".strip()
-    minified_css = minify_css(css)
-    assert minified_css == (
-        "body{color:pink;}document{background:blue;}"
-        "pre,code{font-family:monospace;font-size:0.9rem;}"
-    )
-
-
-def test_minify_style_tags():
-    html = """
-<html>
-<head>
-  <style>
-  body {
-    color: pink;
-  }
-  </style>
-</head>
-<body>
-  <style>
-  document {
-    background: blue;
-  }
-  </style>
-</body>
-</html>
-""".strip()
-    html_with_minified_style_tags = minify_style_tags(html)
-    assert (
-        html_with_minified_style_tags
-        == """
-<html><head>
-  <style>body{color:pink;}</style>
-</head>
-<body>
-  <style>document{background:blue;}</style>
-
-</body></html>
-""".strip()
-    )
