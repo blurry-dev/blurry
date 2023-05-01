@@ -1,5 +1,8 @@
 from re import Match
-from mistune import InlineState, InlineParser, Markdown
+
+from mistune import InlineParser
+from mistune import InlineState
+from mistune import Markdown
 
 EM_DASH_PATTERN = r"---"
 EN_DASH_PATTERN = r"--"
