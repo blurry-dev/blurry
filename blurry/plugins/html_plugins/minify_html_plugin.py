@@ -1,5 +1,6 @@
-import htmlmin
 import re
+
+import htmlmin
 from selectolax.parser import HTMLParser
 
 from blurry.types import TemplateContext

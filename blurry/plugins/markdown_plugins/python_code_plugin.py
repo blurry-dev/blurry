@@ -1,8 +1,10 @@
+import importlib
 import inspect
 import re
-import importlib
 
-from mistune import Markdown, BlockState, BlockParser
+from mistune import BlockParser
+from mistune import BlockState
+from mistune import Markdown
 
 PYTHON_CODE_PATTERN = r"[\s]*@(?P<language>[a-z]+)<(?P<path>.+)>"
 

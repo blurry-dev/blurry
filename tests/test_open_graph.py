@@ -1,7 +1,7 @@
 import pytest
 
-from blurry.open_graph import open_graph_type_from_schema_type
 from blurry.open_graph import open_graph_meta_tags
+from blurry.open_graph import open_graph_type_from_schema_type
 from blurry.types import SchemaType
 
 
