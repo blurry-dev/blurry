@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
 from typing import Any
+from typing import TypeGuard
 
 
 @dataclass
@@ -27,3 +28,9 @@ class SchemaType(Enum):
 DirectoryFileData = dict[Path, list[MarkdownFileData]]
 
 TemplateContext = dict[str, Any]
+
+
+def is_str(value: Any) -> TypeGuard[str]:
+    if isinstance(value, str):
+        return True
+    return False

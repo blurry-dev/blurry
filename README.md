@@ -27,7 +27,7 @@ Check out [the contribution docs](https://github.com/blurry-dev/blurry/blob/main
 
 ## Standing on the shoulders of giants
 
-Blurry stitches together high-quality libraries:
+Blurry blends together high-quality libraries:
 
 - [Mistune](https://mistune.readthedocs.io/) to convert Markdown to HTML
 - [Jinja](https://jinja.palletsprojects.com/) for HTML templating

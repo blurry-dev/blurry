@@ -26,23 +26,25 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.10"
-PyLD = "^2.0.3"
-mistune = "^3.0.0rc5"
 Jinja2 = "^3.0.0"
-livereload = "^2.6.3"
-typer = "^0.6.1"
+PyLD = "^2.0.3"
 Wand = "^0.6.6"
-toml = "^0.10.2"
+ffmpeg-python = "^0.2.0"
 htmlmin = "^0.1.12"
-selectolax = "^0.3.6"
+livereload = "^2.6.3"
+mistune = "^3.0.0rc5"
+python = "^3.10"
 rich = "^13.3.3"
+selectolax = "^0.3.6"
+toml = "^0.10.2"
+typer = "^0.6.1"
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.2.2"
-pytest-watch = "^4.2.0"
-pytest-cov = "^2.11.1"
 black = "^22.10.0"
+pyright = "^1.1.311"
+pytest = "^6.2.2"
+pytest-cov = "^2.11.1"
+pytest-watch = "^4.2.0"
 
 [tool.poetry.scripts]
 blurry = 'blurry:main'

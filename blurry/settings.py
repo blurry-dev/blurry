@@ -20,6 +20,7 @@ class Settings(TypedDict):
     IMAGE_WIDTHS: list[int]
     MAXIMUM_IMAGE_WIDTH: int
     THUMBNAIL_WIDTH: int
+    VIDEO_EXTENSIONS: list[str]
     USE_HTTP: bool
     RUNSERVER: bool
     FRONTMATTER_NON_SCHEMA_VARIABLE_PREFIX: str
@@ -37,6 +38,7 @@ SETTINGS: Settings = {
     "IMAGE_WIDTHS": [360, 640, 768, 1024, 1366, 1600, 1920],
     "MAXIMUM_IMAGE_WIDTH": 1920,
     "THUMBNAIL_WIDTH": 250,
+    "VIDEO_EXTENSIONS": ["mp4", "webm", "mkv"],
     "USE_HTTP": False,
     "RUNSERVER": False,
     "FRONTMATTER_NON_SCHEMA_VARIABLE_PREFIX": "~",
