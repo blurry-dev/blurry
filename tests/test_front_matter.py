@@ -5,7 +5,7 @@ MARKDOWN_WITH_BASIC_TOML_FRONT_MATTER = """
 "@type" = "WebPage"
 name = "Introduction"
 abstract = "A Python-powered static site generator with a focus on page speed and SEO."
-datePublished = 2022-04-09
+datePublished = 2023-04-09
 +++
 
 # Blurry: A Python-powered static site generator

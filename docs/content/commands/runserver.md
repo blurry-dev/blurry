@@ -2,7 +2,7 @@
 "@type" = "WebPage"
 name = "Commands: runserver"
 abstract = "Documentation for Blurry's runserver command"
-datePublished = 2022-04-09
+datePublished = 2023-04-09
 +++
 
 # Commands: `runserver`

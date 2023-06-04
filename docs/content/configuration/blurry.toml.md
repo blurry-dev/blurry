@@ -2,7 +2,7 @@
 "@type" = "WebPage"
 name = "Configuration: blurry.toml"
 abstract = "Documentation for Blurry's blurry.toml configuration file"
-datePublished = 2022-04-09
+datePublished = 2023-04-09
 +++
 
 # blurry.toml

@@ -2,7 +2,7 @@
 "@type" = "WebPage"
 name = "Configuration: settings"
 abstract = "Documentation for Blurry's available settings"
-datePublished = 2022-04-09
+datePublished = 2023-04-09
 +++
 
 # Configuration: settings

@@ -2,7 +2,7 @@
 "@type" = "WebPage"
 name = "Templates: syntax"
 abstract = "Documentation for Blurry's template files and Jinja syntax"
-datePublished = 2022-04-09
+datePublished = 2023-04-09
 +++
 
 # Templates: syntax

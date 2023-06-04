@@ -2,7 +2,7 @@
 "@type" = "WebPage"
 name = "Content: images"
 abstract = "Documentation for Blurry's image handling"
-datePublished = 2022-04-09
+datePublished = 2023-04-09
 +++
 
 # Content: images

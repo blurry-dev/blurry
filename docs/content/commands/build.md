@@ -2,7 +2,7 @@
 "@type" = "WebPage"
 name = "Commands: build"
 abstract = "Documentation for Blurry's build command"
-datePublished = 2022-04-09
+datePublished = 2023-04-09
 +++
 
 # Commands: build

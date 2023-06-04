@@ -2,7 +2,7 @@
 "@type" = "WebPage"
 name = "Plugins: write an HTML plugin"
 abstract = "Documentation for Blurry's HTML plugins"
-datePublished = 2022-04-15
+datePublished = 2023-04-15
 +++
 
 # Plugins: write an HTML plugin
