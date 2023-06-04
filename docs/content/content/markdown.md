@@ -2,7 +2,8 @@
 "@type" = "WebPage"
 name = "Content: Markdown"
 abstract = "Documentation for Blurry's Markdown handling"
-datePublished = 2022-04-09
+datePublished = 2023-04-09
+datePublished = 2023-06-04
 +++
 
 # Content: Markdown
@@ -53,8 +54,11 @@ External links are opened in a new tab and have the [`rel="noopener"` attribute]
 
 ### Images
 
-Blurry handles images quite differently from standard Markdown.
 See [Content: images](./images.md) for more information.
+
+### Videos
+
+See [Content: videos](./videos.md) for more information.
 
 ## Plugins
 

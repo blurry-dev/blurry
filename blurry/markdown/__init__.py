@@ -16,15 +16,16 @@ from mistune.util import escape
 from wand.image import Image
 
 from .front_matter import parse_front_matter
+from .renderer_functions.render_video import render_video
 from blurry.images import add_image_width_to_path
 from blurry.images import generate_sizes_string
 from blurry.images import generate_srcset_string
 from blurry.images import get_widths_for_image_width
-from blurry.images import THUMBNAIL_WIDTH
 from blurry.plugins import discovered_markdown_plugins
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
 from blurry.settings import SETTINGS
+from blurry.types import is_str
 from blurry.utils import build_path_to_url
 from blurry.utils import content_path_to_url
 from blurry.utils import convert_relative_path_in_markdown_to_relative_build_path
@@ -33,6 +34,7 @@ from blurry.utils import remove_lazy_loading_from_first_image
 from blurry.utils import resolve_relative_path_in_markdown
 
 CONTENT_DIR = get_content_directory()
+THUMBNAIL_WIDTH = SETTINGS.get("THUMBNAIL_WIDTH")
 
 
 class BlurryRenderer(mistune.HTMLRenderer):
@@ -47,6 +49,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
         # - Adds srcset & sizes attributes
         # - Adds width & height attributes
         src = self.safe_url(url)
+
         attributes: dict[str, str] = {
             "alt": alt,
             "src": src,
@@ -54,16 +57,16 @@ class BlurryRenderer(mistune.HTMLRenderer):
         }
         source_tag = ""
 
-        if title:
-            attributes["title"] = escape(title)
-
         # Make local images responsive
         if src.startswith("."):
             # Convert relative path to URL pathname
             absolute_path = resolve_relative_path_in_markdown(src, self.filepath)
-            img_extension = absolute_path.suffix
+            extension = absolute_path.suffix.removeprefix(".")
             src = path_to_url_pathname(absolute_path)
             attributes["src"] = src
+
+            if extension.lower() in SETTINGS.get("VIDEO_EXTENSIONS"):
+                return render_video(src, absolute_path, extension, title=alt)
 
             # Tailor srcset and sizes to image width
             with Image(filename=str(absolute_path)) as img:
@@ -71,7 +74,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
                 attributes["width"] = image_width
                 attributes["height"] = img.height
 
-            if img_extension in [".webp", ".gif"]:
+            if extension in ["webp", "gif"]:
                 source_tag = ""
             else:
                 image_widths = get_widths_for_image_width(image_width)
@@ -79,7 +82,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
                 attributes["sizes"] = generate_sizes_string(image_widths)
                 attributes["srcset"] = generate_srcset_string(src, image_widths)
                 avif_srcset = generate_srcset_string(
-                    src.replace(img_extension, ".avif"), image_widths
+                    src.replace(extension, "avif"), image_widths
                 )
                 source_tag = '<source srcset="{}" sizes="{}" />'.format(
                     avif_srcset, attributes["sizes"]
@@ -153,9 +156,12 @@ def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict[str, Any]]:
         )
     markdown.renderer.filepath = filepath
     initial_state = BlockState()
-    initial_state.env["__file__"] = str(filepath)
+    initial_state.env["__file__"] = str(filepath)  # type: ignore
     markdown_text, state = parse_front_matter(markdown, state=initial_state)
     html, state = markdown.parse(markdown_text, state=state)
+
+    if not is_str(html):
+        raise Exception(f"Expected html to be a string but got: {type(html)}")
 
     # Post-process HTML
     html = remove_lazy_loading_from_first_image(html)

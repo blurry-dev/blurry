@@ -48,5 +48,5 @@ def parse_front_matter(_: Markdown, state: BlockState) -> tuple[str, BlockState]
         raise Exception(f"Count not find filepath {filepath}")
     file_contents = Path(filepath).read_text()
     markdown_text, front_matter = get_data(file_contents)
-    state.env["front_matter"] = front_matter
+    state.env["front_matter"] = front_matter  # type: ignore
     return markdown_text, state

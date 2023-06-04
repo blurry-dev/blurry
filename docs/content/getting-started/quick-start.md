@@ -3,6 +3,7 @@
 name = "Getting started: quick start"
 abstract = "Documentation for how to get started with Blurry"
 datePublished = 2022-04-09
+dateModified = 2022-05-17
 +++
 
 # Getting started: quick start
@@ -11,6 +12,7 @@ datePublished = 2022-04-09
 
 - [Python](https://www.python.org/) >= 3.10
 - [ImageMagick](https://imagemagick.org/index.php) >= [7.1.0-20](https://github.com/ImageMagick/Website/blob/main/ChangeLog.md#710-20---2022-01-22)
+- [FFmpeg](https://ffmpeg.org/)
 
 ## Installation
 

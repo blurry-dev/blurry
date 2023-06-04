@@ -172,6 +172,11 @@ picture {
     text-align: center;
 }
 
+video {
+    max-width: 100%;
+    height: auto;
+}
+
 pre {
     box-shadow: var(--box-shadow);
     white-space: pre-wrap;
