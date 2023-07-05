@@ -3,7 +3,7 @@
 name = "Content: Markdown"
 abstract = "Documentation for Blurry's Markdown handling"
 datePublished = 2023-04-09
-datePublished = 2023-06-04
+dateModified = 2023-06-04
 +++
 
 # Content: Markdown
