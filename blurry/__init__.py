@@ -202,7 +202,9 @@ async def build(release=True):
     print(f"Gathered {task_count} tasks")
 
     await asyncio.gather(*markdown_tasks)
-    await asyncio.gather(*non_markdown_tasks)
+    for non_markdown_task in non_markdown_tasks:
+        await asyncio.to_thread(lambda: asyncio.run(non_markdown_task))
+
     end = datetime.now()
 
     difference = end - start
