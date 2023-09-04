@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "blurry-cli"
-version = "0.3.0"
+version = "0.4.0"
 description = "A Mistune-based static site generator for Python"
 authors = ["John Franey <franey@duck.com>"]
 license = "MIT"
@@ -18,12 +18,8 @@ classifiers = [
     "Topic :: Text Processing :: Markup :: HTML ",
     "Topic :: Text Processing :: Markup :: Markdown ",
 ]
-include = [
-    "LICENSE",
-]
-packages = [
-    { include = "blurry" }
-]
+include = ["LICENSE"]
+packages = [{ include = "blurry" }]
 
 [tool.poetry.dependencies]
 Jinja2 = "^3.0.0"
@@ -55,12 +51,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.pyright]
 include = ["blurry/**"]
-exclude = [
-    "**/node_modules",
-    "**/__pycache__",
-    "**/.*",
-    "blurry/tests"
-]
+exclude = ["**/node_modules", "**/__pycache__", "**/.*", "blurry/tests"]
 
 [tool.poetry.plugins."blurry.html_plugins"]
 minify_html = 'blurry.plugins.html_plugins.minify_html_plugin:minify_html'
