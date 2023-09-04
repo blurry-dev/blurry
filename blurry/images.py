@@ -1,6 +1,6 @@
 import asyncio
+import concurrent.futures
 from pathlib import Path
-from typing import Coroutine
 from typing import Optional
 
 from wand.image import Image
@@ -46,7 +46,6 @@ async def convert_image_to_avif(image_path: Path, target_path: Optional[Path] = 
 
 async def generate_images_for_srcset(image_path: Path):
     BUILD_DIR = get_build_directory()
-    tasks: list[Coroutine] = []
     if image_path.suffix in [".webp", ".gif"]:
         return
     with Image(filename=str(image_path)) as img:
@@ -55,6 +54,7 @@ async def generate_images_for_srcset(image_path: Path):
         build_path = BUILD_DIR / image_path.resolve().relative_to(CONTENT_DIR)
         await convert_image_to_avif(image_path=image_path, target_path=build_path)
 
+        avif_files_to_create: list[Path] = []
         for target_width in get_widths_for_image_width(width):
             new_filepath = add_image_width_to_path(image_path, target_width)
             relative_filepath = new_filepath.resolve().relative_to(CONTENT_DIR)
@@ -64,8 +64,13 @@ async def generate_images_for_srcset(image_path: Path):
             with img.clone() as resized:
                 resized.transform(resize=str(target_width))
                 resized.save(filename=build_filepath)
-                tasks.append(convert_image_to_avif(build_filepath))
-        await asyncio.gather(*tasks)
+                avif_files_to_create.append(build_filepath)
+
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            executor.map(
+                lambda avif_file: asyncio.run(convert_image_to_avif(avif_file)),
+                avif_files_to_create,
+            )
 
 
 def get_widths_for_image_width(image_width: int) -> list[int]:
