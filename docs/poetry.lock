@@ -2,7 +2,7 @@
 
 [[package]]
 name = "blurry-cli"
-version = "0.2.1"
+version = "0.4.0"
 description = "A Mistune-based static site generator for Python"
 category = "main"
 optional = false
@@ -670,4 +670,4 @@ test = ["pytest (>=7.2.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "e184863125b044a5c5cc14a71d30e402893730c17ff813d3639f48b26ee0c9b2"
+content-hash = "852123d1df36f11bfbfca2bafa5195c70fda3c7fd7ffb939fdf50c7babbfa920"
