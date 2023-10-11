@@ -28,6 +28,7 @@ from blurry.settings import SETTINGS
 from blurry.types import is_str
 from blurry.utils import build_path_to_url
 from blurry.utils import content_path_to_url
+from blurry.utils import content_path_to_url_pathname
 from blurry.utils import convert_relative_path_in_markdown_to_relative_build_path
 from blurry.utils import path_to_url_pathname
 from blurry.utils import remove_lazy_loading_from_first_image
@@ -111,7 +112,9 @@ class BlurryRenderer(mistune.HTMLRenderer):
         }
         if title:
             attrs["title"] = escape(title)
-        if not link_is_relative:
+        if link_is_relative:
+            attrs["rel"] = "noreferrer"
+        else:
             attrs["target"] = "_blank"
             attrs["rel"] = "noopener"
 
@@ -172,6 +175,9 @@ def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict[str, Any]]:
 
     # Add inferred/computed/relative values
     front_matter.update({"url": content_path_to_url(filepath.relative_to(CONTENT_DIR))})
+    front_matter.update(
+        {"pathname": content_path_to_url_pathname(filepath.relative_to(CONTENT_DIR))}
+    )
     if image := front_matter.get("image"):
         image_path = filepath.parent / Path(image)
         front_matter["image"] = content_path_to_url(image_path)
