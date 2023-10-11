@@ -14,7 +14,7 @@ SITEMAP_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
 {urls}
 </urlset>
 """.strip()
-URL_TEMPLATE = "    <url><loc>{url}</loc><lastmod>{lastmod}</lastmod></url>"
+URL_TEMPLATE = "    <url><loc>{url}</loc>{lastmod_tag}</url>"
 
 
 def generate_sitemap_for_file_data_list(file_data_list: list[MarkdownFileData]) -> str:
@@ -23,11 +23,12 @@ def generate_sitemap_for_file_data_list(file_data_list: list[MarkdownFileData]) 
         lastmod = file_data.front_matter.get(
             "dateModified"
         ) or file_data.front_matter.get("datePublished")
+        lastmod_tag = f"<lastmod>{lastmod}</lastmod>" if lastmod else ""
         url = file_data.front_matter.get("url")
-        sitemap_url_data.append({"lastmod": lastmod, "url": url})
+        sitemap_url_data.append({"lastmod_tag": lastmod_tag, "url": url})
 
     sitemap_url_content = "\n".join(
-        URL_TEMPLATE.format(url=data["url"], lastmod=data["lastmod"])
+        URL_TEMPLATE.format(url=data["url"], lastmod_tag=data["lastmod_tag"])
         for data in sitemap_url_data
     )
     return SITEMAP_TEMPLATE.format(urls=sitemap_url_content)
