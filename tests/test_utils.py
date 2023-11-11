@@ -11,7 +11,7 @@ from blurry.settings import SETTINGS
 from blurry.types import MarkdownFileData
 from blurry.utils import content_path_to_url
 from blurry.utils import convert_content_path_to_directory_in_build
-from blurry.utils import convert_relative_path_in_markdown_to_relative_build_path
+from blurry.utils import convert_relative_path_in_markdown_file_to_pathname
 from blurry.utils import format_schema_data
 from blurry.utils import get_domain_with_scheme
 from blurry.utils import path_to_url_pathname
@@ -38,17 +38,27 @@ def test_convert_content_path_to_build_path(path_in, expected_build_path):
 
 
 @pytest.mark.parametrize(
-    "path_in, expected_html_path",
+    "partial_filepath, relative_path, expected_pathname",
     [
-        ("./cool-post.md", "../cool-post/"),
-        ("../home.md", "../../home/"),
-        ("../index.md", "../../"),
-        ("./image.png", "../image.png"),
+        ("tools/index.md", "./csv-file-combiner.md", "/tools/csv-file-combiner/"),
+        ("tools/index.md", "../contact.md", "/contact/"),
+        ("index.md", "./blog/first-post.md", "/blog/first-post/"),
+        ("index.md", "./blog/archive/old-post.md", "/blog/archive/old-post/"),
+        ("projects/secret/index.md", "../../contact.md", "/contact/"),
     ],
 )
-def test_convert_content_path_to_html_path(path_in, expected_html_path):
-    html_path = convert_relative_path_in_markdown_to_relative_build_path(path_in)
-    assert html_path == expected_html_path
+def test_convert_relative_path_in_markdown_file_to_pathname(
+    tmp_path, partial_filepath, relative_path, expected_pathname
+):
+    content_directory = tmp_path / "blog" / "content"
+    filepath = content_directory / partial_filepath
+    parent = filepath.parent
+    parent.mkdir(parents=True, exist_ok=True)
+    filepath.touch(exist_ok=True)
+    output = convert_relative_path_in_markdown_file_to_pathname(
+        content_directory, filepath, relative_path
+    )
+    assert output == expected_pathname
 
 
 def test_sort_directory_file_data_by_date():

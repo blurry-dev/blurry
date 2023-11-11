@@ -30,14 +30,32 @@ def convert_content_path_to_directory_in_build(path: Path) -> Path:
     return BUILD_DIR.joinpath(path)
 
 
-def convert_relative_path_in_markdown_to_relative_build_path(relative_path: str) -> str:
-    if relative_path.startswith("./"):
-        relative_path = relative_path[2:]
+def convert_relative_path_in_markdown_file_to_pathname(
+    content_directory: Path, filepath: Path, relative_path: str
+) -> str:
+    directory = filepath.parent
+    pathname_start = directory.relative_to(content_directory)
+
+    while relative_path.startswith(prefix := "../"):
+        pathname_start = pathname_start.parent
+        relative_path = relative_path[len(prefix) :]
+    while relative_path.startswith(prefix := "./"):
+        relative_path = relative_path[len(prefix) :]
     if relative_path.endswith("index.md"):
         relative_path = relative_path.replace("index.md", "")
     elif relative_path.endswith(".md"):
         relative_path = relative_path.replace(".md", "") + "/"
-    return f"../{relative_path}"
+
+    pathname_prefix = str(pathname_start).removeprefix(".")
+
+    print(pathname_start, pathname_prefix, relative_path)
+
+    pathname = f"{pathname_prefix}/{relative_path}"
+
+    if not pathname.startswith("/"):
+        pathname = f"/{pathname}"
+
+    return pathname
 
 
 def resolve_relative_path_in_markdown(relative_path: str, markdown_file: Path) -> Path:

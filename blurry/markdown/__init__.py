@@ -29,7 +29,7 @@ from blurry.types import is_str
 from blurry.utils import build_path_to_url
 from blurry.utils import content_path_to_url
 from blurry.utils import content_path_to_url_pathname
-from blurry.utils import convert_relative_path_in_markdown_to_relative_build_path
+from blurry.utils import convert_relative_path_in_markdown_file_to_pathname
 from blurry.utils import path_to_url_pathname
 from blurry.utils import remove_lazy_loading_from_first_image
 from blurry.utils import resolve_relative_path_in_markdown
@@ -103,7 +103,9 @@ class BlurryRenderer(mistune.HTMLRenderer):
     def link(self, text, url, title: str | None = None) -> str:
         link_is_relative = url.startswith(".")
         if link_is_relative:
-            url = convert_relative_path_in_markdown_to_relative_build_path(url)
+            url = convert_relative_path_in_markdown_file_to_pathname(
+                content_directory=CONTENT_DIR, filepath=self.filepath, relative_path=url
+            )
 
         if text is None:
             text = url
