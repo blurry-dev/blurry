@@ -48,8 +48,6 @@ def convert_relative_path_in_markdown_file_to_pathname(
 
     pathname_prefix = str(pathname_start).removeprefix(".")
 
-    print(pathname_start, pathname_prefix, relative_path)
-
     pathname = f"{pathname_prefix}/{relative_path}"
 
     if not pathname.startswith("/"):
