@@ -59,18 +59,16 @@ async def generate_images_for_srcset(image_path: Path):
             new_filepath = add_image_width_to_path(image_path, target_width)
             relative_filepath = new_filepath.resolve().relative_to(CONTENT_DIR)
             build_filepath = BUILD_DIR / relative_filepath
-            if build_filepath.exists():
-                continue
             with img.clone() as resized:
+                avif_files_to_create.append(build_filepath)
+                if build_filepath.exists():
+                    continue
                 resized.transform(resize=str(target_width))
                 resized.save(filename=build_filepath)
-                avif_files_to_create.append(build_filepath)
 
-        with concurrent.futures.ProcessPoolExecutor() as executor:
-            executor.map(
-                lambda avif_file: asyncio.run(convert_image_to_avif(avif_file)),
-                avif_files_to_create,
-            )
+        await asyncio.gather(
+            *[convert_image_to_avif(avif_file) for avif_file in avif_files_to_create]
+        )
 
 
 def get_widths_for_image_width(image_width: int) -> list[int]:
