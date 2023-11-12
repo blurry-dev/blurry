@@ -35,16 +35,17 @@ selectolax = "^0.3.6"
 toml = "^0.10.2"
 typer = "^0.6.1"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.scripts]
+blurry = 'blurry:main'
+
+[tool.poetry.group.dev.dependencies]
 black = "^22.10.0"
 nox = "^2023.4.22"
 pyright = "^1.1.311"
 pytest = "^6.2.2"
 pytest-cov = "^2.11.1"
 pytest-watch = "^4.2.0"
-
-[tool.poetry.scripts]
-blurry = 'blurry:main'
+ruff = "^0.1.5"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -53,6 +54,10 @@ build-backend = "poetry.core.masonry.api"
 [tool.pyright]
 include = ["blurry/**"]
 exclude = ["**/node_modules", "**/__pycache__", "**/.*", "blurry/tests"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 88
 
 [tool.poetry.plugins."blurry.html_plugins"]
 minify_html = 'blurry.plugins.html_plugins.minify_html_plugin:minify_html'

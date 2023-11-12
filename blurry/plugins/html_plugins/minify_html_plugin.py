@@ -23,9 +23,7 @@ def minify_style_tags(html: str) -> str:
     for style_tag in style_tags:
         css = style_tag.text()
         minified_css = minify_css(css)
-        minified_style_tag = HTMLParser(
-            f"<style>{minified_css}</style>"
-        ).head.child  # type: ignore
+        minified_style_tag = HTMLParser(f"<style>{minified_css}</style>").head.child  # type: ignore
         style_tag.replace_with(minified_style_tag)  # type: ignore
 
     return parser.html or html
