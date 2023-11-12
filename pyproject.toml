@@ -37,6 +37,7 @@ typer = "^0.6.1"
 
 [tool.poetry.dev-dependencies]
 black = "^22.10.0"
+nox = "^2023.4.22"
 pyright = "^1.1.311"
 pytest = "^6.2.2"
 pytest-cov = "^2.11.1"
