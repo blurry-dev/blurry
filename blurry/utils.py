@@ -39,7 +39,7 @@ def convert_relative_path_in_markdown_file_to_pathname(
     while relative_path.startswith(prefix := "../"):
         pathname_start = pathname_start.parent
         relative_path = relative_path[len(prefix) :]
-    while relative_path.startswith(prefix := "./"):
+    if relative_path.startswith(prefix := "./"):
         relative_path = relative_path[len(prefix) :]
     if relative_path.endswith("index.md"):
         relative_path = relative_path.replace("index.md", "")
