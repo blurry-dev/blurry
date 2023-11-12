@@ -1,6 +1,5 @@
 from pathlib import Path
 from typing import Any
-from typing import Type
 from typing import TypeGuard
 
 import mistune
@@ -129,7 +128,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
 
 def is_blurry_renderer(
     renderer: mistune.HTMLRenderer,
-) -> TypeGuard[Type[BlurryRenderer]]:
+) -> TypeGuard[type[BlurryRenderer]]:
     return isinstance(renderer, BlurryRenderer)
 
 

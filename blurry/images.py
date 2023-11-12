@@ -1,7 +1,5 @@
 import asyncio
-import concurrent.futures
 from pathlib import Path
-from typing import Optional
 
 from wand.image import Image
 
@@ -31,7 +29,7 @@ def add_image_width_to_path(image_path: Path, width: int) -> Path:
     return Path(new_filename)
 
 
-async def convert_image_to_avif(image_path: Path, target_path: Optional[Path] = None):
+async def convert_image_to_avif(image_path: Path, target_path: Path | None = None):
     image_suffix = image_path.suffix
     if image_suffix in [".webp", ".gif"]:
         return
