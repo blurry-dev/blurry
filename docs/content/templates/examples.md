@@ -31,7 +31,7 @@ Here's a simple base template with blocks for:
     <link rel="canonical"
         href="{{ url }}">
     {{ open_graph_tags|safe }}
-    {{ schema_data_tag|safe }}
+    {{ schema_type_tag|safe }}
 </head>
 <body>
     <main>{% block body %}{% endblock %}</main>
