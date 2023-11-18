@@ -1,7 +1,7 @@
 import re
+from collections.abc import MutableMapping
 from pathlib import Path
 from typing import Any
-from typing import MutableMapping
 from typing import TypeGuard
 
 import toml
@@ -28,8 +28,12 @@ def get_data(doc: str) -> tuple[str, MutableMapping]:
     data: MutableMapping[str, Any] = {}
     toml_block_match = TOML_BLOCK_RE.match(doc)
     if toml_block_match:
+        toml_part = toml_block_match.group(1)
         try:
-            data = toml.loads(toml_block_match.group(1))
+            data = toml.loads(toml_part)
+        except Exception as e:
+            print("Parsing TOML failed: ", e)
+        try:
             if not is_mapping_with_str_keys(data):
                 raise TypeError("data is the wrong type")
 
