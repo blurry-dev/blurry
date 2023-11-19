@@ -3,12 +3,12 @@ import dataclasses
 import json
 import os
 import shutil
+from collections.abc import Coroutine
 from datetime import datetime
 from mimetypes import guess_type
 from mimetypes import types_map
 from pathlib import Path
 from typing import Any
-from typing import Coroutine
 
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
