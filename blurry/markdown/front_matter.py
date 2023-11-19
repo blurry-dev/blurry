@@ -1,7 +1,7 @@
 import re
+from collections.abc import MutableMapping
 from pathlib import Path
 from typing import Any
-from typing import MutableMapping
 from typing import TypeGuard
 
 import toml
