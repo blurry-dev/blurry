@@ -7,8 +7,6 @@ from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
 from blurry.settings import SETTINGS
 
-CONTENT_DIR = get_content_directory()
-
 AVIF_COMPRESSION_QUALITY = SETTINGS["AVIF_COMPRESSION_QUALITY"]
 IMAGE_WIDTHS = SETTINGS["IMAGE_WIDTHS"]
 MAXIMUM_IMAGE_WIDTH = int(SETTINGS["MAXIMUM_IMAGE_WIDTH"])
@@ -44,6 +42,7 @@ async def convert_image_to_avif(image_path: Path, target_path: Path | None = Non
 
 async def generate_images_for_srcset(image_path: Path):
     BUILD_DIR = get_build_directory()
+    CONTENT_DIR = get_content_directory()
     if image_path.suffix in [".webp", ".gif"]:
         return
     with Image(filename=str(image_path)) as img:
