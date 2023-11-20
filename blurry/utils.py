@@ -130,4 +130,5 @@ def remove_lazy_loading_from_first_image(html: str) -> str:
     first_img_tag.replace_with(HTMLParser(updated_tag.html).body.child)  # type: ignore
     if not parser.body or not parser.body.html:
         raise Exception("Could not parse HTML")
-    return parser.body.html
+    inner_body = parser.body.html[6:-7]  # strip <body> tags
+    return inner_body
