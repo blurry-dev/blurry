@@ -32,9 +32,6 @@ from blurry.utils import path_to_url_pathname
 from blurry.utils import remove_lazy_loading_from_first_image
 from blurry.utils import resolve_relative_path_in_markdown
 
-CONTENT_DIR = get_content_directory()
-THUMBNAIL_WIDTH = SETTINGS.get("THUMBNAIL_WIDTH")
-
 
 class BlurryRenderer(mistune.HTMLRenderer):
     """Renderer that converts relative content URLs to build URLs."""
@@ -99,6 +96,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
         )
 
     def link(self, text, url, title: str | None = None) -> str:
+        CONTENT_DIR = get_content_directory()
         link_is_relative = url.startswith(".")
         if link_is_relative:
             url = convert_relative_path_in_markdown_file_to_pathname(
@@ -148,6 +146,8 @@ markdown = mistune.Markdown(
 
 
 def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict[str, Any]]:
+    CONTENT_DIR = get_content_directory()
+    THUMBNAIL_WIDTH = SETTINGS.get("THUMBNAIL_WIDTH")
     if not markdown.renderer:
         raise Exception("Blurry markdown renderer not set on Mistune Markdown instance")
 

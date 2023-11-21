@@ -7,9 +7,6 @@ from blurry.settings import get_content_directory
 from blurry.settings import SETTINGS
 from blurry.types import DirectoryFileData
 
-CONTENT_DIR = get_content_directory()
-BUILD_DIR = get_build_directory()
-
 
 def get_domain_with_scheme():
     if SETTINGS.get("RUNSERVER"):
@@ -64,6 +61,7 @@ def resolve_relative_path_in_markdown(relative_path: str, markdown_file: Path) -
 
 
 def path_to_url_pathname(path: Path) -> str:
+    CONTENT_DIR = get_content_directory()
     url_pathname = "/" + str(path.relative_to(CONTENT_DIR))
     return url_pathname
 

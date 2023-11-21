@@ -27,6 +27,7 @@ from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
 from blurry.settings import get_templates_directory
 from blurry.settings import SETTINGS
+from blurry.settings import update_settings
 from blurry.sitemap import write_sitemap_file
 from blurry.types import DirectoryFileData
 from blurry.types import MarkdownFileData
@@ -47,7 +48,6 @@ print("Markdown plugins:", [p.name for p in discovered_markdown_plugins])
 print("HTML plugins:", [p.name for p in discovered_html_plugins])
 
 
-CONTENT_DIR = get_content_directory()
 TEMPLATE_DIR = get_templates_directory()
 
 app = AsyncTyper()
@@ -58,6 +58,7 @@ jinja_env = Environment(
 
 
 async def process_non_markdown_file(filepath: Path):
+    CONTENT_DIR = get_content_directory()
     mimetype, _ = guess_type(filepath, strict=False)
     relative_filepath = filepath.relative_to(CONTENT_DIR)
     build_filepath = get_build_directory() / relative_filepath
@@ -151,13 +152,15 @@ async def write_html_file(
 @app.async_command()
 async def build(release=True):
     """Generates HTML content from Markdown files."""
+    update_settings()
     os.environ.setdefault(f"{ENV_VAR_PREFIX}BUILD_MODE", "prod" if release else "dev")
-    build_dir = get_build_directory()
+    CONTENT_DIR = get_content_directory()
+    BUILD_DIR = get_build_directory()
     start = datetime.now()
     path = Path(CONTENT_DIR)
     file_data_by_directory: DirectoryFileData = {}
-    if not build_dir.exists():
-        build_dir.mkdir(parents=True)
+    if not BUILD_DIR.exists():
+        BUILD_DIR.mkdir(parents=True)
 
     markdown_tasks: list[Coroutine] = []
     non_markdown_tasks: list[Coroutine] = []
@@ -231,6 +234,9 @@ def runserver():
     )
     livereload_server.watch(
         "templates/**/*", lambda: event_loop.create_task(build_development())
+    )
+    livereload_server.watch(
+        "blurry.toml", lambda: event_loop.create_task(build_development())
     )
     livereload_server.serve(
         host=SETTINGS["DEV_HOST"], port=SETTINGS["DEV_PORT"], root=get_build_directory()

@@ -45,21 +45,22 @@ SETTINGS: Settings = {
     "TEMPLATE_SCHEMA_TYPES": {},
 }
 
-try:
-    blurry_config = toml.load(open("blurry.toml"))
-    user_settings = blurry_config["blurry"]
-    for setting, value in user_settings.items():
-        SETTINGS[setting.upper()] = value
-except FileNotFoundError:
-    pass
 
+def update_settings():
+    try:
+        blurry_config = toml.load(open("blurry.toml"))
+        user_settings = blurry_config["blurry"]
+        for setting, value in user_settings.items():
+            SETTINGS[setting.upper()] = value
+    except FileNotFoundError:
+        pass
 
-for key, value in environ.items():
-    if not key.startswith(ENV_VAR_PREFIX):
-        continue
     setting_name_start_index = len(ENV_VAR_PREFIX) - 1
-    settings_key = key[setting_name_start_index:]
-    SETTINGS[settings_key] = value
+    for key, value in environ.items():
+        if not key.startswith(ENV_VAR_PREFIX):
+            continue
+        settings_key = key[setting_name_start_index:]
+        SETTINGS[settings_key] = value
 
 
 def get_build_directory():
