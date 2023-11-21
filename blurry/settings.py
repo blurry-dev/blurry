@@ -55,10 +55,10 @@ def update_settings():
     except FileNotFoundError:
         pass
 
+    setting_name_start_index = len(ENV_VAR_PREFIX) - 1
     for key, value in environ.items():
         if not key.startswith(ENV_VAR_PREFIX):
             continue
-        setting_name_start_index = len(ENV_VAR_PREFIX) - 1
         settings_key = key[setting_name_start_index:]
         SETTINGS[settings_key] = value
 
