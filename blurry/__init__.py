@@ -53,7 +53,16 @@ TEMPLATE_DIR = get_templates_directory()
 app = AsyncTyper()
 
 jinja_env = Environment(
-    loader=FileSystemLoader(TEMPLATE_DIR), autoescape=select_autoescape(["html", "xml"])
+    loader=FileSystemLoader(TEMPLATE_DIR),
+    autoescape=select_autoescape(
+        list(
+            {
+                SETTINGS["MARKDOWN_FILE_JINJA_TEMPLATE_EXTENSION"].lstrip("."),
+                "html",
+                "xml",
+            }
+        )
+    ),
 )
 
 
@@ -99,7 +108,8 @@ async def write_html_file(
             f"Required @type value missing in file or TOML front matter invalid: "
             f"{file_data.path}"
         )
-    template = jinja_env.get_template(f"{schema_type}.html")
+    template_extension = SETTINGS["MARKDOWN_FILE_JINJA_TEMPLATE_EXTENSION"]
+    template = jinja_env.get_template(f"{schema_type}{template_extension}")
 
     # Map custom template name to Schema.org type
     if mapped_schema_type := SETTINGS["TEMPLATE_SCHEMA_TYPES"].get(schema_type):
