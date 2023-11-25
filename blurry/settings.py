@@ -5,12 +5,14 @@ import toml
 
 from blurry.constants import CURR_DIR
 from blurry.constants import ENV_VAR_PREFIX
+from blurry.constants import SETTINGS_FILENAME
 
 
 class Settings(TypedDict):
     AVIF_COMPRESSION_QUALITY: int
     BUILD_DIRECTORY_NAME: str
     CONTENT_DIRECTORY_NAME: str
+    MARKDOWN_FILE_JINJA_TEMPLATE_EXTENSION: str
     TEMPLATES_DIRECTORY_NAME: str
     TEMPLATE_SCHEMA_TYPES: dict[str, str]
 
@@ -36,6 +38,7 @@ SETTINGS: Settings = {
     "DOMAIN": "example.com",
     # Sizes adapted from: https://link.medium.com/UqzDeLKwyeb
     "IMAGE_WIDTHS": [360, 640, 768, 1024, 1366, 1600, 1920],
+    "MARKDOWN_FILE_JINJA_TEMPLATE_EXTENSION": ".html",
     "MAXIMUM_IMAGE_WIDTH": 1920,
     "THUMBNAIL_WIDTH": 250,
     "VIDEO_EXTENSIONS": ["mp4", "webm", "mkv"],
@@ -48,7 +51,7 @@ SETTINGS: Settings = {
 
 def update_settings():
     try:
-        blurry_config = toml.load(open("blurry.toml"))
+        blurry_config = toml.load(open(SETTINGS_FILENAME))
         user_settings = blurry_config["blurry"]
         for setting, value in user_settings.items():
             SETTINGS[setting.upper()] = value
