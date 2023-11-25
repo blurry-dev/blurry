@@ -171,3 +171,5 @@ def test_remove_lazy_loading_from_first_image():
     parser = HTMLParser(updated_html)
     assert parser.css_first("picture.one img").attributes.get("loading") is None
     assert parser.css_first("picture.two img").attributes.get("loading") == "lazy"
+    assert not updated_html.startswith("<body>")
+    assert not updated_html.endswith("</body>")
