@@ -48,22 +48,23 @@ print("Markdown plugins:", [p.name for p in discovered_markdown_plugins])
 print("HTML plugins:", [p.name for p in discovered_html_plugins])
 
 
-TEMPLATE_DIR = get_templates_directory()
-
 app = AsyncTyper()
 
-jinja_env = Environment(
-    loader=FileSystemLoader(TEMPLATE_DIR),
-    autoescape=select_autoescape(
-        list(
-            {
-                SETTINGS["MARKDOWN_FILE_JINJA_TEMPLATE_EXTENSION"].lstrip("."),
-                "html",
-                "xml",
-            }
-        )
-    ),
-)
+
+def get_jinja_env():
+    jinja_env = Environment(
+        loader=FileSystemLoader(get_templates_directory()),
+        autoescape=select_autoescape(
+            list(
+                {
+                    SETTINGS["MARKDOWN_FILE_JINJA_TEMPLATE_EXTENSION"].lstrip("."),
+                    "html",
+                    "xml",
+                }
+            )
+        ),
+    )
+    return jinja_env
 
 
 async def process_non_markdown_file(filepath: Path):
@@ -88,6 +89,7 @@ async def write_html_file(
     file_data_by_directory: dict[Path, list[MarkdownFileData]],
     release: bool,
 ):
+    jinja_env = get_jinja_env()
     extra_context: TemplateContext = {}
     # Gather data from other files in this directory if this is an index file
     if file_data.path.name == "index.md":
@@ -231,6 +233,7 @@ async def build_development():
 @app.command()
 def runserver():
     """Starts HTTP server with live reloading."""
+    update_settings()
     os.environ.setdefault(f"{ENV_VAR_PREFIX}BUILD_MODE", "dev")
 
     SETTINGS["RUNSERVER"] = True
@@ -240,10 +243,12 @@ def runserver():
 
     livereload_server = Server()
     livereload_server.watch(
-        "content/**/*", lambda: event_loop.create_task(build_development())
+        f"{SETTINGS['CONTENT_DIRECTORY_NAME']}/**/*",
+        lambda: event_loop.create_task(build_development()),
     )
     livereload_server.watch(
-        "templates/**/*", lambda: event_loop.create_task(build_development())
+        f"{SETTINGS['TEMPLATES_DIRECTORY_NAME']}/**/*",
+        lambda: event_loop.create_task(build_development()),
     )
     livereload_server.watch(
         "blurry.toml", lambda: event_loop.create_task(build_development())

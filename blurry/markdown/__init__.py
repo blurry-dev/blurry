@@ -38,7 +38,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
 
     filepath: Path
 
-    def image(self, alt, url, title=None) -> str:
+    def image(self, text, url, title=None) -> str:
         # Improve images:
         # - Converts relative paths to web server paths
         # - Convert to <picture> tag with AVIF <source>
@@ -47,7 +47,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
         src = self.safe_url(url)
 
         attributes: dict[str, str] = {
-            "alt": alt,
+            "alt": text,
             "src": src,
             "loading": "lazy",
         }
@@ -62,7 +62,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
             attributes["src"] = src
 
             if extension.lower() in SETTINGS.get("VIDEO_EXTENSIONS"):
-                return render_video(src, absolute_path, extension, title=alt)
+                return render_video(src, absolute_path, extension, title=text)
 
             # Tailor srcset and sizes to image width
             with Image(filename=str(absolute_path)) as img:
