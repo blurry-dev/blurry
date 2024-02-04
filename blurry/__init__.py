@@ -4,6 +4,7 @@ import json
 import os
 import shutil
 from collections.abc import Coroutine
+from copy import deepcopy
 from datetime import datetime
 from mimetypes import guess_type
 from mimetypes import types_map
@@ -142,11 +143,11 @@ async def write_html_file(
         "open_graph_tags": open_graph_meta_tags(file_data.front_matter),
         "build_path": folder_in_build,
         "file_data_by_directory": {
-            str(path): data for path, data in file_data_by_directory.items()
+            str(path): data for path, data in deepcopy(file_data_by_directory).items()
         },
-        "settings": SETTINGS,
+        "settings": deepcopy(SETTINGS),
         **schema_variables,
-        **extra_context,
+        **deepcopy(extra_context),
         **template_context,
     }
 
