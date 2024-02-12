@@ -67,21 +67,25 @@ def test_sort_directory_file_data_by_date():
         blog_path: [
             MarkdownFileData(
                 front_matter=dict(datePublished=date(2021, 1, 1)),
+                top_level_type = "WebPage",
                 body="",
                 path=Path("a-post-1"),
             ),
             MarkdownFileData(
                 front_matter=dict(datePublished=date(2021, 3, 1)),
+                top_level_type = "WebPage",
                 body="",
                 path=Path("b-post-3"),
             ),
             MarkdownFileData(
                 front_matter=dict(dateCreated=date(2021, 2, 1)),
+                top_level_type = "WebPage",
                 body="",
                 path=Path("c-post-2"),
             ),
             MarkdownFileData(
                 front_matter=dict(),
+                top_level_type = "WebPage",
                 body="",
                 path=Path("c-post-4"),
             ),
