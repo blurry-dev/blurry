@@ -16,7 +16,11 @@ Blurry ships with a simple plugin infrastructure that makes it easy to write and
 
 ## How to write a plugin
 
-See [Plugins: write a Markdown plugin](./write-a-markdown-plugin.md) and [Plugins: write an HTML plugin](./write-an-html-plugin.md) for more information.
+See the docs for the type of plugin you'd like to write:
+
+- [Plugins: write a Markdown plugin](./write-a-markdown-plugin.md)
+- [Plugins: write an HTML plugin](./write-an-html-plugin.md)
+- [Plugins: write a Jinja filter plugin](./write-a-jinja-filter-plugin.md)
 
 ## How to register a plugin
 
@@ -37,5 +41,5 @@ It registers a Blurry Markdown plugin in its `pyproject.toml` file using [Poetry
 blur_blurry_name = "blurry_plugin_blur_blurry_name:blur_blurry_name"
 ```
 
-Blurry [dogfoods](https://en.wikipedia.org/wiki/Eating_your_own_dog_food) its own plugin architecture for HTML and Markdown plugins, too.
+Blurry [dogfoods](https://en.wikipedia.org/wiki/Eating_your_own_dog_food) its own plugin architecture, too.
 See which plugins are registered in [Blurry's `pyproject.toml` file](https://github.com/blurry-dev/blurry/blob/main/pyproject.toml).
