@@ -16,6 +16,8 @@ from jinja2 import FileSystemLoader
 from jinja2 import select_autoescape
 from livereload import Server
 from rich import print
+from rich.console import Console
+from rich.table import Table
 
 from blurry.async_typer import AsyncTyper
 from blurry.constants import ENV_VAR_PREFIX
@@ -46,9 +48,19 @@ def json_converter_with_dates(item: Any) -> None | str:
         return item.strftime("%Y-%M-%D")
 
 
-print("Markdown plugins:", [p.name for p in discovered_markdown_plugins])
-print("HTML plugins:", [p.name for p in discovered_html_plugins])
-print("Jinja filter plugins:", [p.name for p in discovered_jinja_filter_plugins])
+console = Console()
+
+plugin_table = Table(show_header=True)
+plugin_table.add_column("Markdown Plugins")
+plugin_table.add_column("HTML Plugins")
+plugin_table.add_column("Jinja Plugins")
+plugin_table.add_row(
+    "\n".join([p.name for p in discovered_markdown_plugins]),
+    "\n".join([p.name for p in discovered_html_plugins]),
+    "\n".join([p.name for p in discovered_jinja_filter_plugins]),
+)
+
+console.print(plugin_table)
 
 
 app = AsyncTyper()
