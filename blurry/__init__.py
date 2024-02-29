@@ -23,6 +23,7 @@ from blurry.images import generate_images_for_srcset
 from blurry.markdown import convert_markdown_file_to_html
 from blurry.open_graph import open_graph_meta_tags
 from blurry.plugins import discovered_html_plugins
+from blurry.plugins import discovered_jinja_filter_plugins
 from blurry.plugins import discovered_markdown_plugins
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
@@ -47,6 +48,7 @@ def json_converter_with_dates(item: Any) -> None | str:
 
 print("Markdown plugins:", [p.name for p in discovered_markdown_plugins])
 print("HTML plugins:", [p.name for p in discovered_html_plugins])
+print("Jinja filter plugins:", [p.name for p in discovered_jinja_filter_plugins])
 
 
 app = AsyncTyper()
@@ -65,6 +67,14 @@ def get_jinja_env():
             )
         ),
     )
+    for filter_plugin in discovered_jinja_filter_plugins:
+        try:
+            jinja_env.filters[filter_plugin.name] = filter_plugin.load()
+        except AttributeError:
+            print(
+                f"Could not load Jinja filter plugin: {filter_plugin.name}. "
+                "Possibly because {filter_plugin.value} is not a valid object reference."
+            )
     return jinja_env
 
 
@@ -89,8 +99,8 @@ async def write_html_file(
     file_data_list: list[MarkdownFileData],
     file_data_by_directory: dict[Path, list[MarkdownFileData]],
     release: bool,
+    jinja_env: Environment,
 ):
-    jinja_env = get_jinja_env()
     extra_context: TemplateContext = {}
     # Gather data from other files in this directory if this is an index file
     if file_data.path.name == "index.md":
@@ -166,6 +176,7 @@ async def write_html_file(
 async def build(release=True):
     """Generates HTML content from Markdown files."""
     update_settings()
+    jinja_env = get_jinja_env()
     os.environ.setdefault(f"{ENV_VAR_PREFIX}BUILD_MODE", "prod" if release else "dev")
     CONTENT_DIR = get_content_directory()
     BUILD_DIR = get_build_directory()
@@ -210,7 +221,11 @@ async def build(release=True):
         for file_data in file_data_list:
             markdown_tasks.append(
                 write_html_file(
-                    file_data, file_data_list, file_data_by_directory, release
+                    file_data,
+                    file_data_list,
+                    file_data_by_directory,
+                    release,
+                    jinja_env,
                 )
             )
 
