@@ -1,5 +1,7 @@
+from copy import deepcopy
 from pathlib import Path
 from typing import Any
+from typing import TypeAlias
 from typing import TypeGuard
 
 import mistune
@@ -21,16 +23,18 @@ from blurry.images import generate_sizes_string
 from blurry.images import generate_srcset_string
 from blurry.images import get_widths_for_image_width
 from blurry.plugins import discovered_markdown_plugins
-from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
 from blurry.settings import SETTINGS
 from blurry.types import is_str
-from blurry.utils import build_path_to_url
 from blurry.utils import content_path_to_url
 from blurry.utils import convert_relative_path_in_markdown_file_to_pathname
 from blurry.utils import path_to_url_pathname
 from blurry.utils import remove_lazy_loading_from_first_image
 from blurry.utils import resolve_relative_path_in_markdown
+
+
+# https://schema.org/ImageObject
+ImageObject: TypeAlias = dict
 
 
 class BlurryRenderer(mistune.HTMLRenderer):
@@ -150,11 +154,9 @@ markdown = mistune.Markdown(
 
 def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict[str, Any]]:
     CONTENT_DIR = get_content_directory()
-    THUMBNAIL_WIDTH = SETTINGS.get("THUMBNAIL_WIDTH")
     if not markdown.renderer:
         raise Exception("Blurry markdown renderer not set on Mistune Markdown instance")
 
-    BUILD_DIR = get_build_directory()
     # Add filepath to the renderer to resolve relative paths
     if not is_blurry_renderer(markdown.renderer):
         raise Exception(
@@ -177,17 +179,34 @@ def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict[str, Any]]:
     front_matter.update(state.env.get("front_matter", {}))
 
     # Add inferred/computed/relative values
+    # https://schema.org/image
+    # https://schema.org/thumbnailUrl
     front_matter.update({"url": content_path_to_url(filepath.relative_to(CONTENT_DIR))})
     if image := front_matter.get("image"):
-        image_path = filepath.parent / Path(image)
-        front_matter["image"] = content_path_to_url(image_path)
-        # Add thumbnail URL, using the full image if the thumbnail doesn't exist
-        thumbnail_image_path = add_image_width_to_path(image_path, THUMBNAIL_WIDTH)
-        thumbnail_image_build_path = BUILD_DIR / thumbnail_image_path.relative_to(
-            CONTENT_DIR
-        )
-        if thumbnail_image_build_path.exists():
-            front_matter["thumbnailUrl"] = build_path_to_url(thumbnail_image_build_path)
-        else:
-            front_matter["thumbnailUrl"] = front_matter["image"]
+        image_copy = deepcopy(image)
+        relative_image_path = get_relative_image_path_from_image_property(image_copy)
+        image_path = resolve_relative_path_in_markdown(relative_image_path, filepath)
+        front_matter["image"] = update_image_with_url(image_copy, image_path)
+        front_matter["thumbnailUrl"] = image_path_to_thumbnailUrl(image_path)
     return html, front_matter
+
+
+def image_path_to_thumbnailUrl(image_path: Path):
+    THUMBNAIL_WIDTH = SETTINGS.get("THUMBNAIL_WIDTH")
+    thumbnail_image_path = add_image_width_to_path(image_path, THUMBNAIL_WIDTH)
+    return content_path_to_url(thumbnail_image_path)
+
+
+def get_relative_image_path_from_image_property(image: str | ImageObject) -> str:
+    if isinstance(image, ImageObject):
+        return image["contentUrl"]
+    return image
+
+
+def update_image_with_url(image: str | ImageObject, image_path: Path):
+    image_url = content_path_to_url(image_path)
+    if isinstance(image, str):
+        return image_url
+    if isinstance(image, ImageObject):
+        image["contentUrl"] = image_url
+        return image
