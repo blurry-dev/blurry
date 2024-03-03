@@ -48,6 +48,15 @@ def json_converter_with_dates(item: Any) -> None | str:
         return item.strftime("%Y-%M-%D")
 
 
+print(
+    """
+.  .             
+|-.| . ..-..-.. .
+`-''-'-''  '  '-|
+              `-'
+""".strip()
+)
+
 console = Console()
 
 plugin_table = Table(show_header=True)
@@ -241,8 +250,8 @@ async def build(release=True):
                 )
             )
 
-    task_count = len(markdown_tasks) + len(non_markdown_tasks)
-    print(f"Gathered {task_count} tasks")
+    content_dir_relative = CONTENT_DIR.relative_to(Path.cwd())
+    print(f"Blurring {len(markdown_tasks)} Markdown files from: {content_dir_relative}")
 
     await asyncio.gather(*markdown_tasks)
     for non_markdown_task in non_markdown_tasks:
