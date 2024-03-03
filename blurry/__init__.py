@@ -16,17 +16,16 @@ from jinja2 import FileSystemLoader
 from jinja2 import select_autoescape
 from livereload import Server
 from rich import print
-from rich.console import Console
-from rich.table import Table
 
 from blurry.async_typer import AsyncTyper
+from blurry.cli import print_blurry_name
+from blurry.cli import print_plugin_table
 from blurry.constants import ENV_VAR_PREFIX
 from blurry.images import generate_images_for_srcset
 from blurry.markdown import convert_markdown_file_to_html
 from blurry.open_graph import open_graph_meta_tags
 from blurry.plugins import discovered_html_plugins
 from blurry.plugins import discovered_jinja_filter_plugins
-from blurry.plugins import discovered_markdown_plugins
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
 from blurry.settings import get_templates_directory
@@ -48,28 +47,8 @@ def json_converter_with_dates(item: Any) -> None | str:
         return item.strftime("%Y-%M-%D")
 
 
-print(
-    """
-.  .             
-|-.| . ..-..-.. .
-`-''-'-''  '  '-|
-              `-'
-""".strip()
-)
-
-console = Console()
-
-plugin_table = Table(show_header=True)
-plugin_table.add_column("Markdown Plugins")
-plugin_table.add_column("HTML Plugins")
-plugin_table.add_column("Jinja Plugins")
-plugin_table.add_row(
-    "\n".join([p.name for p in discovered_markdown_plugins]),
-    "\n".join([p.name for p in discovered_html_plugins]),
-    "\n".join([p.name for p in discovered_jinja_filter_plugins]),
-)
-
-console.print(plugin_table)
+print_blurry_name()
+print_plugin_table()
 
 
 app = AsyncTyper()
