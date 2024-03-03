@@ -3,6 +3,7 @@
 name = "Templates: syntax"
 abstract = "Documentation for Blurry's template files and Jinja syntax"
 datePublished = 2023-04-09
+image = {contentUrl = "../images/schema.org-logo.png"}
 +++
 
 # Templates: syntax
