@@ -74,22 +74,20 @@ class BlurryRenderer(mistune.HTMLRenderer):
             # Tailor srcset and sizes to image width
             with Image(filename=str(absolute_path)) as img:
                 image_width = img.width
+                image_height = img.height
                 attributes["width"] = image_width
-                attributes["height"] = img.height
+                attributes["height"] = image_height
 
-            if extension in ["webp", "gif"]:
-                source_tag = ""
-            else:
-                image_widths = get_widths_for_image_width(image_width)
+            image_widths = get_widths_for_image_width(image_width)
 
-                attributes["sizes"] = generate_sizes_string(image_widths)
-                attributes["srcset"] = generate_srcset_string(src, image_widths)
-                avif_srcset = generate_srcset_string(
-                    src.replace(extension, "avif"), image_widths
-                )
-                source_tag = '<source srcset="{}" sizes="{}" />'.format(
-                    avif_srcset, attributes["sizes"]
-                )
+            attributes["sizes"] = generate_sizes_string(image_widths)
+            attributes["srcset"] = generate_srcset_string(src, image_widths)
+            avif_srcset = generate_srcset_string(
+                src.replace(extension, "avif"), image_widths
+            )
+            source_tag = '<source srcset="{}" sizes="{}" />'.format(
+                avif_srcset, attributes["sizes"]
+            )
 
         attributes_str = " ".join(
             f'{name}="{value}"' for name, value in attributes.items()

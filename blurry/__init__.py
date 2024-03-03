@@ -1,13 +1,12 @@
 import asyncio
 import dataclasses
 import json
+import mimetypes
 import os
 import shutil
 from collections.abc import Coroutine
 from copy import deepcopy
 from datetime import datetime
-from mimetypes import guess_type
-from mimetypes import types_map
 from pathlib import Path
 from typing import Any
 
@@ -80,7 +79,7 @@ def get_jinja_env():
 
 async def process_non_markdown_file(filepath: Path):
     CONTENT_DIR = get_content_directory()
-    mimetype, _ = guess_type(filepath, strict=False)
+    mimetype, _ = mimetypes.guess_type(filepath, strict=False)
     relative_filepath = filepath.relative_to(CONTENT_DIR)
     build_filepath = get_build_directory() / relative_filepath
     output_file = Path(build_filepath)
@@ -90,7 +89,11 @@ async def process_non_markdown_file(filepath: Path):
     shutil.copyfile(filepath, build_filepath)
 
     # Create srcset images
-    if mimetype in [types_map[".jpg"], types_map[".png"]]:
+    if mimetype in [
+        mimetypes.types_map[".jpg"],
+        mimetypes.types_map[".png"],
+        mimetypes.common_types[".webp"],
+    ]:
         await generate_images_for_srcset(filepath)
 
 

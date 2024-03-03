@@ -6,18 +6,21 @@ from wand.image import Image
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
 from blurry.settings import SETTINGS
+from blurry.settings import update_settings
 
-AVIF_COMPRESSION_QUALITY = SETTINGS["AVIF_COMPRESSION_QUALITY"]
-IMAGE_WIDTHS = SETTINGS["IMAGE_WIDTHS"]
-MAXIMUM_IMAGE_WIDTH = int(SETTINGS["MAXIMUM_IMAGE_WIDTH"])
-THUMBNAIL_WIDTH = int(SETTINGS["THUMBNAIL_WIDTH"])
 
-TARGET_IMAGE_WIDTHS = [w for w in IMAGE_WIDTHS if w < MAXIMUM_IMAGE_WIDTH]
-TARGET_IMAGE_WIDTHS.append(MAXIMUM_IMAGE_WIDTH)
-if THUMBNAIL_WIDTH not in TARGET_IMAGE_WIDTHS:
-    TARGET_IMAGE_WIDTHS.append(THUMBNAIL_WIDTH)
+def get_target_image_widths():
+    update_settings()
+    IMAGE_WIDTHS = SETTINGS["IMAGE_WIDTHS"]
+    MAXIMUM_IMAGE_WIDTH = int(SETTINGS["MAXIMUM_IMAGE_WIDTH"])
+    THUMBNAIL_WIDTH = int(SETTINGS["THUMBNAIL_WIDTH"])
 
-TARGET_IMAGE_WIDTHS.sort()
+    TARGET_IMAGE_WIDTHS = [w for w in IMAGE_WIDTHS if w < MAXIMUM_IMAGE_WIDTH]
+    TARGET_IMAGE_WIDTHS.append(MAXIMUM_IMAGE_WIDTH)
+    if THUMBNAIL_WIDTH not in TARGET_IMAGE_WIDTHS:
+        TARGET_IMAGE_WIDTHS.append(THUMBNAIL_WIDTH)
+
+    return sorted(TARGET_IMAGE_WIDTHS)
 
 
 def add_image_width_to_path(image_path: Path, width: int) -> Path:
@@ -28,9 +31,8 @@ def add_image_width_to_path(image_path: Path, width: int) -> Path:
 
 
 async def convert_image_to_avif(image_path: Path, target_path: Path | None = None):
+    AVIF_COMPRESSION_QUALITY = SETTINGS["AVIF_COMPRESSION_QUALITY"]
     image_suffix = image_path.suffix
-    if image_suffix in [".webp", ".gif"]:
-        return
     avif_filepath = str(target_path or image_path).replace(image_suffix, ".avif")
     if Path(avif_filepath).exists():
         return
@@ -43,8 +45,7 @@ async def convert_image_to_avif(image_path: Path, target_path: Path | None = Non
 async def generate_images_for_srcset(image_path: Path):
     BUILD_DIR = get_build_directory()
     CONTENT_DIR = get_content_directory()
-    if image_path.suffix in [".webp", ".gif"]:
-        return
+
     with Image(filename=str(image_path)) as img:
         width = img.width
         # Convert original image
@@ -69,8 +70,9 @@ async def generate_images_for_srcset(image_path: Path):
 
 
 def get_widths_for_image_width(image_width: int) -> list[int]:
-    widths = [tw for tw in TARGET_IMAGE_WIDTHS if tw < image_width]
-    if image_width < TARGET_IMAGE_WIDTHS[-1]:
+    target_image_widths = get_target_image_widths()
+    widths = [tw for tw in target_image_widths if tw < image_width]
+    if image_width < target_image_widths[-1]:
         widths.append(image_width)
     return widths
 
