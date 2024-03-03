@@ -18,13 +18,14 @@ from livereload import Server
 from rich import print
 
 from blurry.async_typer import AsyncTyper
+from blurry.cli import print_blurry_name
+from blurry.cli import print_plugin_table
 from blurry.constants import ENV_VAR_PREFIX
 from blurry.images import generate_images_for_srcset
 from blurry.markdown import convert_markdown_file_to_html
 from blurry.open_graph import open_graph_meta_tags
 from blurry.plugins import discovered_html_plugins
 from blurry.plugins import discovered_jinja_filter_plugins
-from blurry.plugins import discovered_markdown_plugins
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
 from blurry.settings import get_templates_directory
@@ -46,9 +47,8 @@ def json_converter_with_dates(item: Any) -> None | str:
         return item.strftime("%Y-%M-%D")
 
 
-print("Markdown plugins:", [p.name for p in discovered_markdown_plugins])
-print("HTML plugins:", [p.name for p in discovered_html_plugins])
-print("Jinja filter plugins:", [p.name for p in discovered_jinja_filter_plugins])
+print_blurry_name()
+print_plugin_table()
 
 
 app = AsyncTyper()
@@ -229,8 +229,8 @@ async def build(release=True):
                 )
             )
 
-    task_count = len(markdown_tasks) + len(non_markdown_tasks)
-    print(f"Gathered {task_count} tasks")
+    content_dir_relative = CONTENT_DIR.relative_to(Path.cwd())
+    print(f"Blurring {len(markdown_tasks)} Markdown files from: {content_dir_relative}")
 
     await asyncio.gather(*markdown_tasks)
     for non_markdown_task in non_markdown_tasks:
