@@ -51,6 +51,9 @@ class BlurryRenderer(mistune.HTMLRenderer):
             "src": src,
             "loading": "lazy",
         }
+        if title:
+            attributes["title"] = title
+
         source_tag = ""
 
         # Make local images responsive
