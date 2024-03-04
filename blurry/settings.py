@@ -26,6 +26,7 @@ class Settings(TypedDict):
     USE_HTTP: bool
     RUNSERVER: bool
     FRONTMATTER_NON_SCHEMA_VARIABLE_PREFIX: str
+    FRONT_MATTER_RESOLUTION: str
 
 
 SETTINGS: Settings = {
@@ -46,6 +47,7 @@ SETTINGS: Settings = {
     "RUNSERVER": False,
     "FRONTMATTER_NON_SCHEMA_VARIABLE_PREFIX": "~",
     "TEMPLATE_SCHEMA_TYPES": {},
+    "FRONT_MATTER_RESOLUTION": "overwrite", # or "merge"
 }
 
 

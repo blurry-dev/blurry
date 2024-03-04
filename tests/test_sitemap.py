@@ -8,16 +8,19 @@ blog_path = Path("blog")
 directory_file_data = [
     MarkdownFileData(
         front_matter=dict(datePublished=date(2021, 1, 1), url="/blog/a-post-1/"),
+        top_level_type = "WebPage",
         body="",
         path=blog_path / "a-post-1",
     ),
     MarkdownFileData(
         front_matter=dict(datePublished=date(2021, 3, 1), url="/blog/b-post-3/"),
+        top_level_type = "WebPage",
         body="",
         path=blog_path / "b-post-3",
     ),
     MarkdownFileData(
         front_matter=dict(dateCreated=date(2021, 2, 1), url="/blog/c-post-2/"),
+        top_level_type = "WebPage",
         body="",
         path=blog_path / "c-post-2",
     ),
@@ -27,6 +30,7 @@ directory_file_data = [
             dateModified=date(2022, 1, 13),
             url="/blog/c-post-4/",
         ),
+        top_level_type = "WebPage",
         body="",
         path=blog_path / "c-post-4",
     ),
