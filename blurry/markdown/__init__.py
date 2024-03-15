@@ -85,7 +85,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
             avif_srcset = generate_srcset_string(
                 src.replace(extension, "avif"), image_widths
             )
-            source_tag = '<source srcset="{}" sizes="{}" />'.format(
+            source_tag = '<source srcset="{}" sizes="{}" type="image/avif" />'.format(
                 avif_srcset, attributes["sizes"]
             )
 
