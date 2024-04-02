@@ -8,7 +8,6 @@ permissions:
   contents: write
 jobs:
   build-and-deploy:
-    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
@@ -16,11 +15,12 @@ jobs:
 
       - name: Blur site 🌫️
         uses: blurry-dev/actions-blurry-build@v0.7
+        working-directory: ./docs
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v2.0
         with:
-          publish-dir: "./docs/dist"
+          publish-dir: ${{ github.workspace }}docs/dist
           production-branch: main
           deploy-message: "Deploy from GitHub Actions"
           enable-pull-request-comment: false
