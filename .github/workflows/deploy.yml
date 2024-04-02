@@ -8,19 +8,35 @@ permissions:
   contents: write
 jobs:
   build-and-deploy:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
-      - name: Blur site 🌫️
-        uses: blurry-dev/actions-blurry-build@v0.7
-        working-directory: ./docs
+      - name: Install poetry
+        run: pipx install poetry
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "poetry"
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -y ffmpeg imagemagick
+
+      - name: Build 🔧
+        run: |
+          cd docs
+          poetry install --no-root
+          poetry run blurry build
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v2.0
         with:
-          publish-dir: ${{ github.workspace }}docs/dist
+          publish-dir: "./docs/dist"
           production-branch: main
           deploy-message: "Deploy from GitHub Actions"
           enable-pull-request-comment: false
