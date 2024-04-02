@@ -236,8 +236,10 @@ async def build(release=True):
     print(f"Blurring {len(markdown_tasks)} Markdown files from: {content_dir_relative}")
 
     await asyncio.gather(*markdown_tasks)
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
     for non_markdown_task in non_markdown_tasks:
-        await asyncio.to_thread(lambda: asyncio.run(non_markdown_task))
+        await asyncio.to_thread(lambda: loop.run_until_complete(non_markdown_task))
 
     end = datetime.now()
 
