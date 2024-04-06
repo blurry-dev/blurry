@@ -11,6 +11,11 @@
     <script type="application/ld+json">{{ schema_data|safe }}</script>
     {{ open_graph_tags|safe }}
     <style>{% include "assets/styles-above-the-fold.css" %}</style>
+    {% if not settings.RUNSERVER %}
+    <!-- Fathom - beautiful, simple website analytics -->
+    <script src="https://cdn.usefathom.com/script.js" data-site="OEOKWHQN" defer></script>
+    <!-- / Fathom -->
+    {% endif %}
 </head>
 
 <body>
