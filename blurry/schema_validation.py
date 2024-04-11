@@ -23,6 +23,9 @@ def validate_front_matter_as_schema(
 
     schema_type = front_matter["@type"]
 
+    if mapped_schema_type := SETTINGS["TEMPLATE_SCHEMA_TYPES"].get(schema_type):
+        schema_type = mapped_schema_type
+
     # Import pydantic_schemaorg model
     try:
         pydantic_schemaorg_model_module = importlib.import_module(
