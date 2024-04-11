@@ -15,6 +15,7 @@ from jinja2 import FileSystemLoader
 from jinja2 import select_autoescape
 from livereload import Server
 from rich import print
+from rich.console import Console
 
 from blurry.async_typer import AsyncTyper
 from blurry.cli import print_blurry_name
@@ -25,6 +26,7 @@ from blurry.markdown import convert_markdown_file_to_html
 from blurry.open_graph import open_graph_meta_tags
 from blurry.plugins import discovered_html_plugins
 from blurry.plugins import discovered_jinja_filter_plugins
+from blurry.schema_validation import validate_front_matter_as_schema
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
 from blurry.settings import get_templates_directory
@@ -45,6 +47,8 @@ def json_converter_with_dates(item: Any) -> None | str:
     if isinstance(item, datetime):
         return item.strftime("%Y-%M-%D")
 
+
+warning_console = Console(stderr=True, style="bold yellow")
 
 print_blurry_name()
 print_plugin_table()
@@ -147,6 +151,9 @@ async def write_html_file(
         format_schema_data(schema_variables),
         default=json_converter_with_dates,
     )
+
+    validate_front_matter_as_schema(file_data.path, front_matter, warning_console)
+
     schema_type_tag = f'<script type="application/ld+json">{schema_data}</script>'
 
     template_context = {
