@@ -1,4 +1,5 @@
 import importlib
+from collections.abc import MutableMapping
 from pathlib import Path
 
 from pydantic.v1 import ValidationError
@@ -12,7 +13,9 @@ class Config:
     extra = "forbid"
 
 
-def validate_front_matter_as_schema(path: Path, front_matter: dict, console: Console):
+def validate_front_matter_as_schema(
+    path: Path, front_matter: MutableMapping, console: Console
+):
     """
     Validates schema data using pydantic_schemaorg, disallowing extra fields
     """
