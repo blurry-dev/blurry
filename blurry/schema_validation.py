@@ -29,7 +29,7 @@ def validate_front_matter_as_schema(
     # Import pydantic_schemaorg model
     try:
         pydantic_schemaorg_model_module = importlib.import_module(
-            f"pydantic_schemaorg.{schema_type}"
+            f"pydantic2_schemaorg.{schema_type}"
         )
     except ModuleNotFoundError:
         console.print(

@@ -35,7 +35,7 @@ selectolax = "^0.3.6"
 toml = "^0.10.2"
 typer = "^0.6.1"
 htmlmin2 = "^0.1.13"
-pydantic-schemaorg = { git = "https://github.com/mhoangvslev/pydantic_schemaorg.git#d187bd1587504a33f46fbbb70e17c8859c8aba2a" }
+pydantic2-schemaorg = "^0.1.1"
 
 [tool.poetry.scripts]
 blurry = 'blurry:main'
