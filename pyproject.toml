@@ -36,6 +36,7 @@ toml = "^0.10.2"
 typer = "^0.6.1"
 htmlmin2 = "^0.1.13"
 pydantic2-schemaorg = "^0.1.1"
+dpath = "^2.1.6"
 
 [tool.poetry.scripts]
 blurry = 'blurry:main'

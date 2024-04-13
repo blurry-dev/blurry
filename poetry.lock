@@ -227,6 +227,17 @@ files = [
 ]
 
 [[package]]
+name = "dpath"
+version = "2.1.6"
+description = "Filesystem-like pathing and searching for dictionaries"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "dpath-2.1.6-py3-none-any.whl", hash = "sha256:31407395b177ab63ef72e2f6ae268c15e938f2990a8ecf6510f5686c02b6db73"},
+    {file = "dpath-2.1.6.tar.gz", hash = "sha256:f1e07c72e8605c6a9e80b64bc8f42714de08a789c7de417e49c3f87a19692e47"},
+]
+
+[[package]]
 name = "ffmpeg-python"
 version = "0.2.0"
 description = "Python bindings for FFmpeg - with complex filtering support"
@@ -1292,4 +1303,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "1cdcef1434b63b245be0d8e77b2d5ea013a1d6befe95f4fd03c7a6df351d150b"
+content-hash = "97f3dca65d2ff7f20db8edd47b2346631f1eb307eab78f9002eb08909bbba90e"

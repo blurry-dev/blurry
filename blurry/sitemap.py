@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import dpath
+
 from blurry.settings import get_build_directory
 from blurry.types import MarkdownFileData
 
@@ -20,10 +22,12 @@ URL_TEMPLATE = "    <url><loc>{url}</loc>{lastmod_tag}</url>"
 def generate_sitemap_for_file_data_list(file_data_list: list[MarkdownFileData]) -> str:
     sitemap_url_data = []
     for file_data in file_data_list:
-        lastmod = file_data.front_matter.get(
-            "dateModified"
-        ) or file_data.front_matter.get("datePublished")
-        lastmod_tag = f"<lastmod>{lastmod}</lastmod>" if lastmod else ""
+        lastmod = (
+            dpath.values(file_data.front_matter, "**/dateModified")
+            or dpath.values(file_data.front_matter, "**/datePublished")
+            or dpath.values(file_data.front_matter, "**/dateCreated")
+        )
+        lastmod_tag = f"<lastmod>{lastmod[0]}</lastmod>" if len(lastmod) else ""
         url = file_data.front_matter.get("url")
         sitemap_url_data.append({"lastmod_tag": lastmod_tag, "url": url})
 
