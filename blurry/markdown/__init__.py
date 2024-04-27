@@ -69,14 +69,21 @@ class BlurryRenderer(mistune.HTMLRenderer):
             attributes["src"] = src
 
             if extension.lower() in SETTINGS.get("VIDEO_EXTENSIONS"):
-                return render_video(src, absolute_path, extension, title=text)
+                return render_video(src, absolute_path, extension, title=title)
 
             # Tailor srcset and sizes to image width
             with Image(filename=str(absolute_path)) as img:
                 image_width = img.width
                 image_height = img.height
+                image_is_animated = img.animation
                 attributes["width"] = image_width
                 attributes["height"] = image_height
+
+            if image_is_animated:
+                attributes_str = " ".join(
+                    f'{name}="{value}"' for name, value in attributes.items()
+                )
+                return f"<img {attributes_str} >"
 
             image_widths = get_widths_for_image_width(image_width)
 
