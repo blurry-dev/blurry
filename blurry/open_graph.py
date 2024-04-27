@@ -4,7 +4,7 @@ from typing import Literal
 from blurry.types import SchemaType
 
 
-META_TAG_TEMPLATE = '<meta property="og:{property}" content="{content}" />'
+META_TAG_TEMPLATE = '<meta property="og:{property}" content="{content}">'
 
 OpenGraphType = Literal["article", "book", "profile", "website"]
 
