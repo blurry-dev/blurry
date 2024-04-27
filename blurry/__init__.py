@@ -96,7 +96,6 @@ async def process_non_markdown_file(filepath: Path):
     if mimetype in [
         mimetypes.types_map[".jpg"],
         mimetypes.types_map[".png"],
-        mimetypes.common_types[".webp"],
     ]:
         await generate_images_for_srcset(filepath)
 

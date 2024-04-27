@@ -75,7 +75,9 @@ class BlurryRenderer(mistune.HTMLRenderer):
             with Image(filename=str(absolute_path)) as img:
                 image_width = img.width
                 image_height = img.height
-                image_is_animated = img.animation
+                # The .animated property doesn't always detect animated .webp images
+                # and .webp is optimized enough not to benefit much from .avif
+                image_is_animated = img.animation or extension.lower() == "webp"
                 attributes["width"] = image_width
                 attributes["height"] = image_height
 
