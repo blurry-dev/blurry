@@ -25,6 +25,7 @@ from blurry.images import generate_images_for_srcset
 from blurry.markdown import convert_markdown_file_to_html
 from blurry.open_graph import open_graph_meta_tags
 from blurry.plugins import discovered_html_plugins
+from blurry.plugins import discovered_jinja_extensions
 from blurry.plugins import discovered_jinja_filter_plugins
 from blurry.schema_validation import validate_front_matter_as_schema
 from blurry.settings import get_build_directory
@@ -69,6 +70,9 @@ def get_jinja_env():
                 }
             )
         ),
+        extensions=[
+            jinja_extension.load() for jinja_extension in discovered_jinja_extensions
+        ],
     )
     for filter_plugin in discovered_jinja_filter_plugins:
         try:

@@ -37,6 +37,7 @@ typer = "^0.6.1"
 htmlmin2 = "^0.1.13"
 pydantic2-schemaorg = "^0.1.1"
 dpath = "^2.1.6"
+jinja2-simple-tags = "^0.6.1"
 
 [tool.poetry.scripts]
 blurry = 'blurry:main'
@@ -70,3 +71,6 @@ python_code = 'blurry.plugins.markdown_plugins.python_code_plugin:python_code'
 python_code_in_list = 'blurry.plugins.markdown_plugins.python_code_plugin:python_code_in_list'
 punctuation = 'blurry.plugins.markdown_plugins.punctuation_plugin:punctuation'
 container = 'blurry.plugins.markdown_plugins.container_plugin:container'
+
+[tool.poetry.plugins."blurry.jinja_extensions"]
+blurry_image = "blurry.plugins.jinja_plugins.blurry_image_extension:BlurryImage"
