@@ -19,7 +19,12 @@ class BlurryImage(StandaloneTag):
     tags = {"blurry_image"}
 
     def render(self, *args, **kwargs):
-        (image_url, width) = args
+        if len(args) == 2:
+            (image_url, width) = args
+        else:
+            image_url = args[0]
+            width = None
+
         image_content_path: str = "." + urlparse(image_url).path
         image_path = get_build_directory() / image_content_path
 
