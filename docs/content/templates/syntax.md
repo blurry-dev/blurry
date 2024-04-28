@@ -3,6 +3,7 @@
 name = "Templates: syntax"
 abstract = "Documentation for Blurry's template files and Jinja syntax"
 datePublished = 2023-04-09
+dateModified = 2023-04-28
 image = {contentUrl = "../images/schema.org-logo.png"}
 +++
 
@@ -41,4 +42,31 @@ If your templates require more granularity than the Schema.org types, you can wr
 ```toml
 [blurry.template_schema_types]
 ContextWebPage = 'WebPage'
+```
+
+## Blurry-included plugins
+
+Blurry ships with some plugins to simplify writing templates.
+
+### `{% blurry_image %}`
+
+This extension adds the `{% blurry_image %}` tag to simplify including images reference in [Markdown front matter](../content/markdown.md) in your templates.
+It does a few things:
+
+- Finds the image in your build directory
+- Extracts the images width & height
+- Builds an `<img>` tag with width, height, and the othwer attributes specified in the tag
+
+#### Examples
+
+Basic example:
+
+```jinja
+{% blurry_image page.thumbnailUrl, alt="Image description" %}
+```
+
+Example with explicit width (image with this width must be present in the build folder):
+
+```jinja
+{% blurry_image page.thumbnailUrl, 250, id="image-id", class="responsive-image", loading="lazy" %}
 ```
