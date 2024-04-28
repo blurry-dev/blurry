@@ -62,11 +62,11 @@ It does a few things:
 Basic example:
 
 ```jinja
-{% blurry_image page.thumbnailUrl, alt="Image description" %}
+{% blurry_image page.image, alt=page.name + " image" %}
 ```
 
 Example with explicit width (image with this width must be present in the build folder):
 
 ```jinja
-{% blurry_image page.thumbnailUrl, 250, id="image-id", class="responsive-image", loading="lazy" %}
+{% blurry_image page.image, 250, alt=page.name + " image", id="image-id", class="responsive-image", loading="lazy" %}
 ```
