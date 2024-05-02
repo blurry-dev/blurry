@@ -3,7 +3,6 @@ from pathlib import Path
 from unittest import mock
 
 import pytest
-from selectolax.parser import HTMLParser
 
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
@@ -15,7 +14,6 @@ from blurry.utils import convert_relative_path_in_markdown_file_to_pathname
 from blurry.utils import format_schema_data
 from blurry.utils import get_domain_with_scheme
 from blurry.utils import path_to_url_pathname
-from blurry.utils import remove_lazy_loading_from_first_image
 from blurry.utils import sort_directory_file_data_by_date
 
 
@@ -152,22 +150,3 @@ def test_format_schema_data():
         "@context": "https://schema.org",
         "@type": "BlogPosting",
     }
-
-
-def test_remove_lazy_loading_from_first_image():
-    html = """
-    <body>
-    <picture class="one">
-        <source src="one.avif">
-        <img src="one.png" loading="lazy">
-    </picture>
-    <picture class="two">
-        <source src="two.avif">
-        <img src="two.png" loading="lazy">
-    </picture>
-    </body>
-    """
-    updated_html = remove_lazy_loading_from_first_image(html)
-    parser = HTMLParser(updated_html)
-    assert parser.css_first("picture.one img").attributes.get("loading") is None
-    assert parser.css_first("picture.two img").attributes.get("loading") == "lazy"

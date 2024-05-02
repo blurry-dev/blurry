@@ -42,9 +42,9 @@ For more information, see [the Lighthouse documentation on image aspect ratios](
 
 ### Lazy loading
 
-Blurry adds lazy loading (`loading="lazy"`) to all images in body content *except the first image*.
+Blurry adds lazy loading (`loading="lazy"`) to all images in body content.
 
-This provides a page speed boost by waiting to load most images on a page until they're needed while preserving a main image that may appear above the fold.
+This provides a page speed boost by waiting to load most images on a page until they're needed.
 
 ### Figure caption
 

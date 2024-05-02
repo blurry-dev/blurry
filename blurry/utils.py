@@ -1,7 +1,5 @@
 from pathlib import Path
 
-from selectolax.parser import HTMLParser
-
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
 from blurry.settings import SETTINGS
@@ -116,19 +114,3 @@ def format_schema_data(schema_data: dict) -> dict:
     formatted_schema_data = {"@context": "https://schema.org"}
     formatted_schema_data.update(schema_data)
     return formatted_schema_data
-
-
-def remove_lazy_loading_from_first_image(html: str) -> str:
-    parser = HTMLParser(html, use_meta_tags=False)
-    if not parser.body or not parser.body.html:
-        raise Exception("Could not parse HTML")
-    first_img_tag = parser.css_first("img")
-    if not first_img_tag:
-        return html
-    updated_tag = first_img_tag
-    try:
-        del updated_tag.attrs["loading"]  # type: ignore
-        first_img_tag.replace_with(HTMLParser(updated_tag.html).body.child)  # type: ignore
-    except KeyError:
-        pass
-    return parser.body.html
