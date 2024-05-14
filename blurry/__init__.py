@@ -11,8 +11,6 @@ from pathlib import Path
 from typing import Any
 
 from jinja2 import Environment
-from jinja2 import FileSystemLoader
-from jinja2 import select_autoescape
 from livereload import Server
 from rich import print
 from rich.console import Console
@@ -25,15 +23,13 @@ from blurry.images import generate_images_for_srcset
 from blurry.markdown import convert_markdown_file_to_html
 from blurry.open_graph import open_graph_meta_tags
 from blurry.plugins import discovered_html_plugins
-from blurry.plugins import discovered_jinja_extensions
-from blurry.plugins import discovered_jinja_filter_plugins
 from blurry.schema_validation import validate_front_matter_as_schema
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
-from blurry.settings import get_templates_directory
 from blurry.settings import SETTINGS
 from blurry.settings import update_settings
 from blurry.sitemap import write_sitemap_file
+from blurry.templates import get_jinja_env
 from blurry.types import DirectoryFileData
 from blurry.types import MarkdownFileData
 from blurry.types import TemplateContext
@@ -56,33 +52,6 @@ print_plugin_table()
 
 
 app = AsyncTyper()
-
-
-def get_jinja_env():
-    jinja_env = Environment(
-        loader=FileSystemLoader(get_templates_directory()),
-        autoescape=select_autoescape(
-            list(
-                {
-                    SETTINGS["MARKDOWN_FILE_JINJA_TEMPLATE_EXTENSION"].lstrip("."),
-                    "html",
-                    "xml",
-                }
-            )
-        ),
-        extensions=[
-            jinja_extension.load() for jinja_extension in discovered_jinja_extensions
-        ],
-    )
-    for filter_plugin in discovered_jinja_filter_plugins:
-        try:
-            jinja_env.filters[filter_plugin.name] = filter_plugin.load()
-        except AttributeError:
-            print(
-                f"Could not load Jinja filter plugin: {filter_plugin.name}. "
-                "Possibly because {filter_plugin.value} is not a valid object reference."
-            )
-    return jinja_env
 
 
 async def process_non_markdown_file(filepath: Path):
