@@ -60,12 +60,6 @@ class BlurryImage(StandaloneTag):
         ]:
             image_path = Path(str(image_path).replace(image_path.suffix, ".avif"))
 
-        if not image_path.exists():
-            warning_console.print(
-                f"blurry_image: Could not find {image_path}. Skipping."
-            )
-            return ""
-
         attributes["src"] = build_path_to_url(image_path)
 
         if "alt" not in attributes:
