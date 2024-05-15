@@ -23,7 +23,6 @@ The template context variables are:
 | ------------------------ | ---------------------------------------------------------------------------------------------- |
 | `body`                   | an HTML string converted from Markdown                                                         |
 | `url`                    | the absolute URL for the given page                                                            |
-| `thumbnailUrl`           | a path to the thumbnail version of the `image` front matter value                              |
 | `schema_type_tag`        | a `<script type="application/ld+json">` tag containing Schema.org markup                       |
 | `open_graph_tags`        | [Open Graph](https://ogp.me/) meta tags, like `<meta property="og:title" content="..." />`     |
 | `**schema_variables`     | front matter from the Markdown file, like `datePublished`                                      |

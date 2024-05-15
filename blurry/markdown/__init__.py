@@ -183,14 +183,12 @@ def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict[str, Any]]:
 
     # Add inferred/computed/relative values
     # https://schema.org/image
-    # https://schema.org/thumbnailUrl
     front_matter.update({"url": content_path_to_url(filepath.relative_to(CONTENT_DIR))})
     if image := front_matter.get("image"):
         image_copy = deepcopy(image)
         relative_image_path = get_relative_image_path_from_image_property(image_copy)
         image_path = resolve_relative_path_in_markdown(relative_image_path, filepath)
         front_matter["image"] = update_image_with_url(image_copy, image_path)
-        front_matter["thumbnailUrl"] = image_path_to_thumbnailUrl(image_path)
     return html, front_matter
 
 
