@@ -9,6 +9,7 @@ from wand.image import Image
 
 from blurry.images import add_image_width_to_path
 from blurry.settings import get_build_directory
+from blurry.settings import get_content_directory
 from blurry.utils import build_path_to_url
 
 warning_console = Console(stderr=True, style="bold yellow")
@@ -25,16 +26,17 @@ class BlurryImage(StandaloneTag):
             image_url = args[0]
             width = None
 
-        image_content_path: str = "." + urlparse(image_url).path
-        image_path = get_build_directory() / image_content_path
+        image_relative_pathname = "." + urlparse(image_url).path
+        image_content_path = get_content_directory() / image_relative_pathname
+        image_path = get_build_directory() / image_relative_pathname
 
         try:
-            with Image(filename=str(image_path)) as image:
+            with Image(filename=str(image_content_path)) as image:
                 image_width = image.width
                 image_height = image.height
                 image_mimetype = image.mimetype
         except BlobError:
-            warning_console.print(f"Could not find image: {image_path}")
+            warning_console.print(f"Could not find image: {image_content_path}")
             return ""
 
         attributes = {
