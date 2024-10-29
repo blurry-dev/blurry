@@ -13,11 +13,12 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content :: Content Management System",
-    "Topic :: Internet :: WWW/HTTP :: Site Management ",
+    "Topic :: Internet :: WWW/HTTP :: Site Management",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Text Processing :: Markup :: HTML ",
-    "Topic :: Text Processing :: Markup :: Markdown ",
+    "Topic :: Text Processing :: Markup :: Markdown",
 ]
 include = ["LICENSE"]
 packages = [{ include = "blurry" }]
@@ -35,7 +36,7 @@ selectolax = "^0.3.6"
 toml = "^0.10.2"
 typer = "^0.6.1"
 htmlmin2 = "^0.1.13"
-pydantic2-schemaorg = "^0.1.1"
+pydantic2-schemaorg = "^0.2.0"
 dpath = "^2.1.6"
 jinja2-simple-tags = "^0.6.1"
 
