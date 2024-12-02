@@ -80,7 +80,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
                 attributes["width"] = image_width
                 attributes["height"] = image_height
 
-            if image_is_animated:
+            if image_is_animated or extension.lower() == "svg":
                 attributes_str = " ".join(
                     f'{name}="{value}"' for name, value in attributes.items()
                 )
