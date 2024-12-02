@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "blurry-cli"
-version = "0.9.0"
+version = "0.9.1"
 description = "A Mistune-based static site generator for Python"
 authors = ["John Franey <franey@duck.com>"]
 license = "MIT"
