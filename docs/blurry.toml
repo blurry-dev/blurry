@@ -1,5 +1,6 @@
 [blurry]
 domain = 'blurry-docs.netlify.app'
+markdown_file_jinja_template_extension = '.html.jinja'
 maximum_image_width = 1200
 thumbnail_width = 285
 
