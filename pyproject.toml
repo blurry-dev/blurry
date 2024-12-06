@@ -39,6 +39,7 @@ htmlmin2 = "^0.1.13"
 pydantic2-schemaorg = "^0.2.0"
 dpath = "^2.1.6"
 jinja2-simple-tags = "^0.6.1"
+jinjax = "^0.48"
 
 [tool.poetry.scripts]
 blurry = 'blurry:main'

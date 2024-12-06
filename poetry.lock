@@ -392,6 +392,24 @@ files = [
 Jinja2 = ">=2.10"
 
 [[package]]
+name = "jinjax"
+version = "0.48"
+description = "Replace your HTML templates with Python server-Side components"
+optional = false
+python-versions = "<4.0,>=3.10"
+files = [
+    {file = "jinjax-0.48-py3-none-any.whl", hash = "sha256:c556e7e73d9d9a9b7dd6f590bdca37bf9c514ca1af83ee94059dc727a66bd69b"},
+    {file = "jinjax-0.48.tar.gz", hash = "sha256:689847fb095846ebd7ce1c254ae407698689a4b33300c461ff337f79194b69bc"},
+]
+
+[package.dependencies]
+jinja2 = ">=3.0"
+markupsafe = ">=2.0"
+
+[package.extras]
+whitenoise = ["whitenoise (>=5.3)"]
+
+[[package]]
 name = "livereload"
 version = "2.7.0"
 description = "Python LiveReload is an awesome tool for web developers"
@@ -1350,4 +1368,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "ba718ccc8110564ff042411c408e095365812625d6fc148fc2850f41bcb83971"
+content-hash = "35743e9cec128564a39c0aa64f3240b309aaa63ff2d58256b9a0330c15e7882e"
