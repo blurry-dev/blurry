@@ -47,9 +47,6 @@ def json_converter_with_dates(item: Any) -> None | str:
 
 warning_console = Console(stderr=True, style="bold yellow")
 
-print_blurry_name()
-print_plugin_table()
-
 
 app = AsyncTyper()
 
@@ -157,6 +154,10 @@ async def write_html_file(
 @app.async_command()
 async def build(release=True):
     """Generates HTML content from Markdown files."""
+
+    print_blurry_name()
+    print_plugin_table()
+
     update_settings()
     jinja_env = get_jinja_env()
     os.environ.setdefault(f"{ENV_VAR_PREFIX}BUILD_MODE", "prod" if release else "dev")
