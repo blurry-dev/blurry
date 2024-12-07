@@ -10,7 +10,9 @@
     <link rel="shortcut icon" href="/favicon.png">
     <script type="application/ld+json">{{ schema_data|safe }}</script>
     {{ open_graph_tags|safe }}
-    <style>{% include "assets/styles-above-the-fold.css" %}</style>
+    <style>
+        {% include "assets/styles-above-the-fold.css" %}
+    </style>
     {% if not settings.RUNSERVER %}
     <!-- Fathom - beautiful, simple website analytics -->
     <script src="https://cdn.usefathom.com/script.js" data-site="OEOKWHQN" defer></script>
@@ -47,6 +49,7 @@
                 <li>Templates
                     <ul>
                         <li><a href="/templates/syntax/" rel="noreferrer">Syntax</a></li>
+                        <li><a href="/templates/components/" rel="noreferrer">Components</a></li>
                         <li><a href="/templates/context/" rel="noreferrer">Context</a></li>
                         <li><a href="/templates/examples/" rel="noreferrer">Examples</a></li>
                     </ul>
@@ -55,16 +58,20 @@
                     <ul>
                         <li><a href="/configuration/settings/" rel="noreferrer">Settings</a></li>
                         <li><a href="/configuration/blurry.toml/" rel="noreferrer">blurry.toml</a></li>
-                        <li><a href="/configuration/environment-variables/" rel="noreferrer">Environment variables</a></li>
+                        <li><a href="/configuration/environment-variables/" rel="noreferrer">Environment variables</a>
+                        </li>
                     </ul>
                 </li>
                 <li>Plugins
                     <ul>
                         <li><a href="/plugins/intro/" rel="noreferrer">Intro</a></li>
-                        <li><a href="/plugins/write-a-markdown-plugin/" rel="noreferrer">Write a Markdown plugin</a></li>
+                        <li><a href="/plugins/write-a-markdown-plugin/" rel="noreferrer">Write a Markdown plugin</a>
+                        </li>
                         <li><a href="/plugins/write-an-html-plugin/" rel="noreferrer">Write an HTML plugin</a></li>
-                        <li><a href="/plugins/write-a-jinja-extension-plugin/" rel="noreferrer">Write a Jinja extension plugin</a></li>
-                        <li><a href="/plugins/write-a-jinja-filter-plugin/" rel="noreferrer">Write a Jinja filter plugin</a></li>
+                        <li><a href="/plugins/write-a-jinja-extension-plugin/" rel="noreferrer">Write a Jinja extension
+                                plugin</a></li>
+                        <li><a href="/plugins/write-a-jinja-filter-plugin/" rel="noreferrer">Write a Jinja filter
+                                plugin</a></li>
                     </ul>
                 </li>
             </ul>
@@ -89,13 +96,17 @@
     </noscript>
     <script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js" async defer></script>
     <script>window.addEventListener('load', () => hljs.highlightAll());</script>
-    <style>{% include "assets/styles-below-the-fold.css" %}</style>
+    <style>
+        {
+            % include "assets/styles-below-the-fold.css" %
+        }
+    </style>
     <script>
         function onWindowResize(event) {
             const detailsElement = document.querySelector('details')
             window.innerWidth > 800 ? detailsElement.setAttribute("open", "") : detailsElement.removeAttribute("open")
         }
-        addEventListener("resize", onWindowResize);
+        addEventListener("resize", onWindowResize)
         onWindowResize()
     </script>
 </body>

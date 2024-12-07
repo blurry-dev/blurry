@@ -31,6 +31,7 @@ Blurry blends together high-quality libraries:
 
 - [Mistune](https://mistune.readthedocs.io/) to convert Markdown to HTML
 - [Jinja](https://jinja.palletsprojects.com/) for HTML templating
+- [JinjaX](https://jinjax.scaletti.dev/) for Jinja components
 - [LiveReload](https://livereload.readthedocs.io/) for an HTTP server with automatic browser reloading
 - [Typer](https://typer.tiangolo.com/) for its CLI interface
 - [ImageMagick](https://imagemagick.org/index.php) to resize and convert images
