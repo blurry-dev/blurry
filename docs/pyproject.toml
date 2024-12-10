@@ -4,12 +4,13 @@ version = "0.1.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
 readme = "README.md"
+package-mode = false
 packages = []
 
 [tool.poetry.dependencies]
 python = "^3.10"
-blurry-cli = {path = "..", develop = true}
-blurry-plugin-blur-blurry-name = {git = "https://github.com/blurry-dev/blurry-plugin-blur-blurry-name.git"}
+blurry-cli = { path = "..", develop = true }
+blurry-plugin-blur-blurry-name = { git = "https://github.com/blurry-dev/blurry-plugin-blur-blurry-name.git" }
 
 [build-system]
 requires = ["poetry-core"]

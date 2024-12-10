@@ -59,6 +59,11 @@ async def process_non_markdown_file(filepath: Path):
     output_file = Path(build_filepath)
     output_file.parent.mkdir(exist_ok=True, parents=True)
 
+    # Process Jinja files
+    if ".jinja" in filepath.suffixes:
+        # Process file
+        pass
+
     # Copy file to build directory
     shutil.copyfile(filepath, build_filepath)
 
@@ -249,6 +254,10 @@ def runserver():
     )
     livereload_server.watch(
         f"{SETTINGS['TEMPLATES_DIRECTORY_NAME']}/**/*",
+        lambda: event_loop.create_task(build_development()),
+    )
+    livereload_server.watch(
+        f"{SETTINGS['TEMPLATES_DIRECTORY_NAME']}/**/*.jinja.*",
         lambda: event_loop.create_task(build_development()),
     )
     livereload_server.watch(
