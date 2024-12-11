@@ -1,9 +1,12 @@
 import asyncio
 import dataclasses
+import importlib
 import json
 import mimetypes
 import os
+import pkgutil
 import shutil
+import sys
 from collections.abc import Coroutine
 from copy import deepcopy
 from datetime import datetime
@@ -231,6 +234,20 @@ async def build_development():
     await build(release=False)
 
 
+async def reload_local_plugins_and_build():
+    """Reloads a project's local modules and performs a dev build"""
+    cwd = str(Path.cwd())
+
+    for _, package_name, _ in pkgutil.iter_modules([cwd]):
+        try:
+            module = sys.modules[package_name]
+        except KeyError:
+            continue
+        importlib.reload(module)
+
+    await build_development()
+
+
 @app.command()
 def runserver():
     """Starts HTTP server with live reloading."""
@@ -250,6 +267,10 @@ def runserver():
     livereload_server.watch(
         f"{SETTINGS['TEMPLATES_DIRECTORY_NAME']}/**/*",
         lambda: event_loop.create_task(build_development()),
+    )
+    livereload_server.watch(
+        "./**/*.py",
+        lambda: event_loop.create_task(reload_local_plugins_and_build()),
     )
     livereload_server.watch(
         "blurry.toml", lambda: event_loop.create_task(build_development())
