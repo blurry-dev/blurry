@@ -22,6 +22,9 @@ Use your preferred Python package manager to install `blurry-cli`:
 # Poetry
 poetry add blurry-cli
 
+# uv
+uv add blurry-cli
+
 # Pipenv
 pipenv install blurry-cli
 
@@ -34,7 +37,13 @@ pip install blurry-cli
 A Blurry project uses a simple directory structure consisting of a `content` directory for [Markdown](https://daringfireball.net/projects/markdown/) site content and a `templates` directory for [Jinja](https://jinja.palletsprojects.com/en/) templates used to generate HTML pages from that Markdown content.
 Blurry outputs a built site into `dist/` by default, and this is configurable in [Blurry's settings](../configuration/settings.md).
 
-Blurry's directory structure is used as the website's navigation structure by converting `index.md` files into `index.html` files, and other Markdown files, like `about.md`, into a directory with a single `index.html` file, like `about/index.html`, which makes for clean, SEO-friendly URLs.
+Blurry's directory structure is used as the website's navigation structure, with just a little magic:
+
+- `index.md` files generate `index.html` files
+- other Markdown files, like `about.md`, generate a file like `about/index.html`, which makes for clean, SEO-friendly URLs
+- files that end with `.jinja` are processed with [Jinja](https://jinja.palletsprojects.com/en/stable/) and generate a file with the `.jinja` extension removed, like `feed.xml.jinja` -> `feed.xml`
+- images are copied and generated at multiple sizes. See [Content: Images](../content/images.md) for more information
+- other files are copied as-is
 
 For example, this Blurry project:
 
@@ -45,7 +54,9 @@ For example, this Blurry project:
 │  ├──🗎 about.md
 │  └──🗀 posts
 │     ├──🗎 index.md
+│     ├──🗎 feed.xml.jinja
 │     └──🗎 welcome.md
+├──🗎 robots.txt
 └──🗀 templates
    ├──🗎 base.html
    ├──🗎 AboutPage.html
@@ -57,8 +68,10 @@ For example, this Blurry project:
 Will result in the following URLs:
 
 - `/`
+- `/robots.txt`
 - `/about/`
 - `/posts/`
+- `/posts/feed.xml`
 - `/posts/welcome/`
 
 ## Content
