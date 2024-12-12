@@ -54,13 +54,20 @@ warning_console = Console(stderr=True, style="bold yellow")
 app = AsyncTyper()
 
 
-async def process_non_markdown_file(filepath: Path):
+async def process_non_markdown_file(filepath: Path, file_data_by_directory):
     CONTENT_DIR = get_content_directory()
     mimetype, _ = mimetypes.guess_type(filepath, strict=False)
     relative_filepath = filepath.relative_to(CONTENT_DIR)
     build_filepath = get_build_directory() / relative_filepath
     output_file = Path(build_filepath)
     output_file.parent.mkdir(exist_ok=True, parents=True)
+
+    # Process Jinja files
+    if ".jinja" in filepath.suffixes:
+        # Process file
+        jinja_env = get_jinja_env()
+        process_jinja_file(filepath, jinja_env, file_data_by_directory)
+        return
 
     # Copy file to build directory
     shutil.copyfile(filepath, build_filepath)
@@ -71,6 +78,27 @@ async def process_non_markdown_file(filepath: Path):
         mimetypes.types_map[".png"],
     ]:
         await generate_images_for_srcset(filepath)
+
+
+def process_jinja_file(filepath: Path, jinja_env: Environment, file_data_by_directory):
+    build_directory = get_build_directory()
+    content_directory = get_content_directory()
+    template = jinja_env.get_template(str(filepath.relative_to(content_directory)))
+    context = {
+        "file_data_by_directory": {
+            str(path): data for path, data in deepcopy(file_data_by_directory).items()
+        },
+        "settings": deepcopy(SETTINGS),
+        "datetime": datetime,
+    }
+    filepath_with_new_extension = filepath.with_suffix(
+        filepath.suffix.replace(".jinja", "")
+    )
+    filepath_in_build = build_directory / filepath_with_new_extension.relative_to(
+        content_directory
+    )
+    html = template.render(dataclasses=dataclasses, **context)
+    filepath_in_build.write_text(html)
 
 
 async def write_html_file(
@@ -175,14 +203,8 @@ async def build(release=True):
     markdown_tasks: list[Coroutine] = []
     non_markdown_tasks: list[Coroutine] = []
 
-    for filepath in path.glob("**/*.*"):
-        # Handle images and other files
-        if filepath.suffix != ".md":
-            non_markdown_tasks.append(process_non_markdown_file(filepath))
-            continue
-
-        # Handle Markdown files
-
+    # Gather metadata from Markdown files
+    for filepath in path.glob("**/*.md"):
         # Extract filepath for storing context data and writing out
         relative_filepath = filepath.relative_to(CONTENT_DIR)
         directory = relative_filepath.parent
@@ -198,10 +220,18 @@ async def build(release=True):
         )
         file_data_by_directory[directory].append(file_data)
 
-    non_markdown_tasks.append(write_sitemap_file(file_data_by_directory))
+    # Handle images and other files
+    for filepath in path.glob("**/*"):
+        if filepath.suffix == ".md" or filepath.is_dir():
+            continue
+        non_markdown_tasks.append(
+            process_non_markdown_file(filepath, file_data_by_directory)
+        )
 
     # Sort file data by publishedDate/createdDate, descending, if present
     file_data_by_directory = sort_directory_file_data_by_date(file_data_by_directory)
+
+    non_markdown_tasks.append(write_sitemap_file(file_data_by_directory))
 
     for file_data_list in file_data_by_directory.values():
         for file_data in file_data_list:

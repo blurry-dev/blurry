@@ -5,6 +5,7 @@ from jinja2 import select_autoescape
 
 from blurry.plugins import discovered_jinja_extensions
 from blurry.plugins import discovered_jinja_filter_plugins
+from blurry.settings import get_content_directory
 from blurry.settings import get_templates_directory
 from blurry.settings import SETTINGS
 
@@ -14,16 +15,16 @@ def get_jinja_env() -> Environment:
     Returns a Jinja environment complete with JinjaX and any installed Jinja extensions and filters.
     """
     templates_directory = get_templates_directory()
+    content_directory = get_content_directory()
     jinja_env = Environment(
-        loader=FileSystemLoader(templates_directory),
+        loader=FileSystemLoader([content_directory, templates_directory]),
         autoescape=select_autoescape(
-            list(
+            enabled_extensions=list(
                 {
                     SETTINGS["MARKDOWN_FILE_JINJA_TEMPLATE_EXTENSION"].lstrip("."),
-                    "html",
-                    "xml",
+                    "jinja",
                 }
-            )
+            ),
         ),
         extensions=[
             jinja_extension.load() for jinja_extension in discovered_jinja_extensions
