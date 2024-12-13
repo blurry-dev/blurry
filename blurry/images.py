@@ -1,4 +1,4 @@
-import asyncio
+import concurrent.futures
 from pathlib import Path
 
 from wand.image import Image
@@ -30,7 +30,7 @@ def add_image_width_to_path(image_path: Path, width: int) -> Path:
     return Path(new_filename)
 
 
-async def convert_image_to_avif(image_path: Path, target_path: Path | None = None):
+def convert_image_to_avif(image_path: Path, target_path: Path | None = None):
     AVIF_COMPRESSION_QUALITY = SETTINGS["AVIF_COMPRESSION_QUALITY"]
     image_suffix = image_path.suffix
     avif_filepath = str(target_path or image_path).replace(image_suffix, ".avif")
@@ -42,31 +42,39 @@ async def convert_image_to_avif(image_path: Path, target_path: Path | None = Non
         image.save(filename=avif_filepath)
 
 
+def clone_and_resize_image(
+    image: Image, target_width: int, resized_image_destination: Path
+):
+    if resized_image_destination.exists():
+        return
+    image.transform(resize=str(target_width))
+    image.save(filename=resized_image_destination)
+
+
 async def generate_images_for_srcset(image_path: Path):
     BUILD_DIR = get_build_directory()
     CONTENT_DIR = get_content_directory()
+    filepaths_to_convert_to_avif = []
 
-    with Image(filename=str(image_path)) as img:
-        width = img.width
+    build_path = BUILD_DIR / image_path.resolve().relative_to(CONTENT_DIR)
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        with Image(filename=str(image_path)) as img:
+            width = img.width
+
+            for target_width in get_widths_for_image_width(width):
+                new_filepath = add_image_width_to_path(image_path, target_width)
+                relative_filepath = new_filepath.resolve().relative_to(CONTENT_DIR)
+                build_filepath = BUILD_DIR / relative_filepath
+                # We convert the resized images to AVIF, so do this synchronously
+                clone_and_resize_image(img, target_width, build_filepath)
+                filepaths_to_convert_to_avif.append(build_filepath)
+
         # Convert original image
-        build_path = BUILD_DIR / image_path.resolve().relative_to(CONTENT_DIR)
-        await convert_image_to_avif(image_path=image_path, target_path=build_path)
-
-        avif_files_to_create: list[Path] = []
-        for target_width in get_widths_for_image_width(width):
-            new_filepath = add_image_width_to_path(image_path, target_width)
-            relative_filepath = new_filepath.resolve().relative_to(CONTENT_DIR)
-            build_filepath = BUILD_DIR / relative_filepath
-            with img.clone() as resized:
-                avif_files_to_create.append(build_filepath)
-                if build_filepath.exists():
-                    continue
-                resized.transform(resize=str(target_width))
-                resized.save(filename=build_filepath)
-
-        await asyncio.gather(
-            *[convert_image_to_avif(avif_file) for avif_file in avif_files_to_create]
+        executor.submit(
+            convert_image_to_avif, image_path=image_path, target_path=build_path
         )
+        # Generate AVIF files for resized images
+        executor.map(convert_image_to_avif, filepaths_to_convert_to_avif)
 
 
 def get_widths_for_image_width(image_width: int) -> list[int]:

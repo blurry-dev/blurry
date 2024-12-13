@@ -38,9 +38,7 @@ def generate_sitemap_for_file_data_list(file_data_list: list[MarkdownFileData]) 
     return SITEMAP_TEMPLATE.format(urls=sitemap_url_content)
 
 
-async def write_sitemap_file(
-    file_data_by_directory: dict[Path, list[MarkdownFileData]]
-):
+def write_sitemap_file(file_data_by_directory: dict[Path, list[MarkdownFileData]]):
     BUILD_DIR = get_build_directory()
     file_data = []
     for file_data_list in file_data_by_directory.values():
