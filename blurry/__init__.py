@@ -186,8 +186,9 @@ async def write_html_file(
 async def build(release=True):
     """Generates HTML content from Markdown files."""
 
-    print_blurry_name()
-    print_plugin_table()
+    if release:
+        print_blurry_name()
+        print_plugin_table()
 
     update_settings()
     jinja_env = get_jinja_env()
@@ -281,6 +282,9 @@ async def reload_local_plugins_and_build():
 @app.command()
 def runserver():
     """Starts HTTP server with live reloading."""
+    print_blurry_name()
+    print_plugin_table()
+
     update_settings()
     os.environ.setdefault(f"{ENV_VAR_PREFIX}BUILD_MODE", "dev")
 
