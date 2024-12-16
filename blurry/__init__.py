@@ -1,4 +1,5 @@
 import asyncio
+import concurrent.futures
 import dataclasses
 import importlib
 import json
@@ -7,7 +8,6 @@ import os
 import pkgutil
 import shutil
 import sys
-from collections.abc import Coroutine
 from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
@@ -17,6 +17,10 @@ from jinja2 import Environment
 from livereload import Server
 from rich import print
 from rich.console import Console
+from rich.progress import BarColumn
+from rich.progress import Progress
+from rich.progress import TaskProgressColumn
+from rich.progress import TextColumn
 
 from blurry.async_typer import AsyncTyper
 from blurry.cli import print_blurry_name
@@ -54,30 +58,31 @@ warning_console = Console(stderr=True, style="bold yellow")
 app = AsyncTyper()
 
 
-async def process_non_markdown_file(filepath: Path, file_data_by_directory):
-    CONTENT_DIR = get_content_directory()
-    mimetype, _ = mimetypes.guess_type(filepath, strict=False)
-    relative_filepath = filepath.relative_to(CONTENT_DIR)
-    build_filepath = get_build_directory() / relative_filepath
-    output_file = Path(build_filepath)
-    output_file.parent.mkdir(exist_ok=True, parents=True)
-
+def process_non_markdown_file(
+    filepath: Path, file_data_by_directory, jinja_env: Environment
+):
     # Process Jinja files
     if ".jinja" in filepath.suffixes:
         # Process file
-        jinja_env = get_jinja_env()
         process_jinja_file(filepath, jinja_env, file_data_by_directory)
         return
 
-    # Copy file to build directory
-    shutil.copyfile(filepath, build_filepath)
+    CONTENT_DIR = get_content_directory()
+    mimetype, _ = mimetypes.guess_type(filepath, strict=False)
+    relative_filepath = filepath.relative_to(CONTENT_DIR)
+    output_file = get_build_directory() / relative_filepath
+
+    # Copy file to build directory if it is not already there
+    if not output_file.exists():
+        output_file.parent.mkdir(exist_ok=True, parents=True)
+        shutil.copyfile(filepath, output_file)
 
     # Create srcset images
     if mimetype in [
         mimetypes.types_map[".jpg"],
         mimetypes.types_map[".png"],
     ]:
-        await generate_images_for_srcset(filepath)
+        asyncio.run(generate_images_for_srcset(filepath))
 
 
 def process_jinja_file(filepath: Path, jinja_env: Environment, file_data_by_directory):
@@ -101,32 +106,35 @@ def process_jinja_file(filepath: Path, jinja_env: Environment, file_data_by_dire
     filepath_in_build.write_text(html)
 
 
-async def write_html_file(
-    file_data: MarkdownFileData,
-    file_data_list: list[MarkdownFileData],
+def write_html_file(
+    filepath: Path,
     file_data_by_directory: dict[Path, list[MarkdownFileData]],
     release: bool,
     jinja_env: Environment,
 ):
     extra_context: TemplateContext = {}
     # Gather data from other files in this directory if this is an index file
-    if file_data.path.name == "index.md":
+    file_data_list = file_data_by_directory[filepath.parent]
+    if filepath.name == "index.md":
         sibling_pages = [
             {
                 "url": content_path_to_url(f.path),
                 **f.front_matter,
             }
             for f in file_data_list
-            if f.path != file_data.path
+            if f.path != filepath
         ]
         extra_context["sibling_pages"] = sibling_pages
-    folder_in_build = convert_content_path_to_directory_in_build(file_data.path)
+    folder_in_build = convert_content_path_to_directory_in_build(filepath)
 
+    file_data = [
+        f for f in file_data_by_directory[filepath.parent] if f.path == filepath
+    ][0]
     schema_type = file_data.front_matter.get("@type")
     if not schema_type:
         raise ValueError(
             f"Required @type value missing in file or TOML front matter invalid: "
-            f"{file_data.path}"
+            f"{filepath}"
         )
     template_extension = SETTINGS["MARKDOWN_FILE_JINJA_TEMPLATE_EXTENSION"]
     template = jinja_env.get_template(f"{schema_type}{template_extension}")
@@ -152,7 +160,7 @@ async def write_html_file(
         default=json_converter_with_dates,
     )
 
-    validate_front_matter_as_schema(file_data.path, front_matter, warning_console)
+    validate_front_matter_as_schema(filepath, front_matter, warning_console)
 
     schema_type_tag = f'<script type="application/ld+json">{schema_data}</script>'
 
@@ -182,35 +190,15 @@ async def write_html_file(
     write_index_file_creating_path(folder_in_build, html)
 
 
-@app.async_command()
-async def build(release=True):
-    """Generates HTML content from Markdown files."""
-
-    if release:
-        print_blurry_name()
-        print_plugin_table()
-
-    update_settings()
-    jinja_env = get_jinja_env()
-    os.environ.setdefault(f"{ENV_VAR_PREFIX}BUILD_MODE", "prod" if release else "dev")
-    CONTENT_DIR = get_content_directory()
-    BUILD_DIR = get_build_directory()
-    start = datetime.now()
-    path = Path(CONTENT_DIR)
+def gather_file_data_by_directory() -> DirectoryFileData:
+    # Sort file data by publishedDate/createdDate, descending, if present
     file_data_by_directory: DirectoryFileData = {}
-    if not BUILD_DIR.exists():
-        BUILD_DIR.mkdir(parents=True)
+    content_directory = get_content_directory()
 
-    markdown_tasks: list[Coroutine] = []
-    non_markdown_tasks: list[Coroutine] = []
-
-    # Gather metadata from Markdown files
-    for filepath in path.glob("**/*.md"):
+    for filepath in content_directory.glob("**/*.md"):
         # Extract filepath for storing context data and writing out
-        relative_filepath = filepath.relative_to(CONTENT_DIR)
+        relative_filepath = filepath.relative_to(content_directory)
         directory = relative_filepath.parent
-        if directory not in file_data_by_directory:
-            file_data_by_directory[directory] = []
 
         # Convert Markdown file to HTML
         body, front_matter = convert_markdown_file_to_html(filepath)
@@ -219,41 +207,79 @@ async def build(release=True):
             front_matter=front_matter,
             path=relative_filepath,
         )
-        file_data_by_directory[directory].append(file_data)
+        try:
+            file_data_by_directory[directory].append(file_data)
+        except KeyError:
+            file_data_by_directory[directory] = [file_data]
 
-    # Handle images and other files
-    for filepath in path.glob("**/*"):
-        if filepath.suffix == ".md" or filepath.is_dir():
-            continue
-        non_markdown_tasks.append(
-            process_non_markdown_file(filepath, file_data_by_directory)
-        )
+    return sort_directory_file_data_by_date(file_data_by_directory)
 
-    # Sort file data by publishedDate/createdDate, descending, if present
-    file_data_by_directory = sort_directory_file_data_by_date(file_data_by_directory)
 
-    non_markdown_tasks.append(write_sitemap_file(file_data_by_directory))
+@app.async_command()
+async def build(release=True):
+    """Generates HTML content from Markdown files."""
+    start = datetime.now()
 
-    for file_data_list in file_data_by_directory.values():
-        for file_data in file_data_list:
-            markdown_tasks.append(
-                write_html_file(
-                    file_data,
-                    file_data_list,
+    if release:
+        print_blurry_name()
+        print_plugin_table()
+
+    update_settings()
+    content_directory = get_content_directory()
+    build_directory = get_build_directory()
+    build_directory.mkdir(parents=True, exist_ok=True)
+    jinja_env = get_jinja_env()
+
+    os.environ.setdefault(f"{ENV_VAR_PREFIX}BUILD_MODE", "prod" if release else "dev")
+
+    file_data_by_directory = gather_file_data_by_directory()
+
+    markdown_task_count = 0
+    non_markdown_task_count = 1  # sitemap
+
+    with Progress(
+        TextColumn("[progress.description]{task.description}"),
+        BarColumn(),
+        TaskProgressColumn(),
+        transient=True,
+    ) as progress:
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            markdown_task = progress.add_task("[blue]Markdown")
+            other_task = progress.add_task("[blue]Other")
+
+            sitemap_future = executor.submit(write_sitemap_file, file_data_by_directory)
+            sitemap_future.add_done_callback(lambda _: progress.advance(other_task))
+
+            for filepath in content_directory.rglob("*"):
+                if filepath.is_dir():
+                    continue
+                if filepath.suffix == ".md":
+                    markdown_future = executor.submit(
+                        write_html_file,
+                        filepath.relative_to(content_directory),
+                        file_data_by_directory,
+                        release,
+                        jinja_env,
+                    )
+                    markdown_task_count += 1
+                    progress.update(markdown_task, total=markdown_task_count)
+                    markdown_future.add_done_callback(
+                        lambda _: progress.advance(markdown_task)
+                    )
+                    continue
+                other_future = executor.submit(
+                    process_non_markdown_file,
+                    filepath,
                     file_data_by_directory,
-                    release,
                     jinja_env,
                 )
+                non_markdown_task_count += 1
+                progress.update(other_task, total=non_markdown_task_count)
+                other_future.add_done_callback(lambda _: progress.advance(other_task))
+
+            print(
+                f"Blurring {markdown_task_count} Markdown files and {non_markdown_task_count} other files"
             )
-
-    content_dir_relative = CONTENT_DIR.relative_to(Path.cwd())
-    print(f"Blurring {len(markdown_tasks)} Markdown files from: {content_dir_relative}")
-
-    await asyncio.gather(*markdown_tasks)
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    for non_markdown_task in non_markdown_tasks:
-        await asyncio.to_thread(lambda: loop.run_until_complete(non_markdown_task))
 
     end = datetime.now()
 
@@ -293,14 +319,51 @@ def runserver():
     event_loop = asyncio.get_event_loop()
     event_loop.create_task(build_development())
 
+    jinja_env = get_jinja_env()
+
+    def handle_changed_jinja_files(filepaths: list[str]):
+        file_data_by_directory = gather_file_data_by_directory()
+        for filepath in filepaths:
+            process_jinja_file(
+                Path.cwd() / filepath,
+                jinja_env,
+                file_data_by_directory,
+            )
+
+    def handle_changed_markdown_files(filepaths: list[str]):
+        file_data_by_directory = gather_file_data_by_directory()
+        content_directory = get_content_directory()
+        for filepath in filepaths:
+            write_html_file(
+                filepath=(Path.cwd() / filepath).relative_to(content_directory),
+                file_data_by_directory=file_data_by_directory,
+                release=False,
+                jinja_env=jinja_env,
+            )
+
     livereload_server = Server()
+    livereload_server.watch(
+        f"{SETTINGS['CONTENT_DIRECTORY_NAME']}/**/*.jinja", handle_changed_jinja_files
+    )
+    livereload_server.watch(
+        f"{SETTINGS['CONTENT_DIRECTORY_NAME']}/**/*.md",
+        handle_changed_markdown_files,
+    )
     livereload_server.watch(
         f"{SETTINGS['CONTENT_DIRECTORY_NAME']}/**/*",
         lambda: event_loop.create_task(build_development()),
+        ignore=lambda filepath: any(
+            [
+                filepath.endswith(".md"),
+                filepath.endswith(".jinja"),
+                Path(filepath).is_dir(),
+            ]
+        ),
     )
     livereload_server.watch(
         f"{SETTINGS['TEMPLATES_DIRECTORY_NAME']}/**/*",
         lambda: event_loop.create_task(build_development()),
+        ignore=lambda filepath: Path(filepath).is_dir(),
     )
     livereload_server.watch(
         "./**/*.py",
