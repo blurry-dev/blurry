@@ -84,7 +84,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
                 attributes_str = " ".join(
                     f'{name}="{value}"' for name, value in attributes.items()
                 )
-                return f"<img {attributes_str} >"
+                return f"<img {attributes_str}>"
 
             image_widths = get_widths_for_image_width(image_width)
 
@@ -103,7 +103,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
 
         return (
             f"<figure>"
-            f"<picture>{source_tag}<img {attributes_str} /></picture>"
+            f"<picture>{source_tag}<img {attributes_str}></picture>"
             f'<figcaption>{attributes["alt"]}</figcaption>'
             f"</figure>"
         )

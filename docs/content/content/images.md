@@ -61,7 +61,7 @@ Given the following Markdown syntax for an image with dimensions of 2160x1620 an
 standard Markdown processing might output:
 
 ```html
-<img alt="Screenshot of Black's playground" src="./images/black-playground.png" />
+<img alt="Screenshot of Black's playground" src="./images/black-playground.png">
 ```
 
 When configured with a maximum image width of 750px, Blurry's image plugin, by contrast, outputs:

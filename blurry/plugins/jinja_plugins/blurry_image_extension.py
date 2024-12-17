@@ -73,4 +73,4 @@ class BlurryImage(StandaloneTag):
             f'{name}="{value}"' for name, value in attributes.items()
         )
 
-        return f"<img {attributes_str}/>"
+        return f"<img {attributes_str}>"
