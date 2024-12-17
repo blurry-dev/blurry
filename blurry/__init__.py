@@ -166,6 +166,7 @@ def write_html_file(
 
     template_context = {
         "body": file_data.body,
+        "filepath": filepath,
         "schema_data": schema_data,
         "schema_type_tag": schema_type_tag,
         "open_graph_tags": open_graph_meta_tags(file_data.front_matter),
