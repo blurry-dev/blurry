@@ -63,7 +63,6 @@ def process_non_markdown_file(
 ):
     # Process Jinja files
     if ".jinja" in filepath.suffixes:
-        # Process file
         process_jinja_file(filepath, jinja_env, file_data_by_directory)
         return
 
@@ -196,22 +195,31 @@ def gather_file_data_by_directory() -> DirectoryFileData:
     file_data_by_directory: DirectoryFileData = {}
     content_directory = get_content_directory()
 
-    for filepath in content_directory.glob("**/*.md"):
-        # Extract filepath for storing context data and writing out
-        relative_filepath = filepath.relative_to(content_directory)
-        directory = relative_filepath.parent
+    markdown_future_to_path: dict[concurrent.futures.Future, Path] = {}
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for filepath in content_directory.rglob("*.md"):
+            # Extract filepath for storing context data and writing out
+            relative_filepath = filepath.relative_to(content_directory)
 
-        # Convert Markdown file to HTML
-        body, front_matter = convert_markdown_file_to_html(filepath)
-        file_data = MarkdownFileData(
-            body=body,
-            front_matter=front_matter,
-            path=relative_filepath,
-        )
-        try:
-            file_data_by_directory[directory].append(file_data)
-        except KeyError:
-            file_data_by_directory[directory] = [file_data]
+            # Convert Markdown file to HTML
+            future = executor.submit(convert_markdown_file_to_html, filepath)
+            markdown_future_to_path[future] = relative_filepath
+
+        for future in concurrent.futures.as_completed(markdown_future_to_path):
+            body, front_matter = future.result()
+            relative_filepath = markdown_future_to_path[future]
+            file_data = MarkdownFileData(
+                body=body,
+                front_matter=front_matter,
+                path=relative_filepath,
+            )
+            parent_directory = relative_filepath.parent
+            try:
+                file_data_by_directory[parent_directory].append(file_data)
+            except KeyError:
+                file_data_by_directory[parent_directory] = [file_data]
+
+    concurrent.futures.wait(markdown_future_to_path)
 
     return sort_directory_file_data_by_date(file_data_by_directory)
 
