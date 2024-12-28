@@ -1,10 +1,10 @@
 import re
+import tomllib
 from collections.abc import MutableMapping
 from pathlib import Path
 from typing import Any
 from typing import TypeGuard
 
-import toml
 from mistune import BlockState
 from mistune import Markdown
 
@@ -30,7 +30,7 @@ def get_data(doc: str) -> tuple[str, MutableMapping]:
     if toml_block_match:
         toml_part = toml_block_match.group(1)
         try:
-            data = toml.loads(toml_part)
+            data = tomllib.loads(toml_part)
         except Exception as e:
             print("Parsing TOML failed: ", e)
         try:

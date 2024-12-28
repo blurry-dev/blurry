@@ -1,7 +1,6 @@
+import tomllib
 from os import environ
 from typing import TypedDict
-
-import toml
 
 from blurry.constants import CURR_DIR
 from blurry.constants import ENV_VAR_PREFIX
@@ -51,7 +50,7 @@ SETTINGS: Settings = {
 
 def update_settings():
     try:
-        blurry_config = toml.load(open(SETTINGS_FILENAME))
+        blurry_config = tomllib.load(open(SETTINGS_FILENAME, "rb"))
         user_settings = blurry_config["blurry"]
         for setting, value in user_settings.items():
             SETTINGS[setting.upper()] = value
