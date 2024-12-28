@@ -20,3 +20,5 @@ The setting hierarchy is:
 See the `Settings` type for Blurry's available settings:
 
 @python<blurry.settings.Settings>
+
+The default values are visible at <https://github.com/blurry-dev/blurry/blob/main/blurry/settings.py>
