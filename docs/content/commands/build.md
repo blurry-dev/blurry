@@ -97,3 +97,13 @@ dist
 
 18 directories, 19 files
 ```
+
+## Options
+
+`clean`: cleans the build directory before building.
+
+Usage:
+
+```bash
+blurry build --clean
+```
