@@ -57,7 +57,7 @@ MARKDOWN_WITH_NON_SCHEMA_VALUE_IN_TOML_FRONT_MATTER = """
 name = "Introduction"
 abstract = "A Python-powered static site generator with a focus on page speed and SEO."
 datePublished = 2023-04-09
-~valid_extra_value = true
+_valid_extra_value = true
 +++
 
 # Blurry: A Python-powered static site generator

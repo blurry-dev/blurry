@@ -43,7 +43,7 @@ SETTINGS: Settings = {
     "VIDEO_EXTENSIONS": ["mp4", "webm", "mkv"],
     "USE_HTTP": False,
     "RUNSERVER": False,
-    "FRONTMATTER_NON_SCHEMA_VARIABLE_PREFIX": "~",
+    "FRONTMATTER_NON_SCHEMA_VARIABLE_PREFIX": "_",
     "TEMPLATE_SCHEMA_TYPES": {},
 }
 
