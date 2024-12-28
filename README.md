@@ -3,6 +3,7 @@
 [![Nox build status](https://github.com/blurry-dev/blurry/actions/workflows/github-actions-nox.yml/badge.svg?branch=main)](https://github.com/blurry-dev/blurry/actions/workflows/github-actions-nox.yml)
 [![PyPI package version](https://img.shields.io/pypi/v/blurry-cli.svg)](https://pypi.org/project/blurry-cli/)
 [![PyPI Python versions](https://img.shields.io/pypi/pyversions/blurry-cli.svg)](https://pypi.org/project/blurry-cli/)
+[![PyPI downloads per month](https://img.shields.io/pypi/dm/blurry-cli.svg)](https://pypi.python.org/pypi/blurry-cli/)
 ![Package license](https://img.shields.io/github/license/blurry-dev/blurry.svg)
 
 ![Blurry logo](docs/content/favicon.png)
@@ -15,6 +16,8 @@ Markdown front matter directly to [Schema.org types](https://schema.org/docs/ful
 Blurry also makes your images responsive, supports embedding Python source code in Markdown files, and more.
 
 Check out the docs and try it out!
+
+**Note**: Until v1.0.0, minor versions (0.x.0) may not be backwards compatible.
 
 ## Documentation
 
