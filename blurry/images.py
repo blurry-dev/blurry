@@ -1,4 +1,5 @@
 import concurrent.futures
+from concurrent.futures import Future
 from pathlib import Path
 
 from wand.image import Image
@@ -43,38 +44,53 @@ def convert_image_to_avif(image_path: Path, target_path: Path | None = None):
 
 
 def clone_and_resize_image(
-    image: Image, target_width: int, resized_image_destination: Path
+    image_path: Path, target_width: int, resized_image_destination: Path
 ):
     if resized_image_destination.exists():
         return
-    image.transform(resize=str(target_width))
-    image.save(filename=resized_image_destination)
+    with Image(filename=str(image_path)) as image:
+        image.transform(resize=str(target_width))
+        image.save(filename=resized_image_destination)
 
 
 async def generate_images_for_srcset(image_path: Path):
     BUILD_DIR = get_build_directory()
     CONTENT_DIR = get_content_directory()
-    filepaths_to_convert_to_avif = []
+    image_futures: list[Future] = []
 
     build_path = BUILD_DIR / image_path.resolve().relative_to(CONTENT_DIR)
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        with Image(filename=str(image_path)) as img:
-            width = img.width
-
-            for target_width in get_widths_for_image_width(width):
-                new_filepath = add_image_width_to_path(image_path, target_width)
-                relative_filepath = new_filepath.resolve().relative_to(CONTENT_DIR)
-                build_filepath = BUILD_DIR / relative_filepath
-                # We convert the resized images to AVIF, so do this synchronously
-                clone_and_resize_image(img, target_width, build_filepath)
-                filepaths_to_convert_to_avif.append(build_filepath)
-
         # Convert original image
-        executor.submit(
+        full_sized_avif_future = executor.submit(
             convert_image_to_avif, image_path=image_path, target_path=build_path
         )
-        # Generate AVIF files for resized images
-        executor.map(convert_image_to_avif, filepaths_to_convert_to_avif)
+        image_futures.append(full_sized_avif_future)
+
+        # Store resized image futures so AVIF versions can be created once they're done
+        resize_future_to_filepath: dict[Future, Path] = {}
+
+        width = Image(filename=str(image_path)).width
+
+        for target_width in get_widths_for_image_width(width):
+            new_filepath = add_image_width_to_path(image_path, target_width)
+            new_filepath_in_build = BUILD_DIR / new_filepath.relative_to(CONTENT_DIR)
+
+            resized_original_image_type_future = executor.submit(
+                clone_and_resize_image, image_path, target_width, new_filepath_in_build
+            )
+            resize_future_to_filepath[
+                resized_original_image_type_future
+            ] = new_filepath_in_build
+
+        # Create AVIF versions of resized images as they're ready
+        for future in concurrent.futures.as_completed(resize_future_to_filepath):
+            resized_image_filepath = resize_future_to_filepath[future]
+            resized_avif_future = executor.submit(
+                convert_image_to_avif, resized_image_filepath
+            )
+            image_futures.append(resized_avif_future)
+
+        concurrent.futures.wait(image_futures + list(resize_future_to_filepath.keys()))
 
 
 def get_widths_for_image_width(image_width: int) -> list[int]:

@@ -20,12 +20,17 @@ name = "About Blurry"
 abstract = "Learn about Blurry, a static site generator build for page speed and SEO"
 datePublished = 2023-01-07
 image = "../images/blurry-logo.png"
+_is_this_available_in_a_template = True
 +++
 
 # About Blurry
 
 Regular Markdown content can go here.
 ```
+
+:::{info}
+Variables that are not in a Schema.org type but are useful in templates should start with the `FRONTMATTER_NON_SCHEMA_VARIABLE_PREFIX` [setting](../configuration/settings.md), which defaults to an underscore (`_`).
+:::
 
 ## Customizations
 

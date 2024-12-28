@@ -1,7 +1,6 @@
+import tomllib
 from os import environ
 from typing import TypedDict
-
-import toml
 
 from blurry.constants import CURR_DIR
 from blurry.constants import ENV_VAR_PREFIX
@@ -44,14 +43,14 @@ SETTINGS: Settings = {
     "VIDEO_EXTENSIONS": ["mp4", "webm", "mkv"],
     "USE_HTTP": False,
     "RUNSERVER": False,
-    "FRONTMATTER_NON_SCHEMA_VARIABLE_PREFIX": "~",
+    "FRONTMATTER_NON_SCHEMA_VARIABLE_PREFIX": "_",
     "TEMPLATE_SCHEMA_TYPES": {},
 }
 
 
 def update_settings():
     try:
-        blurry_config = toml.load(open(SETTINGS_FILENAME))
+        blurry_config = tomllib.load(open(SETTINGS_FILENAME, "rb"))
         user_settings = blurry_config["blurry"]
         for setting, value in user_settings.items():
             SETTINGS[setting.upper()] = value
