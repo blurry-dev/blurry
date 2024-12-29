@@ -16,7 +16,7 @@ name = "blurry-cli"
 version = "0.13.0"
 description = "A Mistune-based static site generator for Python"
 optional = false
-python-versions = "^3.10"
+python-versions = "^3.11"
 files = []
 develop = true
 
@@ -33,7 +33,6 @@ pydantic2-schemaorg = "^0.2.0"
 PyLD = "^2.0.3"
 rich = "^13.3.3"
 selectolax = "^0.3.27"
-toml = "^0.10.2"
 typer = "^0.6.1"
 Wand = "^0.6.6"
 
@@ -722,7 +721,6 @@ files = [
 [package.dependencies]
 markdown-it-py = ">=2.2.0"
 pygments = ">=2.13.0,<3.0.0"
-typing-extensions = {version = ">=4.0.0,<5.0", markers = "python_version < \"3.11\""}
 
 [package.extras]
 jupyter = ["ipywidgets (>=7.5.1,<9)"]
@@ -806,17 +804,6 @@ files = [
 cython = ["Cython (==3.0.11)"]
 
 [[package]]
-name = "toml"
-version = "0.10.2"
-description = "Python Library for Tom's Obvious, Minimal Language"
-optional = false
-python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
-files = [
-    {file = "toml-0.10.2-py2.py3-none-any.whl", hash = "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b"},
-    {file = "toml-0.10.2.tar.gz", hash = "sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f"},
-]
-
-[[package]]
 name = "tornado"
 version = "6.4.2"
 description = "Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed."
@@ -884,5 +871,5 @@ test = ["pytest (>=7.2.0)"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.10"
-content-hash = "852123d1df36f11bfbfca2bafa5195c70fda3c7fd7ffb939fdf50c7babbfa920"
+python-versions = "^3.11"
+content-hash = "5bd3fbd7f85be76c0b09fd15d91f16fb84e32c66611d339b4e70e99bfa250e9e"
