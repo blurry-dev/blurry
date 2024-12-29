@@ -224,8 +224,20 @@ def gather_file_data_by_directory() -> DirectoryFileData:
     return sort_directory_file_data_by_date(file_data_by_directory)
 
 
+@app.command(name="clean")
+def clean_build_directory():
+    """Removes the build directory for a clean build."""
+    update_settings()
+    build_directory = get_build_directory()
+
+    try:
+        shutil.rmtree(build_directory)
+    except FileNotFoundError:
+        pass
+
+
 @app.async_command()
-async def build(release=True):
+async def build(release=True, clean: bool = False):
     """Generates HTML content from Markdown files."""
     start = datetime.now()
 
@@ -234,8 +246,14 @@ async def build(release=True):
         print_plugin_table()
 
     update_settings()
-    content_directory = get_content_directory()
     build_directory = get_build_directory()
+
+    if clean:
+        clean_build_directory()
+
+    build_directory.mkdir(parents=True, exist_ok=True)
+
+    content_directory = get_content_directory()
     build_directory.mkdir(parents=True, exist_ok=True)
     jinja_env = get_jinja_env()
 
