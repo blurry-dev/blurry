@@ -10,8 +10,13 @@
     <link rel="shortcut icon" href="/favicon.png">
     <script type="application/ld+json">{{ schema_data|safe }}</script>
     {{ open_graph_tags|safe }}
+    
+    <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.yellow.min.css"
+>
     <style>
-        {% include "assets/styles-above-the-fold.css" %}
+        {% include "assets/docs.css" %}
     </style>
     {% if not settings.RUNSERVER %}
     <!-- Fathom - beautiful, simple website analytics -->
@@ -21,67 +26,99 @@
 </head>
 
 <body>
-    <header>
-        <a href="/" class="blurry" rel="noreferrer">Blurry</a>
+    <header class="is-fixed-above-lg">
+        <div class="container" style="display: flex; justify-content: space-between;">
+            <a href="/" class="contrast" style="align-self: center; font-size: 125%; font-weight: bold; text-decoration: none; filter: blur(0.035rem);">Blurry</a>
+            <nav>
+                <ul>
+                    <li class="hide-before-sm"><a class="contrast" href="/">Docs</a></li>
+                    <li class="hide-before-sm"><a class="contrast" href="https://blurry-themes.netlify.app/" target="_blank">Themes</a></li>
+                </ul>
+                <ul class="icons">
+                    <li><a rel="noopener noreferrer" class="contrast" aria-label="GitHub repository" href="https://github.com/blurry-dev/blurry" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24.25" viewBox="0 0 496 512" class="icon-github"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg></a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
-    <details>
-        <summary>Menu</summary>
-        <nav>
-            <ul>
-                <li>Getting Started
-                    <ul>
-                        <li><a href="/getting-started/quick-start/" rel="noreferrer">Quick Start</a></li>
-                    </ul>
-                </li>
-                <li>Commands
-                    <ul>
-                        <li><a href="/commands/build/" rel="noreferrer"><code>build</code></a></li>
-                        <li><a href="/commands/runserver/" rel="noreferrer"><code>runserver</code></a></li>
-                        <li><a href="/commands/clean/" rel="noreferrer"><code>clean</code></a></li>
-                    </ul>
-                </li>
-                <li>Content
-                    <ul>
-                        <li><a href="/content/markdown/" rel="noreferrer">Markdown</a></li>
-                        <li><a href="/content/images/" rel="noreferrer">Images</a></li>
-                        <li><a href="/content/videos/" rel="noreferrer">Videos</a></li>
-                        <li><a href="/content/dynamic/" rel="noreferrer">Dynamic (Jinja)</a></li>
-                    </ul>
-                </li>
-                <li>Templates
-                    <ul>
-                        <li><a href="/templates/syntax/" rel="noreferrer">Syntax</a></li>
-                        <li><a href="/templates/components/" rel="noreferrer">Components</a></li>
-                        <li><a href="/templates/context/" rel="noreferrer">Context</a></li>
-                        <li><a href="/templates/examples/" rel="noreferrer">Examples</a></li>
-                    </ul>
-                </li>
-                <li>Configuration
-                    <ul>
-                        <li><a href="/configuration/settings/" rel="noreferrer">Settings</a></li>
-                        <li><a href="/configuration/blurry.toml/" rel="noreferrer">blurry.toml</a></li>
-                        <li><a href="/configuration/environment-variables/" rel="noreferrer">Environment variables</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>Plugins
-                    <ul>
-                        <li><a href="/plugins/intro/" rel="noreferrer">Intro</a></li>
-                        <li><a href="/plugins/write-a-markdown-plugin/" rel="noreferrer">Write a Markdown plugin</a>
-                        </li>
-                        <li><a href="/plugins/write-an-html-plugin/" rel="noreferrer">Write an HTML plugin</a></li>
-                        <li><a href="/plugins/write-a-jinja-extension-plugin/" rel="noreferrer">Write a Jinja extension
-                                plugin</a></li>
-                        <li><a href="/plugins/write-a-jinja-filter-plugin/" rel="noreferrer">Write a Jinja filter
-                                plugin</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </details>
+    <main class="container has-table-of-contents page-index">
 
-    <main>
-        {% block body %}{% endblock %}
+    <nav aria-label="breadcrumb">
+        <ul>
+            <li><a class="secondary" href="/" id="mobile-show-menu-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon-menu"><path d="M4 6l16 0"></path><path d="M4 12l16 0"></path><path d="M4 18l16 0"></path></svg>
+                Documentation</a>
+            </li>
+            <li>Getting started</li>
+        </ul>
+    </nav>
+
+    <aside id="documentation-menu">
+        <header>
+            <h2>Documentation</h2>
+            <a aria-label="Close" id="menu-close-button" class="secondary" data-discover="true" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon-close"><path d="M18 6l-12 12"></path><path d="M6 6l12 12"></path></svg></a>
+        </header>
+        <nav class="is-sticky-above-lg">
+            <details open>
+                <summary>Getting Started</summary>
+                <ul>
+                    <li><MenuLink href="/getting-started/quick-start/" url={{ url }}>Quick Start</MenuLink></li>
+                </ul>
+            </details>
+            <details open>
+                <summary>Commands</summary>
+                <ul>
+                    <li><MenuLink href="/commands/build/" url={{ url }}><code>build</code></MenuLink></li>
+                    <li><MenuLink href="/commands/runserver/" url={{ url }}><code>runserver</code></MenuLink></li>
+                </ul>
+            </details>
+            <details open>
+                <summary>Content</summary>
+                <ul>
+                    <li><MenuLink href="/content/markdown/" url={{ url }}>Markdown</MenuLink></li>
+                    <li><MenuLink href="/content/images/" url={{ url }}>Images</MenuLink></li>
+                    <li><MenuLink href="/content/videos/" url={{ url }}>Videos</MenuLink></li>
+                    <li><MenuLink href="/content/dynamic/" url={{ url }}>Dynamic (Jinja)</MenuLink></li>
+                </ul>
+            </details>
+            <details open>
+                <summary>Templates</summary>
+                <ul>
+                    <li><MenuLink href="/templates/syntax/" url={{ url }}>Syntax</MenuLink></li>
+                    <li><MenuLink href="/templates/components/" url={{ url }}>Components</MenuLink></li>
+                    <li><MenuLink href="/templates/context/" url={{ url }}>Context</MenuLink></li>
+                    <li><MenuLink href="/templates/examples/" url={{ url }}>Examples</MenuLink></li>
+                </ul>
+            </details>
+            <details open>
+                <summary>Configuration</summary>
+                <ul>
+                    <li><MenuLink href="/configuration/settings/" url={{ url }}>Settings</MenuLink></li>
+                    <li><MenuLink href="/configuration/blurry.toml/" url={{ url }}>blurry.toml</MenuLink></li>
+                    <li><MenuLink href="/configuration/environment-variables/" url={{ url }}>Environment variables</MenuLink>
+                    </li>
+                </ul>
+            </details>
+            <details open>
+                <summary>Plugins</summary>
+                <ul>
+                    <li><MenuLink href="/plugins/intro/" url={{ url }}>Intro</MenuLink></li>
+                    <li><MenuLink href="/plugins/write-a-markdown-plugin/" url={{ url }}>Write a Markdown plugin</MenuLink></li>
+                    <li><MenuLink href="/plugins/write-an-html-plugin/" url={{ url }}>Write an HTML plugin</MenuLink></li>
+                    <li><MenuLink href="/plugins/write-a-jinja-extension-plugin/" url={{ url }}>Write a Jinja extension plugin</MenuLink></li>
+                    <li><MenuLink href="/plugins/write-a-jinja-filter-plugin/" url={{ url }}>Write a Jinja filter plugin</MenuLink></li>
+                </ul>
+            </details>
+        </nav>
+    </aside>
+
+    <hgroup>
+        <p class="chapter"></p>
+    </hgroup>
+    <aside id="table-of-contents">
+    </aside>
+    <div id="content" role="document">
+    {% block body %}{% endblock %}
+    </div>
     </main>
     <footer>
         <p>
@@ -104,12 +141,39 @@
         }
     </style>
     <script>
+        let isMenuOpen = false
+        const documentationMenu = document.getElementById('documentation-menu')
         function onWindowResize(event) {
-            const detailsElement = document.querySelector('details')
-            window.innerWidth > 800 ? detailsElement.setAttribute("open", "") : detailsElement.removeAttribute("open")
+            if (window.innerWidth > 1024) {
+                documentationMenu.style.transform = 'translate(0)'
+                isMenuOpen = false
+            }
+            else {
+                if (!isMenuOpen) {
+                    documentationMenu.style.transform = 'translate(calc(-100% - var(--pico-spacing)))'
+                }
+            }
         }
         addEventListener("resize", onWindowResize)
         onWindowResize()
+
+        const showMenuButton = document.getElementById('mobile-show-menu-button')
+        if (showMenuButton && documentationMenu) {
+            showMenuButton.addEventListener('click', (e) => {
+                e.preventDefault()
+                documentationMenu.style.transform = 'translate(0)'
+                isMenuOpen = true
+            })
+        }
+
+        const closeMenuButton = document.getElementById('menu-close-button')
+        if (closeMenuButton) {
+            closeMenuButton.addEventListener('click', (e) => {
+                e.preventDefault()
+                documentationMenu.style.transform = 'translate(calc(-100% - var(--pico-spacing)))'
+                isMenuOpen = false
+            })
+        }
     </script>
 </body>
 
