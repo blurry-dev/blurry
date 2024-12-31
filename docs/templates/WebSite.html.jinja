@@ -8,15 +8,22 @@ body main.container {
   margin: auto;
 }
 
-@media (min-width:1024px) {
+@media (min-width:824px) {
   body main.container {
     max-width:700px
   }
+  .flex-grid article {
+    flex: 0 1 330px;
+  }
 }
-@media (min-width:1280px) {
+@media (min-width:1080px) {
   body main.container {
     max-width:950px
   }
+  .flex-grid article {
+    flex: 0 1 450px;
+  }
+
 }
 body main.container h1,
 body main.container p {
@@ -40,10 +47,6 @@ h1 {
 main > pre {
   max-width: 650px;
   margin: calc(var(--pico-spacing) * 3) auto;
-}
-
-.flex-grid article {
-  flex: 0 1 450px;
 }
 </style>
 {% endblock %}
