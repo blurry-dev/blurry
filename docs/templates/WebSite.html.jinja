@@ -1,0 +1,55 @@
+{% extends "base.html.jinja" %}
+
+{% block title %}{{ name }}{% endblock %}
+
+{% block head_end %}
+<style>
+body main.container {
+  margin: auto;
+}
+
+@media (min-width:1024px) {
+  body main.container {
+    max-width:700px
+  }
+}
+@media (min-width:1280px) {
+  body main.container {
+    max-width:950px
+  }
+}
+body main.container h1,
+body main.container p {
+  text-wrap:balance
+}
+body main.container h1 {
+  margin-bottom:calc(var(--pico-spacing) * 2)
+}
+h1 {
+  max-width: 900px;
+  font-size: 3rem;
+  text-align: center;
+  background: linear-gradient(to right,rgb(201, 190, 99),rgb(168, 157, 56),rgb(172, 156, 64),rgb(130, 117, 46));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: auto;
+  padding: 0.5rem 0;
+}
+
+main pre {
+  max-width: 650px;
+  margin: calc(var(--pico-spacing) * 3) auto;
+}
+
+.flex-grid article {
+  flex: 0 1 450px;
+}
+</style>
+{% endblock %}
+
+{% block main %}
+<main class="container">
+  {{body|safe}}
+</main>
+{% endblock %}

@@ -22,6 +22,7 @@ The template context variables are:
 | Variable(s)              | Description                                                                                    |
 | ------------------------ | ---------------------------------------------------------------------------------------------- |
 | `body`                   | an HTML string converted from Markdown                                                         |
+| `filepath`               | the Markdown file path for the current page                                                    |
 | `url`                    | the absolute URL for the given page                                                            |
 | `schema_type_tag`        | a `<script type="application/ld+json">` tag containing Schema.org markup                       |
 | `open_graph_tags`        | [Open Graph](https://ogp.me/) meta tags, like `<meta property="og:title" content="..." />`     |

@@ -536,15 +536,3 @@ main>aside>nav details>ul li a:not([role=button]):focus-visible:not([role]) {
   h6):hover>a[id]:focus-visible {
   opacity: 1
 }
-
-body>header>div.container>a {
-  align-self: center;
-  font-size: 125%;
-  font-weight: bold;
-  text-decoration: none;
-  filter: blur(0.04rem);
-}
-
-pre {
-  border: 1px solid var(--pico-muted-border-color);
-}
