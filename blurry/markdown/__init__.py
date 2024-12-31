@@ -137,7 +137,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
 
 
 def is_blurry_renderer(
-    renderer: mistune.HTMLRenderer,
+    renderer: mistune.BaseRenderer,
 ) -> TypeGuard[type[BlurryRenderer]]:
     return isinstance(renderer, BlurryRenderer)
 
@@ -145,7 +145,8 @@ def is_blurry_renderer(
 renderer = BlurryRenderer(escape=False)
 markdown = mistune.Markdown(
     renderer,
-    plugins=[
+    # Ignoring types because the renderer is expecting markdown: Markdown rather than md: Markdown
+    plugins=[  # type: ignore
         abbr,
         def_list,
         footnotes,

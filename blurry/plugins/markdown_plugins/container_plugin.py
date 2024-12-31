@@ -23,6 +23,8 @@ class Container(Admonition):
         for name in self.SUPPORTED_NAMES:
             directive.register(name, self.parse)
 
+        if not md.renderer:
+            raise ValueError("Renderer not found on Markdown instance")
         if md.renderer.NAME == "html":
             md.renderer.register("admonition", render_admonition)
             md.renderer.register("admonition_title", lambda plugin, text: "")
