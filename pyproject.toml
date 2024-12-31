@@ -74,3 +74,7 @@ container = 'blurry.plugins.markdown_plugins.container_plugin:container'
 
 [tool.poetry.plugins."blurry.jinja_extensions"]
 blurry_image = "blurry.plugins.jinja_plugins.blurry_image_extension:BlurryImage"
+
+[tool.poetry.plugins."blurry.jinja_filter_plugins"]
+url_path = "blurry.plugins.jinja_plugins.filters:url_path"
+headings = "blurry.plugins.jinja_plugins.filters:headings"

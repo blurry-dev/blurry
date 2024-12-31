@@ -23,6 +23,7 @@ from blurry.images import generate_sizes_string
 from blurry.images import generate_srcset_string
 from blurry.images import get_widths_for_image_width
 from blurry.plugins import discovered_markdown_plugins
+from blurry.plugins.jinja_plugins.filters import slugify
 from blurry.settings import get_content_directory
 from blurry.settings import SETTINGS
 from blurry.types import is_str
@@ -134,6 +135,12 @@ class BlurryRenderer(mistune.HTMLRenderer):
         )
 
         return f"<a {attrs_string}>{text}</a>"
+
+    def heading(self, text: str, level: int, **attrs: Any) -> str:
+        tag = f"h{level}"
+        html = f"<{tag}"
+        html += f' id="{slugify(text)}"'
+        return f"{html}>{text}</{tag}>\n"
 
 
 def is_blurry_renderer(
