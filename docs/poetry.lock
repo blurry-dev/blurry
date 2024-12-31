@@ -28,7 +28,7 @@ Jinja2 = "^3.0.0"
 jinja2-simple-tags = "^0.6.1"
 jinjax = "^0.48"
 livereload = "^2.7.0"
-mistune = "^3.0.2"
+mistune = "^3.0.10"
 pydantic2-schemaorg = "^0.2.0"
 PyLD = "^2.0.3"
 rich = "^13.3.3"
@@ -39,25 +39,6 @@ Wand = "^0.6.6"
 [package.source]
 type = "directory"
 url = ".."
-
-[[package]]
-name = "blurry-plugin-blur-blurry-name"
-version = "0.1.0"
-description = "A simple plugin to blur 'Blurry' in the Blurry documentation"
-optional = false
-python-versions = "^3.10"
-files = []
-develop = false
-
-[package.dependencies]
-blurry-cli = "*"
-mistune = "^3.0.0rc5"
-
-[package.source]
-type = "git"
-url = "https://github.com/blurry-dev/blurry-plugin-blur-blurry-name.git"
-reference = "HEAD"
-resolved_reference = "4255c21c98fe9c24eec00257d613ff7aecc23b66"
 
 [[package]]
 name = "cachetools"
@@ -516,13 +497,13 @@ files = [
 
 [[package]]
 name = "mistune"
-version = "3.0.2"
+version = "3.1.0"
 description = "A sane and fast Markdown parser with useful plugins and renderers"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "mistune-3.0.2-py3-none-any.whl", hash = "sha256:71481854c30fdbc938963d3605b72501f5c10a9320ecd412c121c163a1c7d205"},
-    {file = "mistune-3.0.2.tar.gz", hash = "sha256:fc7f93ded930c92394ef2cb6f04a8aabab4117a91449e72dcc8dfa646a508be8"},
+    {file = "mistune-3.1.0-py3-none-any.whl", hash = "sha256:b05198cf6d671b3deba6c87ec6cf0d4eb7b72c524636eddb6dbf13823b52cee1"},
+    {file = "mistune-3.1.0.tar.gz", hash = "sha256:dbcac2f78292b9dc066cd03b7a3a26b62d85f8159f2ea5fd28e55df79908d667"},
 ]
 
 [[package]]
@@ -872,4 +853,4 @@ test = ["pytest (>=7.2.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "5bd3fbd7f85be76c0b09fd15d91f16fb84e32c66611d339b4e70e99bfa250e9e"
+content-hash = "0bdaaba6a005470f2c511be5d3797ab6a4f31b4da33cdb2d2a5879f526ee586c"
