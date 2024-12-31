@@ -1,483 +1,550 @@
 :root:not([data-theme=dark]) article footer.code[data-theme=dark],
 [data-theme=light] article footer.code[data-theme=dark] {
-  --pico-card-background-color:#181c25;
-  --pico-card-border-color:var(--pico-card-background-color);
-  --pico-card-box-shadow:var(--pico-box-shadow);
-  --pico-card-sectioning-background-color:#1c212c
+  --pico-card-background-color: #181c25;
+  --pico-card-border-color: var(--pico-card-background-color);
+  --pico-card-box-shadow: var(--pico-box-shadow);
+  --pico-card-sectioning-background-color: #1c212c
 }
+
 body {
-  --pico-main-top-offset:0rem
+  --pico-main-top-offset: 0rem
 }
+
 body>header.is-fixed-above-lg+main {
-  --pico-main-top-offset:var(--pico-header-height)
+  --pico-main-top-offset: var(--pico-header-height)
 }
+
 body>main {
-  display:grid;
-  grid-template-rows:1fr;
-  row-gap:2rem;
-  margin-bottom:calc(var(--pico-spacing) * 4);
-  padding:0
+  display: grid;
+  grid-template-rows: 1fr;
+  row-gap: 2rem;
+  margin-bottom: calc(var(--pico-spacing) * 4);
+  padding: 0
 }
+
 body>main>* {
-  min-width:0;
-  margin-bottom:0
+  min-width: 0;
+  margin-bottom: 0
 }
+
 @media (min-width:1024px) {
   body>main {
-    grid-template-rows:auto 1fr;
-    grid-template-columns:11rem 1fr;
-    grid-template-areas:"menu header" "menu body";
-    -moz-column-gap:3rem;
-    column-gap:3rem;
-    row-gap:3rem
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 11rem 1fr;
+    grid-template-areas: "menu body";
+    -moz-column-gap: 3rem;
+    column-gap: 3rem;
+    row-gap: 3rem
   }
+
   body>main.has-table-of-contents {
-    grid-template-rows:auto auto 1fr;
-    grid-template-columns:11rem 1fr;
-    grid-template-areas:"menu header" "menu table-of-content" "menu body"
+    grid-template-rows: auto auto 1fr;
+    grid-template-columns: 11rem 1fr;
+    grid-template-areas: "menu table-of-content" "menu body"
   }
+
   body>main:has(aside#table-of-contents) {
-    grid-template-rows:auto auto 1fr;
-    grid-template-columns:11rem 1fr;
-    grid-template-areas:"menu header" "menu table-of-content" "menu body"
+    grid-template-rows: auto auto 1fr;
+    grid-template-columns: 11rem 1fr;
+    grid-template-areas: "menu table-of-content" "menu body"
   }
+
   body>main>nav[aria-label=breadcrumb] {
-    display:none
+    display: none
   }
+
   body>main>aside>nav {
-    margin-top:calc(var(--pico-block-spacing-vertical)/ 2)
+    margin-top: calc(var(--pico-block-spacing-vertical)/ 2)
   }
+
   body>main>aside>nav.is-sticky-above-lg {
-    position:sticky;
-    top:calc(var(--pico-main-top-offset) + var(--pico-block-spacing-vertical)/ 2);
-    max-height:calc(var(--max-height) - var(--pico-spacing));
-    overflow:auto;
-    transition:top var(--pico-transition);
-    transition-delay:50ms
+    position: sticky;
+    top: calc(var(--pico-main-top-offset) + var(--pico-block-spacing-vertical)/ 2);
+    max-height: calc(var(--max-height) - var(--pico-spacing));
+    overflow: auto;
+    transition: top var(--pico-transition);
+    transition-delay: 50ms
   }
+
   body>main>aside#documentation-menu {
-    grid-area:menu
+    grid-area: menu
   }
-  body>main>hgroup {
-    grid-area:header;
-    margin-top:calc(var(--pico-block-spacing-vertical)/ 2)
-  }
+
   body>main>aside#table-of-contents {
-    grid-area:table-of-content
+    grid-area: table-of-content
   }
+
   body>main>[role=document] {
-    grid-area:body
+    grid-area: body
   }
 }
+
 @media (min-width:1280px) {
   body>main {
-    grid-template-rows:auto 1fr;
-    grid-template-columns:10.5rem 1fr;
-    grid-template-areas:"menu header" "menu body";
-    row-gap:4rem
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 10.5rem 1fr;
+    grid-template-areas: "menu body";
+    row-gap: 4rem
   }
+
   body>main.has-table-of-contents {
-    grid-template-rows:auto 1fr;
-    grid-template-columns:10.5rem 1fr 10.5rem;
-    grid-template-areas:"menu header table-of-content" "menu body table-of-content"
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 10.5rem 1fr 10.5rem;
+    grid-template-areas: "menu body table-of-content"
   }
+
   body>main:has(aside#table-of-contents) {
-    grid-template-rows:auto 1fr;
-    grid-template-columns:10.5rem 1fr 10.5rem;
-    grid-template-areas:"menu header table-of-content" "menu body table-of-content"
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 10.5rem 1fr 10.5rem;
+    grid-template-areas: "menu body table-of-content"
   }
+
   body>main>aside#documentation-menu {
-    grid-area:menu
+    grid-area: menu
   }
-  body>main>hgroup {
-    grid-area:header
-  }
+
   body>main>aside#table-of-contents {
-    grid-area:table-of-content
+    grid-area: table-of-content
   }
+
   body>main>[role=document] {
-    grid-area:body
+    grid-area: body
   }
 }
+
 @media (min-width:1536px) {
   body>main {
-    grid-template-rows:auto 1fr;
-    grid-template-columns:10rem 1fr 10rem;
-    grid-template-areas:"menu header table-of-content" "menu body table-of-content";
-    row-gap:5rem
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 10rem 1fr 10rem;
+    grid-template-areas: "menu body table-of-content";
+    row-gap: 5rem
   }
 }
-body>main.is-loading>[role=document],
-body>main.is-loading>aside#table-of-contents,
-body>main.is-loading>hgroup {
-  animation-duration:1s;
-  animation-fill-mode:forwards;
-  animation-name:docs-loading;
-  opacity:.5
-}
+
 @keyframes docs-loading {
   0% {
-    opacity:1
+    opacity: 1
   }
 }
+
 html {
-  scroll-padding-top:calc(var(--pico-breadcrumb-height) + 1rem)
+  scroll-padding-top: calc(var(--pico-breadcrumb-height) + 1rem)
 }
+
 @media (min-width:1024px) {
   html {
-    scroll-padding-top:calc(var(--pico-header-height) + 2rem - .375rem)
+    scroll-padding-top: calc(var(--pico-header-height) + 2rem - .375rem)
   }
 }
+
 html {
-  --pico-breadcrumb-height:calc(3.5rem + var(--pico-border-width))
+  --pico-breadcrumb-height: calc(3.5rem + var(--pico-border-width))
 }
+
 main>[aria-label=breadcrumb] {
-  z-index:3;
-  position:sticky;
-  top:-1px;
-  margin:0 calc(var(--pico-spacing) * -1);
-  margin-top:calc(var(--pico-block-spacing-vertical)/ 2);
-  padding:0 var(--pico-spacing);
-  border-bottom:var(--pico-border-width) solid transparent;
-  background-color:var(--pico-background-color);
-  transition:border var(--pico-transition),box-shadow var(--pico-transition)
+  z-index: 3;
+  position: sticky;
+  top: -1px;
+  margin: 0 calc(var(--pico-spacing) * -1);
+  margin-top: calc(var(--pico-block-spacing-vertical)/ 2);
+  padding: 0 var(--pico-spacing);
+  border-bottom: var(--pico-border-width) solid transparent;
+  background-color: var(--pico-background-color);
+  transition: border var(--pico-transition), box-shadow var(--pico-transition)
 }
+
 @media (min-width:576px) and (max-width:1023px) {
   main>[aria-label=breadcrumb] {
-    margin:0 calc((100vw - 510px)/-2);
-    padding:0 calc((100vw - 510px)/2)
+    margin: 0 calc((100vw - 510px)/-2);
+    padding: 0 calc((100vw - 510px)/2)
   }
 }
+
 @media (min-width:768px) and (max-width:1023px) {
   main>[aria-label=breadcrumb] {
-    margin:0 calc((100vw - 700px)/-2);
-    padding:0 calc((100vw - 700px)/2)
+    margin: 0 calc((100vw - 700px)/-2);
+    padding: 0 calc((100vw - 700px)/2)
   }
 }
+
 main>[aria-label=breadcrumb].is-sticky {
-  border-bottom-color:var(--pico-header-border-color);
-  box-shadow:var(--pico-card-box-shadow)
+  border-bottom-color: var(--pico-header-border-color);
+  box-shadow: var(--pico-card-box-shadow)
 }
+
 main>[aria-label=breadcrumb] ul {
-  max-width:100%
+  max-width: 100%
 }
+
 main>[aria-label=breadcrumb] ul li {
-  flex-shrink:0;
-  text-overflow:ellipsis;
-  white-space:nowrap
+  flex-shrink: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap
 }
+
 main>[aria-label=breadcrumb] ul li:not(:last-child):after {
-  content:">"
+  content: ">"
 }
+
 main>[aria-label=breadcrumb] ul li:first-child a {
-  color:var(--pico-secondary);
-  cursor:pointer
+  color: var(--pico-secondary);
+  cursor: pointer
 }
+
 main>[aria-label=breadcrumb] ul li:first-child a:hover {
-  color:var(--pico-secondary-hover)
+  color: var(--pico-secondary-hover)
 }
+
 main>[aria-label=breadcrumb] ul li:last-child {
-  flex-shrink:1
+  flex-shrink: 1
 }
+
 @media (min-width:576px) {
   main>[aria-label=breadcrumb] ul li:first-child:after {
-    display:inline-block
+    display: inline-block
   }
 }
+
 main>[aria-label=breadcrumb] svg {
-  width:auto;
-  height:1.125rem;
-  margin-right:var(--pico-nav-link-spacing-horizontal);
-  transform:translateY(-.0625rem)
+  width: auto;
+  height: 1.125rem;
+  margin-right: var(--pico-nav-link-spacing-horizontal);
+  transform: translateY(-.0625rem)
 }
+
 main>[aria-label=breadcrumb] a[aria-current] {
-  pointer-events:auto
+  pointer-events: auto
 }
+
 main>aside {
-  --pico-font-size:16px;
-  font-size:var(--pico-font-size)
+  --pico-font-size: 16px;
+  font-size: var(--pico-font-size)
 }
+
 main>aside nav details:last-of-type {
-  margin-bottom:0
+  margin-bottom: 0
 }
+
 main>aside nav details summary {
-  font-weight:600;
-  line-height:var(--pico-line-height)
+  font-weight: 600;
+  line-height: var(--pico-line-height)
 }
+
 main>aside nav details summary:focus-visible:not([role]) {
-  outline-offset:0
+  outline-offset: 0
 }
+
 main>aside nav details summary:after {
-  height:calc(1em * var(--pico-line-height))
+  height: calc(1em * var(--pico-line-height))
 }
+
 @media (min-width:1024px) {
   main>aside nav details summary:not(:focus-visible):after {
-    display:none
+    display: none
   }
 }
+
 main>aside nav details[open]>summary {
-  margin-bottom:calc(var(--pico-spacing) * .5)
+  margin-bottom: calc(var(--pico-spacing) * .5)
 }
+
 main>aside nav details[open]>summary:not([role]):not(:focus) {
-  color:inherit
+  color: inherit
 }
+
 main>aside nav details ul {
-  border-left:var(--pico-border-width) solid var(--pico-muted-border-color)
+  border-left: var(--pico-border-width) solid var(--pico-muted-border-color)
 }
+
 main>aside nav details ul:first-of-type {
-  margin:0;
-  padding:0
+  margin: 0;
+  padding: 0
 }
+
 main>aside nav details ul li {
-  margin:0;
-  padding:calc(var(--pico-nav-element-spacing-vertical) * .25) 0
+  margin: 0;
+  padding: calc(var(--pico-nav-element-spacing-vertical) * .25) 0
 }
+
 main>aside nav details ul li a {
-  margin:0;
-  margin-left:calc(var(--pico-border-width) * -1);
-  padding:0;
-  padding-left:calc(var(--pico-nav-element-spacing-horizontal) * 1.5);
-  border-left:var(--pico-border-width) solid transparent;
-  border-radius:0;
-  font-weight:400;
-  transition:background-color var(--pico-transition),color var(--pico-transition),box-shadow var(--pico-transition),border-color var(--pico-transition),font-weight var(--pico-transition),-webkit-text-decoration var(--pico-transition);
-  transition:background-color var(--pico-transition),color var(--pico-transition),text-decoration var(--pico-transition),box-shadow var(--pico-transition),border-color var(--pico-transition),font-weight var(--pico-transition);
-  transition:background-color var(--pico-transition),color var(--pico-transition),text-decoration var(--pico-transition),box-shadow var(--pico-transition),border-color var(--pico-transition),font-weight var(--pico-transition),-webkit-text-decoration var(--pico-transition)
+  margin: 0;
+  margin-left: calc(var(--pico-border-width) * -1);
+  padding: 0;
+  padding-left: calc(var(--pico-nav-element-spacing-horizontal) * 1.5);
+  border-left: var(--pico-border-width) solid transparent;
+  border-radius: 0;
+  font-weight: 400;
+  transition: background-color var(--pico-transition), color var(--pico-transition), box-shadow var(--pico-transition), border-color var(--pico-transition), font-weight var(--pico-transition), -webkit-text-decoration var(--pico-transition);
+  transition: background-color var(--pico-transition), color var(--pico-transition), text-decoration var(--pico-transition), box-shadow var(--pico-transition), border-color var(--pico-transition), font-weight var(--pico-transition);
+  transition: background-color var(--pico-transition), color var(--pico-transition), text-decoration var(--pico-transition), box-shadow var(--pico-transition), border-color var(--pico-transition), font-weight var(--pico-transition), -webkit-text-decoration var(--pico-transition)
 }
+
 main>aside nav details ul li a:hover {
-  border-color:var(--pico-secondary-underline)
+  border-color: var(--pico-secondary-underline)
 }
+
 main>aside nav details ul li a[aria-current] {
-  border-color:var(--pico-primary);
-  color:var(--pico-primary-hover);
-  font-weight:600
+  border-color: var(--pico-primary);
+  color: var(--pico-primary-hover);
+  font-weight: 600
 }
+
 main>aside nav details ul li a[aria-current]:hover {
-  text-decoration:none
+  text-decoration: none
 }
+
 main>aside nav details ul li a mark {
-  border-radius:.125rem;
-  font-weight:600;
-  font-size:12px;
-  text-transform:uppercase;
-  vertical-align:text-bottom
+  border-radius: .125rem;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  vertical-align: text-bottom
 }
+
 main>aside#documentation-menu {
-  position:relative
+  position: relative
 }
+
 main>aside#documentation-menu header {
-  display:grid;
-  grid-template-columns:1fr auto;
-  align-items:center;
-  height:var(--pico-header-height);
-  margin-bottom:var(--pico-spacing)
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  height: var(--pico-header-height);
+  margin-bottom: var(--pico-spacing)
 }
+
 main>aside#documentation-menu header h2 {
-  --pico-font-size:1.25rem;
-  margin-bottom:0
+  --pico-font-size: 1.25rem;
+  margin-bottom: 0;
+  padding: 0.5rem 0;
 }
+
 main>aside#documentation-menu header a {
-  opacity:.5;
-  transition:background-color var(--pico-transition),color var(--pico-transition),opacity var(--pico-transition)
+  opacity: .5;
+  transition: background-color var(--pico-transition), color var(--pico-transition), opacity var(--pico-transition)
 }
+
 main>aside#documentation-menu header a svg {
-  display:block;
-  width:auto;
-  height:1.125rem
+  display: block;
+  width: auto;
+  height: 1.125rem
 }
+
 main>aside#documentation-menu header a:hover {
-  opacity:1
+  opacity: 1
 }
+
 @media (min-width:1024px) {
   main>aside#documentation-menu header {
-    display:none
+    display: none
   }
 }
+
 @media (max-width:1023px) {
   main>aside#documentation-menu {
-    display:grid;
-    z-index:4;
-    position:fixed;
-    inset:0;
-    grid-template-rows:auto 1fr;
-    transform:translate(calc(-100% - var(--pico-spacing)));
-    transition:transform var(--pico-transition)
+    display: grid;
+    z-index: 4;
+    position: fixed;
+    inset: 0;
+    grid-template-rows: auto 1fr;
+    transform: translate(calc(-100% - var(--pico-spacing)));
+    transition: transform var(--pico-transition)
   }
+
   main>aside#documentation-menu header,
   main>aside#documentation-menu nav {
-    padding:0 var(--pico-spacing)
+    padding: 0 var(--pico-spacing)
   }
+
   main>aside#documentation-menu nav {
-    margin-bottom:var(--pico-spacing);
-    margin-block:calc(var(--pico-outline-width) * -1);
-    padding-block:var(--pico-outline-width);
-    overflow:auto
+    margin-bottom: var(--pico-spacing);
+    margin-block: calc(var(--pico-outline-width) * -1);
+    padding-block: var(--pico-outline-width);
+    overflow: auto
   }
+
   main>aside#documentation-menu:before {
-    z-index:-1;
-    position:fixed;
-    inset:0;
-    background-color:var(--pico-background-color);
-    content:""
+    z-index: -1;
+    position: fixed;
+    inset: 0;
+    background-color: var(--pico-background-color);
+    content: ""
   }
+
   main>aside#documentation-menu.is-open-on-mobile {
-    transform:translate(0)
+    transform: translate(0)
   }
 }
+
 @media (max-width:1023px) and (min-width:576px) and (max-width:1023px) {
   main>aside#documentation-menu.is-open-on-mobile {
-    max-width:calc(510px + var(--pico-spacing) * 2);
-    margin-right:auto;
-    margin-left:auto
+    max-width: calc(510px + var(--pico-spacing) * 2);
+    margin-right: auto;
+    margin-left: auto
   }
+
   main>aside#documentation-menu.is-open-on-mobile:before {
-    inset:0 calc((100vw - 510px)/-2)
+    inset: 0 calc((100vw - 510px)/-2)
   }
 }
+
 @media (max-width:1023px) and (min-width:768px) and (max-width:1023px) {
   main>aside#documentation-menu.is-open-on-mobile {
-    max-width:calc(700px + var(--pico-spacing) * 2)
+    max-width: calc(700px + var(--pico-spacing) * 2)
   }
+
   main>aside#documentation-menu.is-open-on-mobile:before {
-    inset:0 calc((100vw - 700px)/-2)
+    inset: 0 calc((100vw - 700px)/-2)
   }
 }
+
 @media (min-width:1024px) {
   main>aside#documentation-menu {
-    transition:none
+    transition: none
   }
 }
+
 @media (max-width:1023px) {
   html:has(aside#documentation-menu.is-open-on-mobile) {
-    overflow:hidden
+    overflow: hidden
   }
 }
-main>hgroup p.chapter {
-  margin-bottom:calc(var(--pico-spacing) * .25)
-}
-main>hgroup h1 {
-  margin-bottom:calc(var(--pico-spacing) * .5);
-  font-family:Figtree,var(--pico-font-family)
-}
-@media (min-width:576px) {
-  main>hgroup h1 {
-    --pico-font-size:2.5rem
-  }
-}
-@media (min-width:1536px) {
-  main>hgroup h1 h1 {
-    --pico-font-size:3rem
-  }
-}
-main>hgroup p {
-  text-wrap:pretty
-}
+
+
 main>aside#table-of-contents details {
-  border-bottom:none
+  border-bottom: none
 }
+
 main>aside#table-of-contents details summary {
-  pointer-events:none
+  pointer-events: none
 }
+
 main>aside#table-of-contents details summary:after {
-  display:none
+  display: none
 }
+
 @media (max-width:1279px) {
   main>aside#table-of-contents details ul li a:not(:hover) {
-    text-decoration:underline;
-    text-decoration-color:var(--pico-secondary-underline)
+    text-decoration: underline;
+    text-decoration-color: var(--pico-secondary-underline)
   }
+
   main>aside#table-of-contents details ul li a[aria-current] {
-    border-color:transparent;
-    color:var(--pico-secondary);
-    font-weight:400;
-    text-decoration-color:var(--pico-secondary-underline)
+    border-color: transparent;
+    color: var(--pico-secondary);
+    font-weight: 400;
+    text-decoration-color: var(--pico-secondary-underline)
   }
+
   main>aside#table-of-contents details ul li a[aria-current]:hover {
-    border-color:var(--pico-secondary-underline);
-    color:var(--pico-secondary-hover);
-    text-decoration:underline
+    border-color: var(--pico-secondary-underline);
+    color: var(--pico-secondary-hover);
+    text-decoration: underline
   }
 }
+
 main>[role=document] section {
-  margin-bottom:calc(var(--pico-spacing) * 3)
+  margin-bottom: calc(var(--pico-spacing) * 3)
 }
+
 main>[role=document] article form>:last-child:not(footer,
-.grid),
+  .grid),
 main>[role=document] article>:last-child:not(footer,
-.grid) {
-  margin-bottom:0
+  .grid) {
+  margin-bottom: 0
 }
+
 main>aside>nav details>summary:focus-visible:not([role]),
 main>aside>nav details>ul li a:not([role=button]):focus-visible:not([role]) {
-  outline:0;
-  box-shadow:none;
-  color:var(--pico-primary-hover);
-  text-decoration:underline
+  outline: 0;
+  box-shadow: none;
+  color: var(--pico-primary-hover);
+  text-decoration: underline
 }
+
 :is(h1,
-h2,
-h3,
-h4,
-h5,
-h6) {
-  position:relative
+  h2,
+  h3,
+  h4,
+  h5,
+  h6) {
+  position: relative
 }
+
 :is(h1,
-h2,
-h3,
-h4,
-h5,
-h6)>a[id] {
-  padding-left:calc(var(--pico-spacing) * .5);
-  font-weight:400;
-  text-decoration:none;
-  opacity:0;
-  transition:color var(--pico-transition) opacity var(--pico-transition)
-}
-@media (min-width:1024px) {
-  :is(h1,
   h2,
   h3,
   h4,
   h5,
   h6)>a[id] {
-    position:absolute;
-    left:0;
-    padding-right:calc(var(--pico-spacing) * .5);
-    transform:translate(-100%)
+  padding-left: calc(var(--pico-spacing) * .5);
+  font-weight: 400;
+  text-decoration: none;
+  opacity: 0;
+  transition: color var(--pico-transition) opacity var(--pico-transition)
+}
+
+@media (min-width:1024px) {
+
+  :is(h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6)>a[id] {
+    position: absolute;
+    left: 0;
+    padding-right: calc(var(--pico-spacing) * .5);
+    transform: translate(-100%)
   }
 }
+
 :is(h1,
-h2,
-h3,
-h4,
-h5,
-h6)>a[id]:focus-visible {
-  box-shadow:none;
-  color:var(--pico-primary);
-  opacity:1
+  h2,
+  h3,
+  h4,
+  h5,
+  h6)>a[id]:focus-visible {
+  box-shadow: none;
+  color: var(--pico-primary);
+  opacity: 1
 }
+
 :is(h1,
-h2,
-h3,
-h4,
-h5,
-h6):hover>a[id] {
-  opacity:.25
+  h2,
+  h3,
+  h4,
+  h5,
+  h6):hover>a[id] {
+  opacity: .25
 }
+
 :is(h1,
-h2,
-h3,
-h4,
-h5,
-h6):hover>a[id]:hover {
-  opacity:.5
+  h2,
+  h3,
+  h4,
+  h5,
+  h6):hover>a[id]:hover {
+  opacity: .5
 }
+
 :is(h1,
-h2,
-h3,
-h4,
-h5,
-h6):hover>a[id]:focus-visible {
-  opacity:1
+  h2,
+  h3,
+  h4,
+  h5,
+  h6):hover>a[id]:focus-visible {
+  opacity: 1
+}
+
+body>header>div.container>a {
+  align-self: center;
+  font-size: 125%;
+  font-weight: bold;
+  text-decoration: none;
+  filter: blur(0.04rem);
+}
+
+pre {
+  border: 1px solid var(--pico-muted-border-color);
 }

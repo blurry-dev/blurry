@@ -24,7 +24,7 @@
 <body>
     <header class="is-fixed-above-lg">
         <div class="container" style="display: flex; justify-content: space-between;">
-            <a href="/" class="contrast" style="align-self: center; font-size: 125%; font-weight: bold; text-decoration: none; filter: blur(0.035rem);">Blurry</a>
+            <a href="/">Blurry</a>
             <nav>
                 <ul>
                     <li class="hide-before-sm"><a class="contrast" href="/">Docs</a></li>
@@ -107,13 +107,10 @@
         </nav>
     </aside>
 
-    <hgroup>
-        <p class="chapter"></p>
-    </hgroup>
     <aside id="table-of-contents">
         <nav class="is-sticky-above-lg ">
-        <details open="">
-            <summary>Content</summary>
+            <details open="">
+                <summary>Content</summary>
                 <ul>
                     {% for heading in body|headings %}
                     <li><a class="secondary" data-discover="true" href="#{{ heading.id }}">{{ heading.text }}</a></li>
@@ -144,33 +141,16 @@
     <script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js" async defer></script>
     <script>window.addEventListener('load', () => hljs.highlightAll());</script>
     <style>
-        {
-            % include "assets/styles-below-the-fold.css" %
-        }
+        {% include "assets/styles-below-the-fold.css" %}
     </style>
     <script>
-        let isMenuOpen = false
         const documentationMenu = document.getElementById('documentation-menu')
-        function onWindowResize(event) {
-            if (window.innerWidth > 1024) {
-                documentationMenu.style.transform = 'translate(0)'
-                isMenuOpen = false
-            }
-            else {
-                if (!isMenuOpen) {
-                    documentationMenu.style.transform = 'translate(calc(-100% - var(--pico-spacing)))'
-                }
-            }
-        }
-        addEventListener("resize", onWindowResize)
-        onWindowResize()
-
         const showMenuButton = document.getElementById('mobile-show-menu-button')
+
         if (showMenuButton && documentationMenu) {
             showMenuButton.addEventListener('click', (e) => {
                 e.preventDefault()
-                documentationMenu.style.transform = 'translate(0)'
-                isMenuOpen = true
+                documentationMenu.classList.add('is-open-on-mobile')
             })
         }
 
@@ -178,8 +158,7 @@
         if (closeMenuButton) {
             closeMenuButton.addEventListener('click', (e) => {
                 e.preventDefault()
-                documentationMenu.style.transform = 'translate(calc(-100% - var(--pico-spacing)))'
-                isMenuOpen = false
+                documentationMenu.classList.remove('is-open-on-mobile')
             })
         }
     </script>
