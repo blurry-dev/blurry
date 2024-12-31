@@ -33,13 +33,7 @@ To register your plugin, add it as an entry point in one of the following entry 
 
 ## Examples
 
-For a simple example of a Markdown plugin, see <https://github.com/blurry-dev/blurry-plugin-blur-blurry-name>.
-It registers a Blurry Markdown plugin in its `pyproject.toml` file using [Poetry's plugin entry point syntax](https://python-poetry.org/docs/pyproject/#plugins):
+For a simple example of a Markdown plugin, see Blurry's own punctuation plugin: <https://github.com/blurry-dev/blurry/blob/main/blurry/plugins/markdown_plugins/punctuation_plugin.py>.
 
-```toml
-[tool.poetry.plugins."blurry.markdown_plugins"]
-blur_blurry_name = "blurry_plugin_blur_blurry_name:blur_blurry_name"
-```
-
-Blurry [dogfoods](https://en.wikipedia.org/wiki/Eating_your_own_dog_food) its own plugin architecture, too.
+Blurry [dogfoods](https://en.wikipedia.org/wiki/Eating_your_own_dog_food) its own plugin architecture, so you can use the Blurry source code as an example of writing a Blurry Plugin.
 See which plugins are registered in [Blurry's `pyproject.toml` file](https://github.com/blurry-dev/blurry/blob/main/pyproject.toml).
