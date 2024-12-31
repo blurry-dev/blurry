@@ -111,6 +111,16 @@
         <p class="chapter"></p>
     </hgroup>
     <aside id="table-of-contents">
+        <nav class="is-sticky-above-lg ">
+        <details open="">
+            <summary>Content</summary>
+                <ul>
+                    {% for heading in body|headings %}
+                    <li><a class="secondary" data-discover="true" href="#{{ heading.id }}">{{ heading.text }}</a></li>
+                    {% endfor %}
+                </ul>
+            </details>
+        </nav>
     </aside>
     <div id="content" role="document">
     {% block body %}{% endblock %}
