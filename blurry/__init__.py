@@ -208,6 +208,10 @@ def gather_file_data_by_directory() -> DirectoryFileData:
         for future in concurrent.futures.as_completed(markdown_future_to_path):
             body, front_matter = future.result()
             relative_filepath = markdown_future_to_path[future]
+            if exception := future.exception():
+                print(
+                    f"{relative_filepath}: Could not convert file to HTML - {exception}"
+                )
             file_data = MarkdownFileData(
                 body=body,
                 front_matter=front_matter,
@@ -281,6 +285,12 @@ async def build(release=True, clean: bool = False):
                 if filepath.is_dir():
                     continue
                 if filepath.suffix == ".md":
+
+                    def on_markdown_file_processed(future: concurrent.futures.Future):
+                        progress.advance(markdown_task)
+                        if exception := future.exception():
+                            print(f"{filepath}: could not process file - {exception}")
+
                     markdown_future = executor.submit(
                         write_html_file,
                         filepath.relative_to(content_directory),
@@ -290,9 +300,7 @@ async def build(release=True, clean: bool = False):
                     )
                     markdown_task_count += 1
                     progress.update(markdown_task, total=markdown_task_count)
-                    markdown_future.add_done_callback(
-                        lambda _: progress.advance(markdown_task)
-                    )
+                    markdown_future.add_done_callback(on_markdown_file_processed)
                     continue
                 other_future = executor.submit(
                     process_non_markdown_file,
@@ -302,7 +310,13 @@ async def build(release=True, clean: bool = False):
                 )
                 non_markdown_task_count += 1
                 progress.update(other_task, total=non_markdown_task_count)
-                other_future.add_done_callback(lambda _: progress.advance(other_task))
+
+                def on_non_markdown_file_processed(future: concurrent.futures.Future):
+                    progress.advance(other_task)
+                    if exception := future.exception():
+                        print(f"{filepath}: could not process file - {exception}")
+
+                other_future.add_done_callback(on_non_markdown_file_processed)
 
             print(
                 f"Blurring {markdown_task_count} Markdown files and {non_markdown_task_count} other files"
