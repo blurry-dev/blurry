@@ -1,7 +1,7 @@
 exclude: '\/migrations\/.*.py'
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.5
+    rev: v0.8.4
     hooks:
       # Lint
       - id: ruff
@@ -10,17 +10,22 @@ repos:
       - id: ruff-format
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.15.0
+    rev: v3.19.1
     hooks:
       - id: pyupgrade
-        args: [--py310-plus]
+        args: [--py311-plus]
 
   - repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.12.0
+    rev: v3.14.0
     hooks:
       - id: reorder-python-imports
         language_version: python3
-        args: [--py310-plus]
+        args: [--py311-plus]
+
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.29.0
+    hooks:
+      - id: typos
 
   - repo: local
     hooks:
@@ -30,7 +35,7 @@ repos:
         language: node
         pass_filenames: false
         types: [python]
-        additional_dependencies: ["pyright@1.1.335"]
+        additional_dependencies: ["pyright@1.1.391"]
 
   - repo: local
     hooks:
