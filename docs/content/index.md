@@ -63,7 +63,7 @@ While using Blurry doesn't guarantee good page speed, it does solve a number of 
 
 Blurry seeks to use sensible defaults so you can spend less time configuring and more time writing.
 
-A viable Blurry configuration file ([`blurry.toml`](./../configuration/blurry.toml.md)) can be as simple as:
+A viable [Blurry configuration file](./configuration/blurry.toml.md) can be as simple as:
 
 ```toml
 [blurry]
@@ -74,10 +74,13 @@ domain = "johnfraney.ca"
 
 <article>
 
-### 🧹 Semantic HTML
+### 🧩 Exensibility
 
-Where applicable, Blurry tries to use semantic HTML elements like `<aside>` over more generic elements like `<div>`.
-Using semantic HTML elements also facilities classless CSS styling, which can be useful when styling some Markdown-generated HTML elements, and it can be [good for accessibility](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/HTML), too.
+Blurry supports [plugins](./plugins/intro.md) to make it easy to add functionality for:
+
+- [Markdown customization](./plugins/write-a-markdown-plugin.md)
+- Jinja [filters](./plugins/write-a-jinja-filter-plugin.md) & [extensions](./plugins/write-a-jinja-extension-plugin.md)
+- [HTML post-processing](./plugins/write-an-html-plugin.md)
 
 </article>
 
