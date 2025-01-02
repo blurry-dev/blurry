@@ -17,6 +17,7 @@
     .external-link::after {
         content: "→";
         display: inline-block;
+        text-decoration: none;
         transform: rotate(-45deg);
         margin-left: 0.25rem;
     }
@@ -30,6 +31,24 @@
         margin-left: 0.25em;
     }
 
+    body > footer .container {
+        display: flex;
+        flex-flow: row wrap;
+    }
+
+    body > footer p {
+        font-size: 0.8rem;
+    }
+     
+     body > footer p::after {
+        content: "·";
+        display: inline-block;
+        margin: 0 0.5rem;
+     }
+     body > footer p:last-child::after {
+        content: "";
+        margin-left: 0;
+     }
 
 body>header>div.container>a {
   align-self: center;
@@ -97,11 +116,10 @@ pre {
     
     <footer>
         <div class="container">
-            <p>
-                <small>
-                    &copy; 2020-2024 <a href="https://johnfraney.ca/">John Franey</a>
-                </small>
-            </p>
+            <p>&copy; 2020-2025 <a href="https://johnfraney.ca/">John Franey</a></p>
+            <p>Built with—you guessed it—<a href="/" rel="noreferrer">Blurry</a></p>
+            <p>Styled with <a href="https://picocss.com/" target="_blank">Pico</a></p>
+            <p><img src="/images/pagespeed-logo.png" width="18" height="18" loading="lazy" alt="PageSpeed logo"> <a href="https://pagespeed.web.dev/analysis?url={{ sourceOrganization.url }}" class="external-link" target="_blank">PageSpeed report</a></p>
         </div>
     </footer>
 
