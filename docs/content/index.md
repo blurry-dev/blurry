@@ -5,34 +5,18 @@ abstract = "A Python-powered static site generator with a focus on page speed an
 datePublished = 2023-04-09
 +++
 
-# Blurry: A Python-powered static site generator
+# Blurry: A static site generator for SEO and page speed
 
-```shell
-$ blurry build
-.  .             
-|-.| . ..-..-.. .
-`-''-'-''  '  '-|
-              `-'
-┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
-┃ Markdown Plugins    ┃ HTML Plugins ┃ Jinja Plugins ┃
-┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
-│ blur_blurry_name    │ minify_html  │ body_to_cards │
-│ container           │              │ headings      │
-│ punctuation         │              │ url_path      │
-│ python_code         │              │ blurry_image  │
-│ python_code_in_list │              │               │
-└─────────────────────┴──────────────┴───────────────┘
-Blurring 21 Markdown files and 5 other files
-Markdown ━━━━━━━━━━━━━━━━━━━━━━━━━━╸━━━━━━━━━━━━━  67%
-Other    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%
-```
+<p style="text-align: center;">
+    <a href="/getting-started/quick-start/" class="right-arrow" role="button" rel="noreferrer">Get Started</a>
+</p>
 
 ## What is Blurry?
 
-Blurry is a static site generator with a terrible pun of a name: if you're generating static sight, you're making things Blurry.
+Blurry is a static site generator, like [Hugo](https://gohugo.io) or [Pelican](https://getpelican.com/), with a terrible pun of a name: if you're generating static sight, you're making things Blurry.
 
 Blurry brings the concept of schema-first development to static site generators.
-Specifically, Blurry uses [Schema.org](https://schema.org/) schema type names as the names for its template files, and schema type properties as Markdown front matter to populate those templates.
+Specifically, Blurry uses [Schema.org](https://schema.org/) schema type names as the names for its [template files](./templates/syntax.md), and schema type properties as [Markdown front matter](./content/markdown.md) to populate those templates.
 
 ## Goals
 

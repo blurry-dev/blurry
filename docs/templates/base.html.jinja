@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link rel="preload" href="/assets/pico.yellow.min.css" as="style" />
     <title>{% block title %}{% endblock %} | {{ sourceOrganization.name }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +22,12 @@
     }
     .external-link:hover::after {
         text-decoration: none;
+    }
+
+    .right-arrow::after {
+        content: "→";
+        display: inline-block;
+        margin-left: 0.25em;
     }
 
 
@@ -111,11 +118,12 @@ pre {
     <script>
         const documentationMenu = document.getElementById('documentation-menu')
         const showMenuButton = document.getElementById('mobile-show-menu-button')
+        const openMenuClassName = 'is-open-on-mobile'
 
         if (showMenuButton && documentationMenu) {
             showMenuButton.addEventListener('click', (e) => {
                 e.preventDefault()
-                documentationMenu.classList.add('is-open-on-mobile')
+                documentationMenu.classList.add(openMenuClassName)
             })
         }
 
@@ -123,7 +131,7 @@ pre {
         if (closeMenuButton) {
             closeMenuButton.addEventListener('click', (e) => {
                 e.preventDefault()
-                documentationMenu.classList.remove('is-open-on-mobile')
+                documentationMenu.classList.remove(openMenuClassName)
             })
         }
     </script>
