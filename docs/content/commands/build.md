@@ -3,9 +3,12 @@
 name = "Commands: build"
 abstract = "Documentation for Blurry's build command"
 datePublished = 2023-04-09
+dateModified = 2024-01-03
 +++
 
 # Commands: build
+
+## Usage
 
 `build` builds a production-ready version of a Blurry static site.
 It outputs the site in the folder specified by the `build_directory_name` [setting](./../configuration/settings.md), which defaults to `./dist/`

@@ -3,13 +3,14 @@
 name = "Plugins: intro"
 abstract = "Documentation for Blurry's plugin architecture"
 datePublished = 2023-04-15
+dateModified = 2024-01-03
 +++
 
 # Plugins: intro
 
 :::{info}
 This documentation covers how to write and register Blurry plugins.
-For documentation about custom Mistune plugins that Blurry ships with out-of-the-box, see [Content: Markdown](../content/markdown.md).
+For documentation about custom [Mistune](https://mistune.lepture.com/en/latest/) plugins that Blurry ships with out-of-the-box, see [Content: Markdown](../content/markdown.md).
 :::
 
 Blurry ships with a simple plugin infrastructure that makes it easy to write and register plugins that change how Blurry processes Markdown and HTML.
@@ -21,6 +22,7 @@ See the docs for the type of plugin you'd like to write:
 - [Plugins: write a Markdown plugin](./write-a-markdown-plugin.md)
 - [Plugins: write an HTML plugin](./write-an-html-plugin.md)
 - [Plugins: write a Jinja filter plugin](./write-a-jinja-filter-plugin.md)
+- [Plugins: write a Jinja extension plugin](./write-a-jinja-extension-plugin.md)
 
 ## How to register a plugin
 
