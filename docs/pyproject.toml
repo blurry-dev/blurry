@@ -3,9 +3,6 @@ name = "blurry-docs"
 version = "0.1.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
-readme = "README.md"
-package-mode = false
-packages = []
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -14,3 +11,6 @@ blurry-cli = { path = "..", develop = true }
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.plugins."blurry.jinja_filter_plugins"]
+body_to_cards = "blurry_docs:body_to_cards"

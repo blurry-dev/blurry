@@ -11,6 +11,7 @@ url = 'https://johnfraney.ca'
 
 [blurry.schema_data.sourceOrganization]
 name = 'Blurry'
+url = 'https://blurry-docs.netlify.app'
 
 [blurry.template_schema_types]
 ContextWebPage = 'WebPage'

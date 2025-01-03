@@ -1,0 +1,68 @@
+{% extends "base.html.jinja" %}
+
+{% block title %}{{ name }}{% endblock %}
+
+{% block head_end %}
+<style>
+body main.container {
+  margin: auto;
+}
+
+@media (min-width:824px) {
+  body main.container {
+    max-width:700px
+  }
+  .flex-grid article {
+    flex: 0 1 330px;
+  }
+}
+@media (min-width:1080px) {
+  body main.container {
+    max-width:950px
+  }
+  .flex-grid article {
+    flex: 0 1 450px;
+  }
+
+}
+body main.container h1 {
+  text-wrap:balance
+}
+body main.container h1 {
+  margin-bottom:calc(var(--pico-spacing) * 2)
+}
+main.container a[role="button"] {
+  font-size: 1.4em;
+}
+h1 {
+  max-width: 900px;
+  font-size: 3rem;
+  text-align: center;
+  background: linear-gradient(to right,rgb(201, 190, 99),rgb(168, 157, 56),rgb(153, 137, 47),rgb(104, 93, 29));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: auto;
+  padding: 0.5rem 0;
+}
+
+@media(prefers-color-scheme: dark) {
+  h1 {
+    background: linear-gradient(to right,rgb(243, 236, 176),rgb(216, 207, 130),rgb(204, 195, 112),rgb(122, 113, 30));
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}
+
+main > pre {
+  max-width: 650px;
+  margin: calc(var(--pico-spacing) * 3) auto;
+}
+</style>
+{% endblock %}
+
+{% block main %}
+<main class="container">
+  {{body|body_to_cards|safe}}
+</main>
+{% endblock %}

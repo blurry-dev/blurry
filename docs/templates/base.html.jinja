@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link rel="preload" href="/assets/pico.yellow.min.css" as="style" />
     <title>{% block title %}{% endblock %} | {{ sourceOrganization.name }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,106 +11,151 @@
     <link rel="shortcut icon" href="/favicon.png">
     <script type="application/ld+json">{{ schema_data|safe }}</script>
     {{ open_graph_tags|safe }}
+    
+    <link rel="stylesheet" href="/assets/pico.yellow.min.css">
     <style>
-        {% include "assets/styles-above-the-fold.css" %}
+    .external-link::after {
+        content: "→";
+        display: inline-block;
+        text-decoration: none;
+        transform: rotate(-45deg);
+        margin-left: 0.25rem;
+    }
+    .external-link:hover::after {
+        text-decoration: none;
+    }
+
+    .right-arrow::after {
+        content: "→";
+        display: inline-block;
+        margin-left: 0.25em;
+    }
+
+    body > footer .container {
+        display: flex;
+        flex-flow: row wrap;
+    }
+
+    body > footer p {
+        font-size: 0.8rem;
+    }
+     
+     body > footer p::after {
+        content: "·";
+        display: inline-block;
+        margin: 0 0.5rem;
+     }
+     body > footer p:last-child::after {
+        content: "";
+        margin-left: 0;
+     }
+
+body>header>div.container>a {
+  align-self: center;
+  font-size: 125%;
+  font-weight: bold;
+  text-decoration: none;
+  filter: blur(0.04rem);
+}
+
+pre {
+  border: 1px solid var(--pico-muted-border-color);
+}
+
+.flex-grid {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+.flex-grid > * {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 500px;
+}
+
+.flex-grid > * section {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  flex-grow: 1;
+}
+
+.flex-grid > * section>*:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+blockquote > :last-child {
+    margin-bottom: 0;
+}
+
+
     </style>
+
     {% if not settings.RUNSERVER %}
     <!-- Fathom - beautiful, simple website analytics -->
     <script src="https://cdn.usefathom.com/script.js" data-site="OEOKWHQN" defer></script>
     <!-- / Fathom -->
     {% endif %}
+    {% block head_end %}{% endblock %}
 </head>
 
 <body>
-    <header>
-        <a href="/" class="blurry" rel="noreferrer">Blurry</a>
+    <header class="is-fixed-above-lg">
+        <div class="container" style="display: flex; justify-content: space-between;">
+            <a href="/">Blurry</a>
+            <nav>
+                <ul>
+                    <li class="hide-before-sm"><a class="contrast" href="/getting-started/quick-start/">Docs</a></li>
+                    <li class="hide-before-sm"><a class="contrast external-link" href="https://blurry-themes.netlify.app/" target="_blank">Themes</a></li>
+                </ul>
+                <ul class="icons">
+                    <li><a rel="noopener noreferrer" class="contrast" aria-label="GitHub repository" href="https://github.com/blurry-dev/blurry" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" height="24" width="24.25" viewBox="0 0 496 512" class="icon-github"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg></a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
-    <details>
-        <summary>Menu</summary>
-        <nav>
-            <ul>
-                <li>Getting Started
-                    <ul>
-                        <li><a href="/getting-started/quick-start/" rel="noreferrer">Quick Start</a></li>
-                    </ul>
-                </li>
-                <li>Commands
-                    <ul>
-                        <li><a href="/commands/build/" rel="noreferrer"><code>build</code></a></li>
-                        <li><a href="/commands/runserver/" rel="noreferrer"><code>runserver</code></a></li>
-                        <li><a href="/commands/clean/" rel="noreferrer"><code>clean</code></a></li>
-                    </ul>
-                </li>
-                <li>Content
-                    <ul>
-                        <li><a href="/content/markdown/" rel="noreferrer">Markdown</a></li>
-                        <li><a href="/content/images/" rel="noreferrer">Images</a></li>
-                        <li><a href="/content/videos/" rel="noreferrer">Videos</a></li>
-                        <li><a href="/content/dynamic/" rel="noreferrer">Dynamic (Jinja)</a></li>
-                    </ul>
-                </li>
-                <li>Templates
-                    <ul>
-                        <li><a href="/templates/syntax/" rel="noreferrer">Syntax</a></li>
-                        <li><a href="/templates/components/" rel="noreferrer">Components</a></li>
-                        <li><a href="/templates/context/" rel="noreferrer">Context</a></li>
-                        <li><a href="/templates/examples/" rel="noreferrer">Examples</a></li>
-                    </ul>
-                </li>
-                <li>Configuration
-                    <ul>
-                        <li><a href="/configuration/settings/" rel="noreferrer">Settings</a></li>
-                        <li><a href="/configuration/blurry.toml/" rel="noreferrer">blurry.toml</a></li>
-                        <li><a href="/configuration/environment-variables/" rel="noreferrer">Environment variables</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>Plugins
-                    <ul>
-                        <li><a href="/plugins/intro/" rel="noreferrer">Intro</a></li>
-                        <li><a href="/plugins/write-a-markdown-plugin/" rel="noreferrer">Write a Markdown plugin</a>
-                        </li>
-                        <li><a href="/plugins/write-an-html-plugin/" rel="noreferrer">Write an HTML plugin</a></li>
-                        <li><a href="/plugins/write-a-jinja-extension-plugin/" rel="noreferrer">Write a Jinja extension
-                                plugin</a></li>
-                        <li><a href="/plugins/write-a-jinja-filter-plugin/" rel="noreferrer">Write a Jinja filter
-                                plugin</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </details>
 
-    <main>
-        {% block body %}{% endblock %}
-    </main>
+    {% block main %}{% endblock %}
+    
     <footer>
-        <p>
-            <small>
-                &copy; 2020-2024 <a href="https://johnfraney.ca/">John Franey</a>
-            </small>
-        </p>
+        <div class="container">
+            <p>&copy; 2020-2025 <a href="https://johnfraney.ca/">John Franey</a></p>
+            <p>Built with—you guessed it—<a href="/" rel="noreferrer">Blurry</a></p>
+            <p>Styled with <a href="https://picocss.com/" target="_blank">Pico</a></p>
+            <p><img src="/images/pagespeed-logo.png" width="18" height="18" loading="lazy" alt="PageSpeed logo"> <a href="https://pagespeed.web.dev/analysis?url={{ sourceOrganization.url }}" class="external-link" target="_blank">PageSpeed report</a></p>
+        </div>
     </footer>
 
-    <link rel="preload" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/a11y-light.min.css" as="style"
+    <link rel="preload" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/ir-black.min.css" as="style"
         onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
-        <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/a11y-light.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/ir-black.min.css">
     </noscript>
     <script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js" async defer></script>
     <script>window.addEventListener('load', () => hljs.highlightAll());</script>
     <style>
-        {
-            % include "assets/styles-below-the-fold.css" %
-        }
+        {% include "assets/styles-below-the-fold.css" %}
     </style>
     <script>
-        function onWindowResize(event) {
-            const detailsElement = document.querySelector('details')
-            window.innerWidth > 800 ? detailsElement.setAttribute("open", "") : detailsElement.removeAttribute("open")
+        const documentationMenu = document.getElementById('documentation-menu')
+        const showMenuButton = document.getElementById('mobile-show-menu-button')
+        const openMenuClassName = 'is-open-on-mobile'
+
+        if (showMenuButton && documentationMenu) {
+            showMenuButton.addEventListener('click', (e) => {
+                e.preventDefault()
+                documentationMenu.classList.add(openMenuClassName)
+            })
         }
-        addEventListener("resize", onWindowResize)
-        onWindowResize()
+
+        const closeMenuButton = document.getElementById('menu-close-button')
+        if (closeMenuButton) {
+            closeMenuButton.addEventListener('click', (e) => {
+                e.preventDefault()
+                documentationMenu.classList.remove(openMenuClassName)
+            })
+        }
     </script>
 </body>
 

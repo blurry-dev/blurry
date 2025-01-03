@@ -2,6 +2,97 @@
 
 {% block title %}{{ name }}{% endblock %}
 
-{% block body %}
-{{ body|safe }}
+{% block head_end %}
+<style>{% include "assets/docs.css" %}</style>
+{% endblock%}
+
+{% block main %}
+
+<main class="container has-table-of-contents page-index">
+
+    <nav aria-label="breadcrumb">
+        <ul>
+            <li><a class="secondary" href="/" id="mobile-show-menu-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon-menu"><path d="M4 6l16 0"></path><path d="M4 12l16 0"></path><path d="M4 18l16 0"></path></svg>
+                Documentation</a>
+            </li>
+            <li>Getting started</li>
+        </ul>
+    </nav>
+
+    <aside id="documentation-menu">
+        <header>
+            <h2>Documentation</h2>
+            <a aria-label="Close" id="menu-close-button" class="secondary" data-discover="true" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon-close"><path d="M18 6l-12 12"></path><path d="M6 6l12 12"></path></svg></a>
+        </header>
+        <nav class="is-sticky-above-lg">
+            <details open>
+                <summary>Getting Started</summary>
+                <ul>
+                    <li><MenuLink href="/getting-started/quick-start/" url={{ url }}>Quick Start</MenuLink></li>
+                </ul>
+            </details>
+            <details open>
+                <summary>Commands</summary>
+                <ul>
+                    <li><MenuLink href="/commands/build/" url={{ url }}><code>build</code></MenuLink></li>
+                    <li><MenuLink href="/commands/runserver/" url={{ url }}><code>runserver</code></MenuLink></li>
+                </ul>
+            </details>
+            <details open>
+                <summary>Content</summary>
+                <ul>
+                    <li><MenuLink href="/content/markdown/" url={{ url }}>Markdown</MenuLink></li>
+                    <li><MenuLink href="/content/images/" url={{ url }}>Images</MenuLink></li>
+                    <li><MenuLink href="/content/videos/" url={{ url }}>Videos</MenuLink></li>
+                    <li><MenuLink href="/content/dynamic/" url={{ url }}>Dynamic (Jinja)</MenuLink></li>
+                </ul>
+            </details>
+            <details open>
+                <summary>Templates</summary>
+                <ul>
+                    <li><MenuLink href="/templates/syntax/" url={{ url }}>Syntax</MenuLink></li>
+                    <li><MenuLink href="/templates/components/" url={{ url }}>Components</MenuLink></li>
+                    <li><MenuLink href="/templates/context/" url={{ url }}>Context</MenuLink></li>
+                    <li><MenuLink href="/templates/examples/" url={{ url }}>Examples</MenuLink></li>
+                </ul>
+            </details>
+            <details open>
+                <summary>Configuration</summary>
+                <ul>
+                    <li><MenuLink href="/configuration/settings/" url={{ url }}>Settings</MenuLink></li>
+                    <li><MenuLink href="/configuration/blurry.toml/" url={{ url }}>blurry.toml</MenuLink></li>
+                    <li><MenuLink href="/configuration/environment-variables/" url={{ url }}>Environment variables</MenuLink>
+                    </li>
+                </ul>
+            </details>
+            <details open>
+                <summary>Plugins</summary>
+                <ul>
+                    <li><MenuLink href="/plugins/intro/" url={{ url }}>Intro</MenuLink></li>
+                    <li><MenuLink href="/plugins/write-a-markdown-plugin/" url={{ url }}>Write a Markdown plugin</MenuLink></li>
+                    <li><MenuLink href="/plugins/write-an-html-plugin/" url={{ url }}>Write an HTML plugin</MenuLink></li>
+                    <li><MenuLink href="/plugins/write-a-jinja-extension-plugin/" url={{ url }}>Write a Jinja extension plugin</MenuLink></li>
+                    <li><MenuLink href="/plugins/write-a-jinja-filter-plugin/" url={{ url }}>Write a Jinja filter plugin</MenuLink></li>
+                </ul>
+            </details>
+        </nav>
+    </aside>
+
+    <aside id="table-of-contents">
+        <nav class="is-sticky-above-lg ">
+            <details open="">
+                <summary>Content</summary>
+                <ul>
+                    {% for heading in body|headings %}
+                    <li><a class="secondary" data-discover="true" href="#{{ heading.id }}">{{ heading.text }}</a></li>
+                    {% endfor %}
+                </ul>
+            </details>
+        </nav>
+    </aside>
+    <div id="content" role="document">
+      {% block body %}{{body|safe}}{% endblock %}
+    </div>
+    </main>
 {% endblock %}

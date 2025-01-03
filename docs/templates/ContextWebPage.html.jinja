@@ -1,9 +1,15 @@
-{% extends "base.html.jinja" %}
+{% extends "WebPage.html.jinja" %}
 
 {% block title %}{{ name }}{% endblock %}
 
 {% block body %}
 {{ body|safe }}
+
+<h3><code>url</code></h3>
+<pre><code class="language-text">{{ url|safe }}</code></pre>
+
+<h3><code>filepath</code></h3>
+<pre><code class="language-text">{{ filepath|safe }}</code></pre>
 
 <h3><code>schema_data</code></h3>
 <pre><code class="language-json">{{ schema_data|safe }}</code></pre>

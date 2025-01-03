@@ -3,7 +3,7 @@
 name = "Getting started: quick start"
 abstract = "Documentation for how to get started with Blurry"
 datePublished = 2023-04-09
-dateModified = 2024-12-29
+dateModified = 2025-01-03
 +++
 
 # Getting started: quick start
@@ -41,7 +41,7 @@ Blurry's directory structure is used as the website's navigation structure, with
 
 - `index.md` files generate `index.html` files
 - other Markdown files, like `about.md`, generate a file like `about/index.html`, which makes for clean, SEO-friendly URLs
-- files that end with `.jinja` are processed with [Jinja](https://jinja.palletsprojects.com/en/stable/) and generate a file with the `.jinja` extension removed, like `feed.xml.jinja` -> `feed.xml`
+- files that end with `.jinja` are processed with [Jinja](https://jinja.palletsprojects.com/en/stable/) and generate a file with the `.jinja` extension removed, like `feed.xml.jinja` -> `feed.xml`. See [Content: dynamic](../content/dynamic.md)
 - images are copied and generated at multiple sizes. See [Content: Images](../content/images.md) for more information
 - other files are copied as-is
 

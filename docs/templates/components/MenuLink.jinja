@@ -1,0 +1,2 @@
+{#def href, url #}
+<a href="{{ href }}" {% if href == url|url_path %} aria-current="page"{% endif %} class="secondary" rel="noreferrer">{{ content }}</a>
