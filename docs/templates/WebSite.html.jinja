@@ -63,6 +63,6 @@ main > pre {
 
 {% block main %}
 <main class="container">
-  {{body|safe}}
+  {{body|body_to_cards|safe}}
 </main>
 {% endblock %}

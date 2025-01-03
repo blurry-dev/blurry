@@ -19,28 +19,16 @@ If you're looking for a static site generator in Python that's as [easy to custo
 
 ## Goals
 
-<div class="flex-grid">
-
-<article>
-
 ### 📈 SEO performance
 
 Blurry supports [Schema.org](https://schema.org/) and [Open Graph](https://ogp.me/) with zero configuration.
 This enables [rich Google results](https://developers.google.com/search/docs/appearance/structured-data/search-gallery) and [link previews](https://www.opengraph.xyz/) out-of-the-box.
-
-</article>
-
-<article>
 
 ### 🏎️ Page speed
 
 While using Blurry doesn't guarantee good page speed, it does solve a number of pain points that tend to slow down page loads.
 
 [Blurry's image handling](../content/images.md) and HTML minification, for instance, can help get you a 100/100 [PageSpeed](https://pagespeed.web.dev/) score if the rest of your site is fast.
-
-</article>
-
-<article>
 
 ### ⚙ Minimal configuration
 
@@ -52,10 +40,6 @@ A viable [Blurry configuration file](./configuration/blurry.toml.md) can be as s
 [blurry]
 domain = "johnfraney.ca"
 ```
-
-</article>
-
-<article>
 
 ### 🧩 Exensibility
 
@@ -71,16 +55,8 @@ Blurry supports [plugins](./plugins/intro.md) to make it easy to add functionali
 
 ## Non-goals
 
-<div class="flex-grid">
-
-<article>
-
 ### 🚄 "Gotta go fast!"
 
 While Blurry aims to be performant, build performance is not its top priority.
 It's written in Python, so it _may_ not be able to compete on speed with other static site generators like [Hugo](https://gohugo.io/).
 Instead, it aims to be _fast_enough_ while optimizing for developer and user experience.
-
-</article>
-
-</div>

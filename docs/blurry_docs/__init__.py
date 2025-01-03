@@ -1,59 +1,33 @@
-from selectolax.lexbor import LexborNode, create_tag, parse_fragment
+from selectolax.lexbor import parse_fragment
 
 
 def body_to_cards(html: str):
+    """Creates grids of h3s and their contents using <article> tags"""
     tree = parse_fragment(html)
-    elements_for_sections: list[list[LexborNode]] = []
-    current_section_index = 0
-    html_before_card_elements = ""
+    is_in_card = False
+    html = ""
 
-    for node in tree:
-        # Skip newlines or text out of tags
-        if node.tag == "-text":
-            continue
-
-        # Split remaining elements by h2s
+    for index, node in enumerate(tree):
         if node.tag == "h2":
-            try:
-                len(elements_for_sections[current_section_index])
-                current_section_index += 1
-                elements_for_sections.append([node])
+            if is_in_card:
+                html += "</article></div>"
+                is_in_card = False
+            # The next index is a text node (whitespace), so look two ahead
+            if tree[index + 2].tag == "h3":
+                html += node.html or ""
+                html += '<div class="flex-grid">'
                 continue
-            except IndexError:
-                elements_for_sections.append([node])
-        else:
-            # Sections will be empty until we start gathering elements for cards, so
-            # we'll get an IndexError for pre-card elements
-            try:
-                elements_for_sections[current_section_index].append((node))
-            except IndexError:
-                html_before_card_elements += node.html or ""
 
-    # Build cards
-    cards_container = create_tag("div")
-    cards_container.attrs["class"] = "flex-grid"
+        if node.tag == "h3":
+            if is_in_card:
+                html += "</article>"
+            html += "<article>"
+            is_in_card = True
 
-    for elements in elements_for_sections:
-        article = create_tag("article")
-        section = create_tag("section")
+        html += node.html or ""
 
-        for element in elements:
-            if element.tag == "h2":
-                header = create_tag("header")
-                header.insert_child(element.text())
-                article.insert_child(header)
-                continue
-            if elements[-1] == element:
-                article.insert_child(section)
-                footer = create_tag("footer")
-                a = element.child
-                if a:
-                    a.attrs["class"] = "right-arrow"
-                    a.attrs["role"] = "button"
-                    footer.insert_child(a)
-                article.insert_child(footer)
-                continue
-            section.insert_child(element)
-        cards_container.insert_child(article)
+        # This assumes that the Markdown content ends with a card
+        if node == tree[-1]:
+            html += "</article></div>"
 
-    return html_before_card_elements + (cards_container.html or "")
+    return html
