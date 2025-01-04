@@ -8,6 +8,7 @@ import os
 import pkgutil
 import shutil
 import sys
+import tomllib
 from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
@@ -21,6 +22,7 @@ from rich.progress import BarColumn
 from rich.progress import Progress
 from rich.progress import TaskProgressColumn
 from rich.progress import TextColumn
+from rich.prompt import Prompt
 
 from blurry.async_typer import AsyncTyper
 from blurry.cli import print_blurry_name
@@ -238,6 +240,56 @@ def clean_build_directory():
         shutil.rmtree(build_directory)
     except FileNotFoundError:
         pass
+
+
+blurry_config_organization_section = """
+[blurry.schema_data.sourceOrganization]
+name = "{project_name}"
+""".strip()
+
+
+blurry_config_template = """
+[blurry]
+domain = "{domain}"
+
+{organization_section}
+""".strip()
+
+
+@app.command(name="init")
+def init():
+    """Initializes a new Blurry project"""
+    update_settings()
+    blurry_config_file = Path("blurry.toml")
+    if blurry_config_file.exists():
+        print("Blurry project already initialized.")
+        return
+    domain = Prompt.ask("What is your website's domain?")
+    project_name = Prompt.ask(
+        "What is the name of your company, project, or website? (optional)",
+        default=None,
+    )
+
+    organization_section = (
+        blurry_config_organization_section.format(project_name=project_name)
+        if project_name
+        else ""
+    )
+
+    config_text = blurry_config_template.format(
+        domain=domain, organization_section=organization_section
+    )
+
+    try:
+        tomllib.loads(config_text)
+    except tomllib.TOMLDecodeError as e:
+        print(f"Error in configuration file: {e}.")
+        print("Please check your input and try again.")
+        exit(1)
+
+    blurry_config_file.write_text(config_text)
+
+    print("Blurry project initialized!")
 
 
 @app.async_command()
