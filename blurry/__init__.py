@@ -8,7 +8,6 @@ import os
 import pkgutil
 import shutil
 import sys
-import tomllib
 from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
@@ -22,11 +21,12 @@ from rich.progress import BarColumn
 from rich.progress import Progress
 from rich.progress import TaskProgressColumn
 from rich.progress import TextColumn
-from rich.prompt import Prompt
 
 from blurry.async_typer import AsyncTyper
 from blurry.cli import print_blurry_name
 from blurry.cli import print_plugin_table
+from blurry.commands.clean import clean_build_directory
+from blurry.commands.init import initialize_new_project
 from blurry.constants import ENV_VAR_PREFIX
 from blurry.images import generate_images_for_srcset
 from blurry.markdown import convert_markdown_file_to_html
@@ -231,65 +231,13 @@ def gather_file_data_by_directory() -> DirectoryFileData:
 
 
 @app.command(name="clean")
-def clean_build_directory():
-    """Removes the build directory for a clean build."""
-    update_settings()
-    build_directory = get_build_directory()
-
-    try:
-        shutil.rmtree(build_directory)
-    except FileNotFoundError:
-        pass
-
-
-blurry_config_organization_section = """
-[blurry.schema_data.sourceOrganization]
-name = "{project_name}"
-""".strip()
-
-
-blurry_config_template = """
-[blurry]
-domain = "{domain}"
-
-{organization_section}
-""".strip()
+def clean_command():
+    clean_build_directory()
 
 
 @app.command(name="init")
-def init():
-    """Initializes a new Blurry project"""
-    update_settings()
-    blurry_config_file = Path("blurry.toml")
-    if blurry_config_file.exists():
-        print("Blurry project already initialized.")
-        return
-    domain = Prompt.ask("What is your website's domain?")
-    project_name = Prompt.ask(
-        "What is the name of your company, project, or website? (optional)",
-        default=None,
-    )
-
-    organization_section = (
-        blurry_config_organization_section.format(project_name=project_name)
-        if project_name
-        else ""
-    )
-
-    config_text = blurry_config_template.format(
-        domain=domain, organization_section=organization_section
-    )
-
-    try:
-        tomllib.loads(config_text)
-    except tomllib.TOMLDecodeError as e:
-        print(f"Error in configuration file: {e}.")
-        print("Please check your input and try again.")
-        exit(1)
-
-    blurry_config_file.write_text(config_text)
-
-    print("Blurry project initialized!")
+def init_command(name: str | None = None, domain: str | None = None):
+    initialize_new_project(name, domain)
 
 
 @app.async_command()
@@ -380,10 +328,6 @@ async def build(release=True, clean: bool = False):
     print(f"Built site in {difference.total_seconds()} seconds")
 
 
-async def build_development():
-    await build(release=False)
-
-
 async def reload_local_plugins_and_build():
     """Reloads a project's local modules and performs a dev build"""
     cwd = str(Path.cwd())
@@ -395,7 +339,7 @@ async def reload_local_plugins_and_build():
             continue
         importlib.reload(module)
 
-    await build_development()
+    await build(release=False)
 
 
 @app.command()
@@ -410,7 +354,7 @@ def runserver():
     SETTINGS["RUNSERVER"] = True
 
     event_loop = asyncio.get_event_loop()
-    event_loop.create_task(build_development())
+    event_loop.create_task(build(release=False))
 
     jinja_env = get_jinja_env()
 
@@ -444,7 +388,7 @@ def runserver():
     )
     livereload_server.watch(
         f"{SETTINGS['CONTENT_DIRECTORY_NAME']}/**/*",
-        lambda: event_loop.create_task(build_development()),
+        lambda: event_loop.create_task(build(release=False)),
         ignore=lambda filepath: any(
             [
                 filepath.endswith(".md"),
@@ -455,7 +399,7 @@ def runserver():
     )
     livereload_server.watch(
         f"{SETTINGS['TEMPLATES_DIRECTORY_NAME']}/**/*",
-        lambda: event_loop.create_task(build_development()),
+        lambda: event_loop.create_task(build(release=False)),
         ignore=lambda filepath: Path(filepath).is_dir(),
     )
     livereload_server.watch(
@@ -463,7 +407,7 @@ def runserver():
         lambda: event_loop.create_task(reload_local_plugins_and_build()),
     )
     livereload_server.watch(
-        "blurry.toml", lambda: event_loop.create_task(build_development())
+        "blurry.toml", lambda: event_loop.create_task(build(release=False))
     )
     livereload_server.serve(
         host=SETTINGS["DEV_HOST"], port=SETTINGS["DEV_PORT"], root=get_build_directory()

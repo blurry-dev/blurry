@@ -3,12 +3,12 @@
 name = "Commands: build"
 abstract = "Documentation for Blurry's build command"
 datePublished = 2023-04-09
-dateModified = 2024-01-03
+dateModified = 2025-01-07
 +++
 
 # Commands: build
 
-## Usage
+## Description
 
 `build` builds a production-ready version of a Blurry static site.
 It outputs the site in the folder specified by the `build_directory_name` [setting](./../configuration/settings.md), which defaults to `./dist/`
@@ -99,6 +99,26 @@ dist
         └── index.html
 
 18 directories, 19 files
+```
+
+## Usage
+
+```shell
+$ blurry build
+.  .             
+|-.| . ..-..-.. .
+`-''-'-''  '  '-|
+              `-'
+┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Markdown Plugins    ┃ HTML Plugins ┃ Jinja Plugins ┃
+┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ container           │ minify_html  │ body_to_cards │
+│ punctuation         │              │ headings      │
+│ python_code         │              │ url_path      │
+│ python_code_in_list │              │ blurry_image  │
+└─────────────────────┴──────────────┴───────────────┘
+Blurring 22 Markdown files and 6 other files
+Built site in 2.576354 seconds
 ```
 
 ## Options
