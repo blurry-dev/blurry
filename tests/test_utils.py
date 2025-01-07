@@ -4,6 +4,7 @@ from unittest import mock
 
 import pytest
 
+from blurry.gather_file_data_by_directory import sort_directory_file_data_by_date
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
 from blurry.settings import SETTINGS
@@ -14,7 +15,6 @@ from blurry.utils import convert_relative_path_in_markdown_file_to_pathname
 from blurry.utils import format_schema_data
 from blurry.utils import get_domain_with_scheme
 from blurry.utils import path_to_url_pathname
-from blurry.utils import sort_directory_file_data_by_date
 
 
 BUILD_DIR = get_build_directory()
