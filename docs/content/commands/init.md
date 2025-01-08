@@ -1,11 +1,11 @@
 +++
 "@type" = "WebPage"
 name = "Commands: init"
-abstract = "Documentation for Blurry's build command"
-datePublished = 2025-01-07
+abstract = "The init command for Blurry, a Python static site generator focused on page speed and SEO"
+datePublished = 2025-01-08
 +++
 
-# Commands: init
+# Commands: `init`
 
 ## Description
 

@@ -16,4 +16,4 @@ def clean_build_directory():
     except FileNotFoundError:
         pass
 
-    print(f"Cleaned build directory: {build_directory}")
+    print(f"Cleaned build directory: {build_directory} 🧹")
