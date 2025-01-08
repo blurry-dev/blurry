@@ -1,9 +1,9 @@
 +++
 "@type" = "WebPage"
 name = "Commands: runserver"
-abstract = "Documentation for Blurry's runserver command"
+abstract = "The runserver command for Blurry, a Python static site generator focused on page speed and SEO"
 datePublished = 2023-04-09
-dateModified = 2024-01-03
+dateModified = 2024-01-08
 +++
 
 # Commands: `runserver`

@@ -1,12 +1,12 @@
 +++
 "@type" = "WebPage"
 name = "Commands: build"
-abstract = "Documentation for Blurry's build command"
+abstract = "The build command for Blurry, a Python static site generator focused on page speed and SEO"
 datePublished = 2023-04-09
-dateModified = 2025-01-07
+dateModified = 2025-01-08
 +++
 
-# Commands: build
+# Commands: `build`
 
 ## Description
 
