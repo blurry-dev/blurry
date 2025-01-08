@@ -23,19 +23,19 @@ include = ["LICENSE"]
 packages = [{ include = "blurry" }]
 
 [tool.poetry.dependencies]
-Jinja2 = "^3.0.0"
-PyLD = "^2.0.3"
-Wand = "^0.6.6"
+Jinja2 = "^3.1.5"
+PyLD = "^2.0.4"
+Wand = "^0.6.13"
 ffmpeg-python = "^0.2.0"
-livereload = "^2.7.0"
-mistune = "^3.0.10"
+livereload = "^2.7.1"
+mistune = "^3.1.0"
 python = "^3.11"
-rich = "^13.3.3"
+rich = "^13.9.4"
 selectolax = "^0.3.27"
 typer = "^0.15.1"
 htmlmin2 = "^0.1.13"
-pydantic2-schemaorg = "^0.2.0"
-dpath = "^2.1.6"
+pydantic2-schemaorg = "0.3.0"
+dpath = "^2.2.0"
 jinja2-simple-tags = "^0.6.1"
 jinjax = "^0.48"
 
@@ -43,13 +43,13 @@ jinjax = "^0.48"
 blurry = 'blurry:main'
 
 [tool.poetry.group.dev.dependencies]
-black = "^22.10.0"
-nox = "^2024.03.02"
-pyright = "^1.1.311"
-pytest = "^6.2.2"
-pytest-cov = "^2.11.1"
+black = "^24.10.0"
+nox = "^2024.10.9"
+pyright = "^1.1.391"
+pytest = "^8.3.4"
+pytest-cov = "^6.0.0"
 pytest-watch = "^4.2.0"
-ruff = "^0.1.5"
+ruff = "^0.8.6"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
