@@ -3,7 +3,6 @@ from pathlib import Path
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
 from blurry.settings import SETTINGS
-from blurry.types import DirectoryFileData
 
 
 def get_domain_with_scheme():
@@ -93,21 +92,6 @@ def build_path_to_url(path: Path) -> str:
     BUILD_DIR = get_build_directory()
     pathname = "/" + str(path.relative_to(BUILD_DIR))
     return f"{get_domain_with_scheme()}{pathname}"
-
-
-def sort_directory_file_data_by_date(
-    directory_file_data: DirectoryFileData,
-) -> DirectoryFileData:
-    for path, file_data in directory_file_data.items():
-        file_data.sort(
-            key=lambda page: str(page.front_matter.get("datePublished", ""))
-            or str(page.front_matter.get("dateCreated", ""))
-            or "0000-00-00",
-            reverse=True,
-        )
-        directory_file_data[path] = file_data
-
-    return directory_file_data
 
 
 def format_schema_data(schema_data: dict) -> dict:
