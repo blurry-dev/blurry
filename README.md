@@ -28,6 +28,11 @@ View the documentation site at <https://blurry-docs.netlify.app/>.
 Contributions are welcome!
 Check out [the contribution docs](https://github.com/blurry-dev/blurry/blob/main/CONTRIBUTING.md) to get started.
 
+## Security contact information
+
+To report a security vulnerability, please use the [Tidelift security contact](https://tidelift.com/security).
+Tidelift will coordinate the fix and disclosure.
+
 ## Standing on the shoulders of giants
 
 Blurry blends together high-quality libraries:
