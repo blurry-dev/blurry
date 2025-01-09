@@ -3,6 +3,7 @@
 name = "Commands: init"
 abstract = "The init command for Blurry, a Python static site generator focused on page speed and SEO"
 datePublished = 2025-01-08
+dateModified = 2025-01-09
 +++
 
 # Commands: `init`
@@ -17,6 +18,8 @@ It creates everything you need to start working on your site:
 - A base [template file](../templates/syntax.md) and a `WebSite` template file for your homepage in `templates/`
 
 ## Usage
+
+If run with no options, `blurry init` will prompt for your project's name and domain so they can be used in the new project.
 
 Example:
 

@@ -3,6 +3,7 @@
 name = "Introduction"
 abstract = "An extensible static site generator with exceptional SEO and page speed."
 datePublished = 2023-04-09
+dateModified = 2025-01-09
 +++
 
 # Blurry: A static site generator for SEO and page speed
@@ -57,6 +58,6 @@ Blurry supports [plugins](./plugins/intro.md) to make it easy to add functionali
 
 ### 🚄 "Gotta go fast!"
 
-While Blurry aims to be performant, build performance is not its top priority.
+While Blurry aims to be performant, build performance is not its #1 priority.
 It's written in Python, so it _may_ not be able to compete on speed with other static site generators like [Hugo](https://gohugo.io/).
-Instead, it aims to be _fast_enough_ while optimizing for developer and user experience.
+Instead, it aims to be _fast enough_ while optimizing for developer and user experience.
