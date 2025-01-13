@@ -102,9 +102,7 @@ def write_html_file(
         extra_context["sibling_pages"] = sibling_pages
     folder_in_build = convert_content_path_to_directory_in_build(filepath)
 
-    file_data = [
-        f for f in file_data_by_directory[filepath.parent] if f.path == filepath
-    ][0]
+    file_data = [f for f in file_data_list if f.path == filepath][0]
     schema_type = file_data.front_matter.get("@type")
     if not schema_type:
         raise ValueError(
@@ -135,7 +133,7 @@ def write_html_file(
         default=json_converter_with_dates,
     )
 
-    validate_front_matter_as_schema(filepath, front_matter, warning_console)
+    validate_front_matter_as_schema(filepath, schema_variables, warning_console)
 
     schema_type_tag = f'<script type="application/ld+json">{schema_data}</script>'
 
