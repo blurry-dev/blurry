@@ -4,7 +4,9 @@ from datetime import datetime
 from pathlib import Path
 from typing import Literal
 
-from pydantic import BaseModel, Field, ValidationError
+from pydantic import BaseModel
+from pydantic import Field
+from pydantic import ValidationError
 from rich.console import Console
 
 from blurry.settings import SETTINGS
@@ -153,13 +155,14 @@ def validate_front_matter_as_schema(
         console.print(f"{path}: Could not import module.")
         return
 
-    SchemaModel = getattr(module, schematype)
-
     # Validate model and print errors
     try:
+        SchemaModel = getattr(module, schematype)
         SchemaModel(**schema_variables)
-    except ValidationError as e:
-        for error in e.errors():
+    except AttributeError:
+        console.print(f"{path}: no validation rules available for {schematype}")
+    except ValidationError as err:
+        for error in err.errors():
             msg = error["msg"]
             loc = error["loc"]
             if len(loc) == 1:
