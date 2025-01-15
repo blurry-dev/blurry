@@ -1,10 +1,10 @@
-import importlib
 from collections.abc import MutableMapping
 from pathlib import Path
 
 from pydantic import ValidationError
 from rich.console import Console
 
+from blurry.schema_validation import models
 from blurry.settings import SETTINGS
 
 
@@ -20,19 +20,14 @@ def validate_front_matter_as_schema(
     if mapped_schematype_ := SETTINGS["TEMPLATE_SCHEMA_TYPES"].get(schematype):
         schematype = mapped_schematype_
 
-    # Get the schema model class from this module
-    try:
-        module = importlib.import_module("blurry.schema_validation.models")
-    except ModuleNotFoundError:
-        console.print(f"{path}: Could not import module.")
-        return
-
     # Validate model and print errors
     try:
-        SchemaModel = getattr(module, schematype)
+        SchemaModel = getattr(models, schematype)
         SchemaModel(**schema_variables)
     except AttributeError:
-        console.print(f"{path}: no validation rules available for {schematype}")
+        console.print(
+            f"{path}: validation not yet supported for {schematype}. Skipping."
+        )
     except ValidationError as err:
         for error in err.errors():
             msg = error["msg"]
