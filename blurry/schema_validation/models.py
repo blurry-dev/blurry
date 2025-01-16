@@ -3,8 +3,8 @@ Partial Schema.org types adjusted to match Google structured data specifications
 
 https://developers.google.com/search/docs/appearance/structured-data/search-gallery
 """
-
 from __future__ import annotations
+
 from datetime import datetime
 from typing import Literal
 
@@ -37,6 +37,14 @@ class Thing(BaseModel):
 
 class Intangible(Thing):
     type_: str = Field(default="Intangible", alias="@type", frozen=True)
+
+
+class Quantity(Intangible):
+    type_: str = Field(default="Quantity", alias="@type", frozen=True)
+
+
+class Duration(Quantity):
+    type_: str = Field(default="Duration", alias="@type", frozen=True)
 
 
 class ListItem(Thing):
@@ -81,6 +89,11 @@ class SpeakableSpecification(Intangible):
     type_: str = Field(default="SpeakableSpecification", alias="@type", frozen=True)
     cssSelector: str | None = None
     xpath: str | None = None
+
+
+class Place(Thing):
+    type_: str = Field(default="Place", alias="@type", frozen=True)
+    # address: PostalAddress | str
 
 
 class Product(Thing, FamilyFriendlyMixin):
@@ -130,6 +143,11 @@ class Person(Thing):
 
 class Organization(Intangible):
     type_: str = Field(default="Organization", alias="@type", frozen=True)
+    name: str  # pyright: ignore
+
+
+class LocalBusiness(Organization, Place):
+    type_: str = Field(default="LocalBusiness", alias="@type", frozen=True)
     name: str  # pyright: ignore
 
 
@@ -308,6 +326,33 @@ class Blog(CreativeWork):
 
 class Comment(CreativeWork):
     type_: str = Field(default="Comment", alias="@type", frozen=True)
+
+
+class HowTo(CreativeWork):
+    type_: str = Field(default="HowTo", alias="@type", frozen=True)
+    # estimatedCost: MonetaryAmount | str | None = None
+    # performTime: Duration | None = None
+    # prepTime: Duration | None = None
+    # step: CreativeWork | HowToSection | HowToStep | str
+    # supply: HowToSupply | str
+    # tool: HowToTool | str
+    # totalTime: Duration | None = None
+    # yield: QuantitativeValue | str | None = None
+
+
+class Recipe(HowTo):
+    type_: str = Field(default="Recipe", alias="@type", frozen=True)
+    # cookTime: Duration | None = None
+    cookingMethod: str | None = None
+    image: ImageObject | str  # pyright: ignore
+    name: str  # pyright: ignore
+    # nutrition: NutritionInformation
+    recipeCategory: str
+    recipeCuisine: str
+    recipeIngredient: str | list[str]
+    # recipeInstructions: CreativeWork | ItemList | str | list[HowToStep] | list[HowToSection]
+    # recipeYield: QuantitativeValue | str = None
+    # suitableForDiet: RestrictedDiet | None = None
 
 
 class Question(Comment):
