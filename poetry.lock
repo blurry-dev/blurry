@@ -772,13 +772,13 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "pydantic"
-version = "2.10.4"
+version = "2.10.5"
 description = "Data validation using Python type hints"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pydantic-2.10.4-py3-none-any.whl", hash = "sha256:597e135ea68be3a37552fb524bc7d0d66dcf93d395acd93a00682f1efcb8ee3d"},
-    {file = "pydantic-2.10.4.tar.gz", hash = "sha256:82f12e9723da6de4fe2ba888b5971157b3be7ad914267dea8f05f82b28254f06"},
+    {file = "pydantic-2.10.5-py3-none-any.whl", hash = "sha256:4dd4e322dbe55472cb7ca7e73f4b63574eecccf2835ffa2af9021ce113c83c53"},
+    {file = "pydantic-2.10.5.tar.gz", hash = "sha256:278b38dbbaec562011d659ee05f63346951b3a248a6f3642e1bc68894ea2b4ff"},
 ]
 
 [package.dependencies]
@@ -901,20 +901,6 @@ files = [
 
 [package.dependencies]
 typing-extensions = ">=4.6.0,<4.7.0 || >4.7.0"
-
-[[package]]
-name = "pydantic2-schemaorg"
-version = "0.3.0"
-description = "Pydantic classes for Schema.org"
-optional = false
-python-versions = "<4.0,>=3.10"
-files = [
-    {file = "pydantic2_schemaorg-0.3.0-py3-none-any.whl", hash = "sha256:8e8f51cd9ffaaa059a31c064cb3119328b7dd07203b7a18c040f2bfb76cee371"},
-    {file = "pydantic2_schemaorg-0.3.0.tar.gz", hash = "sha256:8b11b3809bd5b26788520182a1b642861c1ea69d2df00ae8d8984ed1249aba47"},
-]
-
-[package.dependencies]
-pydantic = ">=2.9.2,<3.0.0"
 
 [[package]]
 name = "pygments"
@@ -1288,4 +1274,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "48ac6d4a1f3d4b30a7aef37f7bc9b6d2313a6ccf5093f2c804614f8b41abb361"
+content-hash = "f42d1550b3b4e2c51ad748a0e63f7782c2620a7ea1c28737f0711a6b2ad492fb"
