@@ -6,7 +6,7 @@
 [![PyPI downloads per month](https://img.shields.io/pypi/dm/blurry-cli.svg)](https://pypi.python.org/pypi/blurry-cli/)
 ![Package license](https://img.shields.io/github/license/blurry-dev/blurry.svg)
 
-![Blurry logo](docs/content/favicon.png)
+![Blurry logo](https://github.com/blurry-dev/blurry/raw/main/docs/content/favicon.png)
 
 ## tl;dr
 
