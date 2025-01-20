@@ -32,7 +32,30 @@ pipenv install blurry-cli
 pip install blurry-cli
 ```
 
-## Directory structure
+## Initialization
+
+To initialize a new Blurry project, run [Blurry's `init` command](../commands/init.md):
+
+```bash
+blurry init
+```
+
+You'll be prompted for the name and domain of your website.
+Than, Blurry will create your `blurry.toml` file, plus a Markdown file for your homepage at `content/index.md` and template files in `templates/`.
+
+Start the [Blurry dev server](../commands/runserver.md) with:
+
+```bash
+blurry runserver
+```
+
+Navigate to <http://127.0.0.0:8000/> and you'll see your new website in your browser:
+
+![Screenshot of the website created with Blurry's init command](../images/blurry-init-screenshot.png)
+
+## Further reading
+
+### Directory structure
 
 A Blurry project uses a simple directory structure consisting of a `content` directory for [Markdown](https://daringfireball.net/projects/markdown/) site content and a `templates` directory for [Jinja](https://jinja.palletsprojects.com/en/) templates used to generate HTML pages from that Markdown content.
 Blurry outputs a built site into `dist/` by default, and this is configurable in [Blurry's settings](../configuration/settings.md).
@@ -74,7 +97,7 @@ Will result in the following URLs:
 - `/posts/feed.xml`
 - `/posts/welcome/`
 
-## Content
+### Content
 
 Blurry content files are [Markdown files with front matter](../content/markdown.md), which is a common pattern in other static site generators like [Hugo](https://gohugo.io/content-management/front-matter/) and [Jekyll](https://jekyllrb.com/docs/front-matter/).
 Blurry's front matter is written in [TOML](https://toml.io/en/).
@@ -109,7 +132,7 @@ The Table to Markdown homepage includes a small amount of HTML in its Markdown c
 Web Components are [a great way to sprinkle interactivity into a static site](https://johnfraney.ca/blog/vue-static-site-web-component-custom-elements/).
 :::
 
-## Templates
+### Templates
 
 The corresponding `WebApplication.html` [template file](../templates/syntax.md) might look like this:
 
@@ -134,7 +157,7 @@ The corresponding `WebApplication.html` [template file](../templates/syntax.md) 
 
 See the [Templates: syntax](../templates/syntax.md) and [Templates: context](../templates/context.md) docs for more information, and [Templates: examples](../templates/examples.md) for simple and more advanced templates.
 
-## Commands
+### Commands
 
 Blurry can build a static site to prepare for deployment, or it can be run as a server with live reload.
 
