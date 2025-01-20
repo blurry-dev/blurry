@@ -3,13 +3,16 @@ Partial Schema.org types adjusted to match Google structured data specifications
 
 https://developers.google.com/search/docs/appearance/structured-data/search-gallery
 """
+
 from __future__ import annotations
 
 from datetime import datetime
 from typing import Literal
 
+from pydantic import AnyUrl
 from pydantic import BaseModel
 from pydantic import Field
+
 
 Boolean = Literal["True"] | Literal["False"]
 
@@ -28,11 +31,10 @@ class Thing(BaseModel):
     image: ImageObject | str | None = None
     mainEntityOfPage: CreativeWork | str | None = None
     name: str | None = None
-    # potentialAction: "Action | None" = None
+    # potentialAction: Action | None = None
     sameAs: str | None = None
-    # subjectOf: "CreativeWork | Event | None" = None
-    # url is required but is added dynamically by Blurry
-    url: str | None = None
+    # subjectOf: CreativeWork | Event | None = None
+    url: AnyUrl | None = None  # url is required but is added dynamically by Blurry
 
 
 class Intangible(Thing):
@@ -64,6 +66,60 @@ class Enumeration(Intangible):
     type_: str = Field(default="Enumeration", alias="@type", frozen=True)
 
 
+class StructuredValue(Intangible):
+    type_: str = Field(default="StructuredValue", alias="@type", frozen=True)
+
+
+class GeoMixin:
+    address: PostalAddress | str | None = None
+    addressCountry: Country | str | None = None
+    elevation: str | int | None = None
+    postalCode: str | None = None
+
+
+class GeoCoordinates(Intangible, GeoMixin):
+    type_: str = Field(default="GeoCoordinates", alias="@type", frozen=True)
+    latitude: float | str | None = None
+    longitude: float | str | None = None
+
+
+class GeoShape(Intangible, GeoMixin):
+    type_: str = Field(default="GeoShape", alias="@type", frozen=True)
+    box: str | None = None
+    circle: str | None = None
+    line: str | None = None
+    polygon: str | None = None
+
+
+class OpeningHoursSpecification(Intangible):
+    type_: str = Field(default="OpeningHoursSpecification", alias="@type", frozen=True)
+    # closes: Time
+    # dayOfWeek: DayOfWeek
+    # opens: Time
+    validFrom: datetime | None = None
+    validThrough: datetime | None = None
+
+
+class ContactPoint(Intangible):
+    type_: str = Field(default="ContactPoint", alias="@type", frozen=True)
+    contactType: str | None = None
+    email: str | None = None
+    faxNumber: str | None = None
+    # hoursAvailable: OpeningHoursSpecification | None = None
+    productSupported: Product | str | None = None
+    telephone: str | None = None
+
+
+class PostalAddress(ContactPoint):
+    type_: str = Field(default="PostalAddress", alias="@type", frozen=True)
+    addressCountry: Country | str
+    addressLocality: str
+    addressRegion: str
+    postOfficeBoxNumber: str | None = None
+    postalCode: str
+    streetAddress: str
+
+
 class Rating(Intangible):
     type_: str = Field(default="Rating", alias="@type", frozen=True)
     author: Organization | Person | None = None
@@ -93,7 +149,18 @@ class SpeakableSpecification(Intangible):
 
 class Place(Thing):
     type_: str = Field(default="Place", alias="@type", frozen=True)
-    # address: PostalAddress | str
+    address: PostalAddress | str
+    geo: GeoCoordinates | GeoShape | None = None
+    publicAccess: Boolean | None = None
+    smokingAllowed: Boolean | None = None
+
+
+class AdministrativeArea(Place):
+    type_: str = Field(default="AdministrativeArea", alias="@type", frozen=True)
+
+
+class Country(Place):
+    type_: str = Field(default="Country", alias="@type", frozen=True)
 
 
 class Product(Thing, FamilyFriendlyMixin):
@@ -109,7 +176,7 @@ class Product(Thing, FamilyFriendlyMixin):
     colorSwatch: ImageObject | str | None = None
     countryOfAssembly: str | None = None
     countryOfLastProcessing: str | None = None
-    # countryOfOrigin: Country | None = None
+    countryOfOrigin: Country | None = None
     # depth: Distance | QuantitiveValue | None = None
     # funding: Grant | None = None
     gtin: str | None = None
@@ -148,7 +215,24 @@ class Organization(Intangible):
 
 class LocalBusiness(Organization, Place):
     type_: str = Field(default="LocalBusiness", alias="@type", frozen=True)
+    currenciesAccepted: str | None = None
     name: str  # pyright: ignore
+    openingHours: OpeningHoursSpecification | None = None
+    paymentAccepted: str | None = None
+    address: PostalAddress | str
+    priceRange: str | None = None
+
+
+class FoodEstablishment(LocalBusiness):
+    type_: str = Field(default="FoodEstablishment", alias="@type", frozen=True)
+    acceptsReservations: AnyUrl | Boolean
+    # hasMenu: Menu | AnyUrl | Boolean
+    servesCuisine: str
+    starRating: Rating | None = None
+
+
+class Restaurant(LocalBusiness):
+    type_: str = Field(default="FoodEstablishment", alias="@type", frozen=True)
 
 
 class Brand(Thing):
@@ -193,7 +277,7 @@ class CreativeWork(Thing, FamilyFriendlyMixin):
     copyrightNotice: str | None = None
     copyrightYear: int | None = None
     # correction: CorrectionComment | str | None = None
-    # countryOfOrigin: Country | None = None
+    countryOfOrigin: Country | None = None
     # creativeWorkStatus: DefinedTerm | str | None = None
     creator: Organization | Person | None = None
     creditText: str | None = None
@@ -201,7 +285,7 @@ class CreativeWork(Thing, FamilyFriendlyMixin):
     dateModified: datetime | None = None
     datePublished: datetime | None = None
     # digitalSourceType: IPTCDigitalSourceEnumeration | None = None
-    discussionUrl: str | None = None
+    discussionUrl: AnyUrl | None = None
     editEIDR: str | None = None
     editor: Person | None = None
     # educationalAlignment: AlignmentObject | None = None
@@ -257,7 +341,7 @@ class CreativeWork(Thing, FamilyFriendlyMixin):
     temporalCoverage: datetime | str | None = None
     text: str | None = None
     thumbnail: ImageObject | None = None
-    thumbnailUrl: str | None = None
+    thumbnailUrl: AnyUrl | None = None
     # timeRequired: Duration | None = None
     translationOfWork: CreativeWork | None = None
     translator: Organization | Person | None = None
@@ -274,9 +358,9 @@ class MediaObject(CreativeWork):
     associatedArticle: NewsArticle | None = None
     bitrate: str | None = None
     contentSize: str | None = None
-    contentUrl: str | None = None
+    contentUrl: AnyUrl | None = None
     # duration: Duration | None = None
-    embedUrl: str | None = None
+    embedUrl: AnyUrl | None = None
     encodesCreativeWork: CreativeWork | None = None
     encodingFormat: str | None = None
     # endTime: DateTime or Time | None = None
@@ -454,10 +538,10 @@ class SoftwareApplication(CreativeWork):
     availableOnDevice: str | None = None
     countriesNotSupported: str | None = None
     countriesSupported: str | None = None
-    downloadUrl: str | None = None
+    downloadUrl: AnyUrl | None = None
     featureList: str | None = None
     fileSize: str | None = None
-    installUrl: str | None = None
+    installUrl: AnyUrl | None = None
     memoryRequirements: str | None = None
     operatingSystem: str | None = None
     permissions: str | None = None
