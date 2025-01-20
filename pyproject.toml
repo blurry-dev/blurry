@@ -33,11 +33,11 @@ python = "^3.11"
 rich = "^13.9.4"
 selectolax = "^0.3.27"
 typer = "^0.15.1"
-htmlmin2 = "^0.1.13"
 dpath = "^2.2.0"
 jinja2-simple-tags = "^0.6.1"
 jinjax = "^0.48"
 pydantic = "^2.10.5"
+minify-html = "^0.15.0"
 
 [tool.poetry.scripts]
 blurry = 'blurry:main'

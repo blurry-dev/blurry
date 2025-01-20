@@ -15,5 +15,5 @@ def test_render_module_code():
     path = "blurry.plugins.html_plugins.minify_html_plugin"
 
     code = render_python_code(None, language, path)
-    assert "import htmlmin" in code
+    assert "import minify_html as minify_html_rs" in code
     assert "return html" in code

@@ -1,57 +1,29 @@
-from blurry.plugins.html_plugins.minify_html_plugin import minify_css
-from blurry.plugins.html_plugins.minify_html_plugin import minify_style_tags
+from blurry.plugins.html_plugins.minify_html_plugin import minify_html
 
 
-def test_minify_css():
-    css = """
-body {
-  color: pink;
-}
-document {
-  background: blue;
-}
-pre,
-code {
-  font-family: monospace;
-  font-size: 0.9rem;
-}
-""".strip()
-    minified_css = minify_css(css)
-    assert minified_css == (
-        "body{color:pink;}document{background:blue;}"
-        "pre,code{font-family:monospace;font-size:0.9rem;}"
-    )
-
-
-def test_minify_style_tags():
+def test_minify_html():
     html = """
-<html>
+<!DOCTYPE html>
+<html
+  lang="en"
+>
 <head>
-  <style>
-  body {
+    <title>Title</title>
+    <style>
+    body {
     color: pink;
-  }
-  </style>
+    }
+    </style>
 </head>
 <body>
-  <style>
-  document {
-    background: blue;
-  }
-  </style>
+    <h1>Hi!</h1>
 </body>
 </html>
 """.strip()
-    html_with_minified_style_tags = minify_style_tags(html)
+    minified_html = minify_html(html, {}, release=True)
     assert (
-        html_with_minified_style_tags
+        minified_html
         == """
-<html><head>
-  <style>body{color:pink;}</style>
-</head>
-<body>
-  <style>document{background:blue;}</style>
-
-</body></html>
+<!doctype html><html lang=en><head><title>Title</title><style>body{color:pink}</style><body><h1>Hi!</h1>
 """.strip()
     )
