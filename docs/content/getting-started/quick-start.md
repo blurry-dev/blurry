@@ -41,7 +41,7 @@ blurry init
 ```
 
 You'll be prompted for the name and domain of your website.
-Than, Blurry will create your `blurry.toml` file, plus a Markdown file for your homepage at `content/index.md` and template files in `templates/`.
+Then, Blurry will create your `blurry.toml` file, plus a Markdown file for your homepage at `content/index.md` and template files in `templates/`.
 
 Start the [Blurry dev server](../commands/runserver.md) with:
 
