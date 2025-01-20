@@ -75,3 +75,27 @@ def test_validate_front_matter_as_schema_with_wrong_type():
     test_console.print.assert_called_with(
         "pages/intro.md: WebPage schema validation error: Input should be a valid datetime: dateModified"
     )
+
+
+MARKDOWN_WITH_RESTAURANT_FRONT_MATTER = """
++++
+"@type" = "Restaurant"
+name = "John's Burger Barn"
+address.streetAddress = "123 Burger Lane"
+address.addressLocality = "Halifax"
+address.addressRegion = "NS"
+address.postalCode = "H0H 0H0"
+address.addressCountry = "CA"
++++
+
+# John's Burger Barn
+""".strip()
+
+
+def test_validate_restaurant_front_matter():
+    _, front_matter = get_data(MARKDOWN_WITH_RESTAURANT_FRONT_MATTER)
+    path = Path("index.md")
+    test_console = Console()
+    test_console.print = MagicMock()
+    validate_front_matter_as_schema(path, front_matter, test_console)
+    assert not test_console.print.called
