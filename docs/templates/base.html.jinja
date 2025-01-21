@@ -127,13 +127,6 @@ blockquote > :last-child {
         </div>
     </footer>
 
-    <link rel="preload" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/ir-black.min.css" as="style"
-        onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/ir-black.min.css">
-    </noscript>
-    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js" async defer></script>
-    <script>window.addEventListener('load', () => hljs.highlightAll());</script>
     <style>
         {% include "assets/styles-below-the-fold.css" %}
     </style>
@@ -157,6 +150,9 @@ blockquote > :last-child {
             })
         }
     </script>
+    <style>{% include './assets/ir-black.min.css' %}</style>
+    <script src="/assets/highlight.min.js" async defer></script>
+    <script>window.addEventListener('load', () => hljs.highlightAll());</script>
 </body>
 
 </html>
