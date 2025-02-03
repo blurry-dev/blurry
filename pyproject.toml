@@ -43,7 +43,7 @@ pydantic = "^2.10.5"
 blurry = 'blurry:main'
 
 [tool.poetry.group.dev.dependencies]
-black = "^24.10.0"
+black = ">=24.10,<26.0"
 nox = "^2024.10.9"
 pyright = "^1.1.391"
 pytest = "^8.3.4"
