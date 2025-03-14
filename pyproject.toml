@@ -6,7 +6,7 @@ authors = [{name = "John Franey", email = "franey@duck.com"}]
 license = "MIT"
 readme = "README.md"
 keywords = ["static-site-generator", "seo", "pagespeed"]
-requires-python = "^3.11"
+requires-python = ">=3.11,<4.0"
 classifiers = [
     "Environment :: Console",
     "Operating System :: OS Independent",
@@ -44,23 +44,25 @@ documentation = "https://blurry-docs.netlify.app/"
 include = ["LICENSE"]
 packages = [{ include = "blurry" }]
 
-[tool.poetry.dependencies]
+[dependency-groups]
+dev = [
+    "black >=24.10,<26.0",
+    "nox >=2024.10.9,<2026.0.0",
+    "pyright",
+    "pytest",
+    "pytest-cov",
+    "ruff >=0.8.6,<0.10.0",
+    "pytest-watcher",
+]
 
 [project.scripts]
 blurry = 'blurry:main'
 
 [tool.poetry.group.dev.dependencies]
-black = ">=24.10,<26.0"
-nox = ">=2024.10.9,<2026.0.0"
-pyright = "^1.1.391"
-pytest = "^8.3.4"
-pytest-cov = "^6.0.0"
-ruff = ">=0.8.6,<0.10.0"
-pytest-watcher = "^0.4.3"
 
 [build-system]
-requires = ["poetry-core>=2.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
 
 [tool.pyright]
 include = ["blurry/**"]
