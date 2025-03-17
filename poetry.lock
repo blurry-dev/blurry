@@ -421,14 +421,14 @@ Jinja2 = ">=2.10"
 
 [[package]]
 name = "jinjax"
-version = "0.48"
+version = "0.52"
 description = "Replace your HTML templates with Python server-Side components"
 optional = false
-python-versions = "<4.0,>=3.10"
+python-versions = "<4,>=3.11"
 groups = ["main"]
 files = [
-    {file = "jinjax-0.48-py3-none-any.whl", hash = "sha256:c556e7e73d9d9a9b7dd6f590bdca37bf9c514ca1af83ee94059dc727a66bd69b"},
-    {file = "jinjax-0.48.tar.gz", hash = "sha256:689847fb095846ebd7ce1c254ae407698689a4b33300c461ff337f79194b69bc"},
+    {file = "jinjax-0.52-py3-none-any.whl", hash = "sha256:0e030a8139d4118f2bac47fbedf761dc1144e82d37347f9c387f3a8a0d1f8700"},
+    {file = "jinjax-0.52.tar.gz", hash = "sha256:e62f7da12edb918c3ff9fddf8f09e806b1cd220a390d773ee0e8a6c053ede009"},
 ]
 
 [package.dependencies]
@@ -436,7 +436,7 @@ jinja2 = ">=3.0"
 markupsafe = ">=2.0"
 
 [package.extras]
-whitenoise = ["whitenoise (>=5.3)"]
+whitenoise = ["whitenoise"]
 
 [[package]]
 name = "livereload"
@@ -1348,4 +1348,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.11"
-content-hash = "c301c407b08c4d757a960220c43a797cd4c1742371bb6dd1f90b1b94e2157c6a"
+content-hash = "4a1a3236070b2140fb83615663cc8ad567c9aa778ee61cb14b44ce3654bdef11"
