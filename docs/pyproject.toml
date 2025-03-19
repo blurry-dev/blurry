@@ -1,16 +1,18 @@
-[tool.poetry]
+[project]
 name = "blurry-docs"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.11"
+dependencies = [
+    "blurry-cli @ {root:uri}/..",
+]
+dynamic = ["optional-dependencies"]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-blurry-cli = { path = "..", develop = true }
+[tool.uv.dependencies]
+dev = [
+  "blurry-cli[dev] @ {root:uri}/..",
+]
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.plugins."blurry.jinja_filter_plugins"]
+[project.entry-points."blurry.jinja_filter_plugins"]
 body_to_cards = "blurry_docs:body_to_cards"

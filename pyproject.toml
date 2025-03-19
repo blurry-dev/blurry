@@ -1,11 +1,11 @@
-[tool.poetry]
+[project]
 name = "blurry-cli"
 version = "0.14.0"
 description = "A Mistune-based static site generator for Python"
-authors = ["John Franey <franey@duck.com>"]
-license = "MIT"
+authors = [{ name = "John Franey", email = "franey@duck.com" }]
+license = { text = "MIT" }
 readme = "README.md"
-repository = "https://github.com/blurry-dev/blurry"
+requires-python = ">=3.11"
 keywords = ["static-site-generator", "seo", "pagespeed"]
 classifiers = [
     "Environment :: Console",
@@ -19,41 +19,37 @@ classifiers = [
     "Topic :: Text Processing :: Markup :: HTML",
     "Topic :: Text Processing :: Markup :: Markdown",
 ]
-include = ["LICENSE"]
-packages = [{ include = "blurry" }]
 
-[tool.poetry.dependencies]
-Jinja2 = "^3.1.5"
-PyLD = "^2.0.4"
-Wand = "^0.6.13"
-ffmpeg-python = "^0.2.0"
-livereload = "^2.7.1"
-mistune = "^3.1.0"
-python = "^3.11"
-rich = "^13.9.4"
-selectolax = "^0.3.27"
-typer = "^0.15.1"
-htmlmin2 = "^0.1.13"
-dpath = "^2.2.0"
-jinja2-simple-tags = "^0.6.1"
-jinjax = "^0.48"
-pydantic = "^2.10.5"
+dependencies = [
+    "Jinja2 ~= 3.1.5",
+    "PyLD ~= 2.0.4",
+    "Wand ~= 0.6.13",
+    "ffmpeg-python ~= 0.2.0",
+    "livereload ~= 2.7.1",
+    "mistune ~= 3.1.0",
+    "rich ~= 13.9.4",
+    "selectolax ~= 0.3.27",
+    "typer ~= 0.15.1",
+    "htmlmin2 ~= 0.1.13",
+    "dpath ~= 2.2.0",
+    "jinja2-simple-tags ~= 0.6.1",
+    "jinjax ~= 0.48",
+    "pydantic ~= 2.10.5",
+]
 
-[tool.poetry.scripts]
-blurry = 'blurry:main'
+[project.scripts]
+blurry = "blurry:main"
 
-[tool.poetry.group.dev.dependencies]
-black = ">=24.10,<26.0"
-nox = ">=2024.10.9,<2026.0.0"
-pyright = "^1.1.391"
-pytest = "^8.3.4"
-pytest-cov = "^6.0.0"
-ruff = ">=0.8.6,<0.10.0"
-pytest-watcher = "^0.4.3"
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[project.optional-dependencies]
+dev = [
+    "black >= 24.10, < 26.0",
+    "nox >= 2024.10.9, < 2026.0.0",
+    "pyright ~= 1.1.391",
+    "pytest ~= 8.3.4",
+    "pytest-cov ~= 6.0.0",
+    "ruff >= 0.8.6, < 0.10.0",
+    "pytest-watcher ~= 0.4.3",
+]
 
 [tool.pyright]
 include = ["blurry/**"]
@@ -67,18 +63,18 @@ runner = "pytest"
 target-version = "py311"
 line-length = 88
 
-[tool.poetry.plugins."blurry.html_plugins"]
-minify_html = 'blurry.plugins.html_plugins.minify_html_plugin:minify_html'
+[project.entry-points."blurry.html_plugins"]
+minify_html = "blurry.plugins.html_plugins.minify_html_plugin:minify_html"
 
-[tool.poetry.plugins."blurry.markdown_plugins"]
-python_code = 'blurry.plugins.markdown_plugins.python_code_plugin:python_code'
-python_code_in_list = 'blurry.plugins.markdown_plugins.python_code_plugin:python_code_in_list'
-punctuation = 'blurry.plugins.markdown_plugins.punctuation_plugin:punctuation'
-container = 'blurry.plugins.markdown_plugins.container_plugin:container'
+[project.entry-points."blurry.markdown_plugins"]
+python_code = "blurry.plugins.markdown_plugins.python_code_plugin:python_code"
+python_code_in_list = "blurry.plugins.markdown_plugins.python_code_plugin:python_code_in_list"
+punctuation = "blurry.plugins.markdown_plugins.punctuation_plugin:punctuation"
+container = "blurry.plugins.markdown_plugins.container_plugin:container"
 
-[tool.poetry.plugins."blurry.jinja_extensions"]
+[project.entry-points."blurry.jinja_extensions"]
 blurry_image = "blurry.plugins.jinja_plugins.blurry_image_extension:BlurryImage"
 
-[tool.poetry.plugins."blurry.jinja_filter_plugins"]
+[project.entry-points."blurry.jinja_filter_plugins"]
 url_path = "blurry.plugins.jinja_plugins.filters:url_path"
 headings = "blurry.plugins.jinja_plugins.filters:headings"
