@@ -17,7 +17,7 @@ from blurry.plugins import discovered_html_plugins
 from blurry.schema_validation import validate_front_matter_as_schema
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
-from blurry.settings import SETTINGS
+from blurry.settings import get_settings
 from blurry.types import MarkdownFileData
 from blurry.types import TemplateContext
 from blurry.utils import content_path_to_url
@@ -56,6 +56,7 @@ def process_non_markdown_file(
 
 
 def process_jinja_file(filepath: Path, jinja_env: Environment, file_data_by_directory):
+    SETTINGS = get_settings()
     build_directory = get_build_directory()
     content_directory = get_content_directory()
     template = jinja_env.get_template(str(filepath.relative_to(content_directory)))
@@ -87,6 +88,7 @@ def write_html_file(
     release: bool,
     jinja_env: Environment,
 ):
+    SETTINGS = get_settings()
     extra_context: TemplateContext = {}
     # Gather data from other files in this directory if this is an index file
     file_data_list = file_data_by_directory[filepath.parent]

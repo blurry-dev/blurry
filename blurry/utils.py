@@ -2,10 +2,11 @@ from pathlib import Path
 
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
-from blurry.settings import SETTINGS
+from blurry.settings import get_settings
 
 
 def get_domain_with_scheme():
+    SETTINGS = get_settings()
     if SETTINGS.get("RUNSERVER"):
         host = SETTINGS["DEV_HOST"]
         port = SETTINGS["DEV_PORT"]

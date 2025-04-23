@@ -25,7 +25,7 @@ from blurry.images import get_widths_for_image_width
 from blurry.plugins import discovered_markdown_plugins
 from blurry.plugins.jinja_plugins.filters import slugify
 from blurry.settings import get_content_directory
-from blurry.settings import SETTINGS
+from blurry.settings import get_settings
 from blurry.types import is_str
 from blurry.utils import content_path_to_url
 from blurry.utils import convert_relative_path_in_markdown_file_to_pathname
@@ -35,6 +35,8 @@ from blurry.utils import resolve_relative_path_in_markdown
 
 # https://schema.org/ImageObject
 ImageObject: TypeAlias = dict
+
+SETTINGS = get_settings()
 
 
 class BlurryRenderer(mistune.HTMLRenderer):
@@ -105,7 +107,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
         return (
             f"<figure>"
             f"<picture>{source_tag}<img {attributes_str}></picture>"
-            f'<figcaption>{attributes["alt"]}</figcaption>'
+            f"<figcaption>{attributes['alt']}</figcaption>"
             f"</figure>"
         )
 

@@ -29,7 +29,7 @@ from blurry.runserver_handlers import handle_changed_markdown_files
 from blurry.runserver_handlers import rebuild_markdown_files
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
-from blurry.settings import SETTINGS
+from blurry.settings import get_settings
 from blurry.settings import update_settings
 from blurry.sitemap import write_sitemap_file
 from blurry.templates import get_jinja_env
@@ -57,10 +57,10 @@ async def build(release=True, clean: bool = False):
     start = datetime.now()
 
     if release:
+        update_settings()
         print_blurry_name()
         print_plugin_table()
 
-    update_settings()
     build_directory = get_build_directory()
 
     if clean:
@@ -159,7 +159,7 @@ def runserver():
     print_blurry_name()
     print_plugin_table()
 
-    update_settings()
+    SETTINGS = get_settings()
     os.environ.setdefault(f"{ENV_VAR_PREFIX}BUILD_MODE", "dev")
 
     SETTINGS["RUNSERVER"] = True

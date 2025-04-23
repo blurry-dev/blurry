@@ -48,7 +48,7 @@ SETTINGS: Settings = {
 }
 
 
-def update_settings():
+def update_settings() -> Settings:
     try:
         blurry_config = tomllib.load(open(SETTINGS_FILENAME, "rb"))
         user_settings = blurry_config["blurry"]
@@ -63,6 +63,23 @@ def update_settings():
             continue
         settings_key = key[setting_name_start_index:]
         SETTINGS[settings_key] = value
+
+    return SETTINGS
+
+
+class SettingsCache(TypedDict):
+    settings: Settings | None
+
+
+settings_cache: SettingsCache = {"settings": None}
+
+
+def get_settings() -> Settings:
+    if cached_settings := settings_cache.get("settings"):
+        return cached_settings
+    settings = update_settings()
+    settings_cache["settings"] = settings
+    return settings
 
 
 def get_build_directory():
