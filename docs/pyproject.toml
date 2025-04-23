@@ -5,14 +5,15 @@ description = ""
 authors = [{ name = "Your Name", email = "you@example.com" }]
 requires-python = ">=3.11"
 dependencies = [
-    "blurry-cli @ {root:uri}/..",
+    "blurry-cli",
 ]
 dynamic = ["optional-dependencies"]
 
-[tool.uv.dependencies]
-dev = [
-  "blurry-cli[dev] @ {root:uri}/..",
-]
-
 [project.entry-points."blurry.jinja_filter_plugins"]
 body_to_cards = "blurry_docs:body_to_cards"
+
+[tool.setuptools]
+packages = ["blurry_docs"]
+
+[tool.uv.sources]
+blurry-cli = { path = "../", editable = true }
