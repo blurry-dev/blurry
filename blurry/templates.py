@@ -7,13 +7,14 @@ from blurry.plugins import discovered_jinja_extensions
 from blurry.plugins import discovered_jinja_filter_plugins
 from blurry.settings import get_content_directory
 from blurry.settings import get_templates_directory
-from blurry.settings import SETTINGS
+from blurry.settings import get_settings
 
 
 def get_jinja_env() -> Environment:
     """
     Returns a Jinja environment complete with JinjaX and any installed Jinja extensions and filters.
     """
+    SETTINGS = get_settings()
     templates_directory = get_templates_directory()
     content_directory = get_content_directory()
     jinja_env = Environment(

@@ -6,12 +6,11 @@ from wand.image import Image
 
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
-from blurry.settings import SETTINGS
-from blurry.settings import update_settings
+from blurry.settings import get_settings
 
 
 def get_target_image_widths():
-    update_settings()
+    SETTINGS = get_settings()
     IMAGE_WIDTHS = SETTINGS["IMAGE_WIDTHS"]
     MAXIMUM_IMAGE_WIDTH = int(SETTINGS["MAXIMUM_IMAGE_WIDTH"])
     THUMBNAIL_WIDTH = int(SETTINGS["THUMBNAIL_WIDTH"])
@@ -32,6 +31,7 @@ def add_image_width_to_path(image_path: Path, width: int) -> Path:
 
 
 def convert_image_to_avif(image_path: Path, target_path: Path | None = None):
+    SETTINGS = get_settings()
     AVIF_COMPRESSION_QUALITY = SETTINGS["AVIF_COMPRESSION_QUALITY"]
     image_suffix = image_path.suffix
     avif_filepath = str(target_path or image_path).replace(image_suffix, ".avif")
@@ -78,9 +78,9 @@ async def generate_images_for_srcset(image_path: Path):
             resized_original_image_type_future = executor.submit(
                 clone_and_resize_image, image_path, target_width, new_filepath_in_build
             )
-            resize_future_to_filepath[
-                resized_original_image_type_future
-            ] = new_filepath_in_build
+            resize_future_to_filepath[resized_original_image_type_future] = (
+                new_filepath_in_build
+            )
 
         # Create AVIF versions of resized images as they're ready
         for future in concurrent.futures.as_completed(resize_future_to_filepath):

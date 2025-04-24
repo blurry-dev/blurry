@@ -5,7 +5,7 @@ from pydantic import ValidationError
 from rich.console import Console
 
 from blurry.schema_validation import models
-from blurry.settings import SETTINGS
+from blurry.settings import get_settings
 
 
 def validate_front_matter_as_schema(
@@ -15,6 +15,7 @@ def validate_front_matter_as_schema(
     Validates schema data using partial Schema.org types based on Google's support for them:
     https://developers.google.com/search/docs/appearance/structured-data/search-gallery
     """
+    SETTINGS = get_settings()
     schematype = schema_variables["@type"]
 
     if mapped_schematype_ := SETTINGS["TEMPLATE_SCHEMA_TYPES"].get(schematype):
