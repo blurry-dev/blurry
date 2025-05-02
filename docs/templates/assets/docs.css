@@ -44,7 +44,7 @@ body>main>* {
   }
 
   body>main:has(aside#table-of-contents) {
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto 1fr 1fr;
     grid-template-columns: 11rem 1fr;
     grid-template-areas: "menu table-of-content" "menu body"
   }
