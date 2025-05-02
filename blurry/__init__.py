@@ -20,6 +20,7 @@ from blurry.cli import print_blurry_name
 from blurry.cli import print_plugin_table
 from blurry.commands.clean import clean_build_directory
 from blurry.commands.init import initialize_new_project
+from blurry.commands.version import print_blurry_version
 from blurry.constants import ENV_VAR_PREFIX
 from blurry.file_processors import process_non_markdown_file
 from blurry.file_processors import write_html_file
@@ -38,7 +39,7 @@ from blurry.templates import get_jinja_env
 warning_console = Console(stderr=True, style="bold yellow")
 
 
-app = AsyncTyper()
+app = AsyncTyper(no_args_is_help=True)
 
 
 @app.command(name="clean")
@@ -49,6 +50,11 @@ def clean_command():
 @app.command(name="init")
 def init_command(name: str | None = None, domain: str | None = None):
     initialize_new_project(name, domain)
+
+
+@app.command(name="version")
+def version_command():
+    print_blurry_version()
 
 
 @app.async_command()
