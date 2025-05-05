@@ -421,14 +421,14 @@ Jinja2 = ">=2.10"
 
 [[package]]
 name = "jinjax"
-version = "0.55"
+version = "0.56"
 description = "Replace your HTML templates with Python server-Side components"
 optional = false
 python-versions = "<4,>=3.11"
 groups = ["main"]
 files = [
-    {file = "jinjax-0.55-py3-none-any.whl", hash = "sha256:2a4cbba14276971b32bc5b0efe4b2a198f8b11e27f1aba74b7d0b26b98e9144a"},
-    {file = "jinjax-0.55.tar.gz", hash = "sha256:6cb75b42d4c0eb58ad2638daaa0389bf515dda7edac032b4ca51c744ef968f34"},
+    {file = "jinjax-0.56-py3-none-any.whl", hash = "sha256:056e1bb6cf8fc39c44e46397d43d0baac3f4256231dfa9953b1c1c85225f80cf"},
+    {file = "jinjax-0.56.tar.gz", hash = "sha256:5ae0a48815ffde256a85cafa61dbef1b8ca93edd277603b6550fd00f7e8d72c7"},
 ]
 
 [package.dependencies]
@@ -1363,4 +1363,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.11"
-content-hash = "c340b42c8075f35f0161bf7e5b5654112ebc0e36670d0ff942ede83837024b68"
+content-hash = "b13014bffb297d43909c5c697e36f05145bb68375fdaa2557db056d3a41f9cb5"
