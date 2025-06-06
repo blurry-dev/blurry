@@ -9,3 +9,14 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "monthly"
+    # Group development dependencies
+    groups:
+      dev-dependencies:
+        patterns:
+          - "*" # This will match all development dependencies
+        dependency-type: "development"
+        update-types:
+          - "patch"
+          - "minor"
+        labels:
+          - "dependabot/dev-deps"
