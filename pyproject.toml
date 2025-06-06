@@ -42,6 +42,9 @@ pydantic = "^2.10.5"
 [tool.poetry.scripts]
 blurry = 'blurry:main'
 
+[tool.poetry.group.dev]
+optional = true
+
 [tool.poetry.group.dev.dependencies]
 black = ">=24.10,<26.0"
 nox = ">=2024.10.9,<2026.0.0"
