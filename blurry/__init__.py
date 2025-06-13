@@ -16,7 +16,7 @@ from rich.progress import TaskProgressColumn
 from rich.progress import TextColumn
 
 from blurry.async_typer import AsyncTyper
-from blurry.cli import print_blurry_name
+from blurry.cli import check_avif_support, print_blurry_name
 from blurry.cli import print_plugin_table
 from blurry.commands.clean import clean_build_directory
 from blurry.commands.init import initialize_new_project
@@ -66,6 +66,7 @@ async def build(release=True, clean: bool = False):
         update_settings()
         print_blurry_name()
         print_plugin_table()
+        check_avif_support(console=warning_console)
 
     build_directory = get_build_directory()
 
@@ -164,6 +165,7 @@ def runserver():
     """Starts HTTP server with live reloading."""
     print_blurry_name()
     print_plugin_table()
+    check_avif_support(console=warning_console)
 
     SETTINGS = get_settings()
     os.environ.setdefault(f"{ENV_VAR_PREFIX}BUILD_MODE", "dev")

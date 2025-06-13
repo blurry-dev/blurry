@@ -3,10 +3,13 @@ from concurrent.futures import Future
 from pathlib import Path
 
 from wand.image import Image
+import wand.version
 
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
 from blurry.settings import get_settings
+
+has_avif_support = "AVIF" in wand.version.formats()
 
 
 def get_target_image_widths():
@@ -30,17 +33,20 @@ def add_image_width_to_path(image_path: Path, width: int) -> Path:
     return Path(new_filename)
 
 
-def convert_image_to_avif(image_path: Path, target_path: Path | None = None):
+def convert_image_to_avif_or_webp(image_path: Path, target_path: Path | None = None):
     SETTINGS = get_settings()
-    AVIF_COMPRESSION_QUALITY = SETTINGS["AVIF_COMPRESSION_QUALITY"]
+    IMAGE_COMPRESSION_QUALITY = SETTINGS["IMAGE_COMPRESSION_QUALITY"]
     image_suffix = image_path.suffix
-    avif_filepath = str(target_path or image_path).replace(image_suffix, ".avif")
-    if Path(avif_filepath).exists():
+    new_image_format = "avif" if has_avif_support else "webp"
+    new_filepath = str(target_path or image_path).replace(
+        image_suffix, f".{new_image_format}"
+    )
+    if Path(new_filepath).exists():
         return
     with Image(filename=str(image_path)) as image:
-        image.format = "avif"
-        image.compression_quality = AVIF_COMPRESSION_QUALITY
-        image.save(filename=avif_filepath)
+        image.format = new_image_format
+        image.compression_quality = IMAGE_COMPRESSION_QUALITY
+        image.save(filename=new_filepath)
 
 
 def clone_and_resize_image(
@@ -61,12 +67,12 @@ async def generate_images_for_srcset(image_path: Path):
     build_path = BUILD_DIR / image_path.resolve().relative_to(CONTENT_DIR)
     with concurrent.futures.ThreadPoolExecutor() as executor:
         # Convert original image
-        full_sized_avif_future = executor.submit(
-            convert_image_to_avif, image_path=image_path, target_path=build_path
+        full_sized_image_future = executor.submit(
+            convert_image_to_avif_or_webp, image_path=image_path, target_path=build_path
         )
-        image_futures.append(full_sized_avif_future)
+        image_futures.append(full_sized_image_future)
 
-        # Store resized image futures so AVIF versions can be created once they're done
+        # Store resized image futures so AVIF/WEBP versions can be created once they're done
         resize_future_to_filepath: dict[Future, Path] = {}
 
         width = Image(filename=str(image_path)).width
@@ -82,13 +88,13 @@ async def generate_images_for_srcset(image_path: Path):
                 new_filepath_in_build
             )
 
-        # Create AVIF versions of resized images as they're ready
+        # Create AVIF/WEBP versions of resized images as they're ready
         for future in concurrent.futures.as_completed(resize_future_to_filepath):
             resized_image_filepath = resize_future_to_filepath[future]
-            resized_avif_future = executor.submit(
-                convert_image_to_avif, resized_image_filepath
+            resized_image_future = executor.submit(
+                convert_image_to_avif_or_webp, resized_image_filepath
             )
-            image_futures.append(resized_avif_future)
+            image_futures.append(resized_image_future)
 
         concurrent.futures.wait(image_futures + list(resize_future_to_filepath.keys()))
 
