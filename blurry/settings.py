@@ -8,7 +8,7 @@ from blurry.constants import SETTINGS_FILENAME
 
 
 class Settings(TypedDict):
-    AVIF_COMPRESSION_QUALITY: int
+    IMAGE_COMPRESSION_QUALITY: int
     BUILD_DIRECTORY_NAME: str
     CONTENT_DIRECTORY_NAME: str
     MARKDOWN_FILE_JINJA_TEMPLATE_EXTENSION: str
@@ -28,7 +28,7 @@ class Settings(TypedDict):
 
 
 SETTINGS: Settings = {
-    "AVIF_COMPRESSION_QUALITY": 90,
+    "IMAGE_COMPRESSION_QUALITY": 90,
     "BUILD_DIRECTORY_NAME": "dist",
     "CONTENT_DIRECTORY_NAME": "content",
     "TEMPLATES_DIRECTORY_NAME": "templates",
