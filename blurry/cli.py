@@ -39,7 +39,7 @@ def print_plugin_table():
 
 
 def check_avif_support(console: Console):
-    if "AVIFABC" in wand.version.formats():
+    if "AVIF" in wand.version.formats():
         return
     console.print(
         "AVIF support not found. Falling back to WEBP. See https://trac.ffmpeg.org/wiki/Encode/AV1"
