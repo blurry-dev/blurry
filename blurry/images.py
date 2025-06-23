@@ -3,13 +3,18 @@ from concurrent.futures import Future
 from pathlib import Path
 
 from wand.image import Image
-import wand.version
 
-from blurry.settings import get_build_directory
+from blurry.constants import EFFICIENT_IMAGE_SUFFIXES
+from blurry.settings import (
+    get_build_directory,
+    get_efficient_image_suffix,
+    get_efficient_image_format,
+)
 from blurry.settings import get_content_directory
 from blurry.settings import get_settings
 
-has_avif_support = "AVIF" in wand.version.formats()
+efficient_image_format = get_efficient_image_format()
+efficient_image_suffix = get_efficient_image_suffix()
 
 
 def get_target_image_widths():
@@ -37,14 +42,18 @@ def convert_image_to_avif_or_webp(image_path: Path, target_path: Path | None = N
     SETTINGS = get_settings()
     IMAGE_COMPRESSION_QUALITY = SETTINGS["IMAGE_COMPRESSION_QUALITY"]
     image_suffix = image_path.suffix
-    new_image_format = "avif" if has_avif_support else "webp"
+
+    # Skip converting AVIF & WEBP files as they're already efficient
+    if image_suffix.lower() in EFFICIENT_IMAGE_SUFFIXES:
+        return
+
     new_filepath = str(target_path or image_path).replace(
-        image_suffix, f".{new_image_format}"
+        image_suffix, efficient_image_suffix
     )
     if Path(new_filepath).exists():
         return
     with Image(filename=str(image_path)) as image:
-        image.format = new_image_format
+        image.format = efficient_image_format
         image.compression_quality = IMAGE_COMPRESSION_QUALITY
         image.save(filename=new_filepath)
 

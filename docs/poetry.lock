@@ -14,7 +14,7 @@ files = [
 
 [[package]]
 name = "blurry-cli"
-version = "0.16.0"
+version = "0.17.1"
 description = "A Mistune-based static site generator for Python"
 optional = false
 python-versions = "^3.11"

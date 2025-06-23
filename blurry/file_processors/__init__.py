@@ -51,6 +51,7 @@ def process_non_markdown_file(
     if mimetype in [
         mimetypes.types_map[".jpg"],
         mimetypes.types_map[".png"],
+        mimetypes.types_map[".webp"],
     ]:
         asyncio.run(generate_images_for_srcset(filepath))
 

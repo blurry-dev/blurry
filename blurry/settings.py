@@ -1,4 +1,5 @@
 import tomllib
+import wand.version
 from os import environ
 from typing import TypedDict
 
@@ -95,3 +96,14 @@ def get_content_directory():
 
 def get_templates_directory():
     return CURR_DIR / SETTINGS["TEMPLATES_DIRECTORY_NAME"]
+
+
+def get_efficient_image_format():
+    if "AVIF" in wand.version.formats():
+        return "AVIF"
+    return "WEBP"
+
+
+def get_efficient_image_suffix():
+    format_lower = get_efficient_image_format().lower()
+    return f".{format_lower}"

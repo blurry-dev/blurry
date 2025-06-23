@@ -7,6 +7,8 @@ datePublished = 2023-04-09
 
 # Content: images
 
+![](../images/barrys-decaf.webp)
+
 Image handling is one of Blurry's strengths, and under the hood, Blurry performs some image magic using [ImageMagick](https://imagemagick.org/).
 
 ## Blurry image handling improvements

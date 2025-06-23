@@ -10,9 +10,12 @@ from wand.image import Image
 from blurry.images import add_image_width_to_path
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
+from blurry.settings import get_efficient_image_suffix
 from blurry.utils import build_path_to_url
 
 warning_console = Console(stderr=True, style="bold yellow")
+
+efficient_image_suffix = get_efficient_image_suffix()
 
 
 class BlurryImage(StandaloneTag):
@@ -56,9 +59,12 @@ class BlurryImage(StandaloneTag):
 
         if image_mimetype in [
             mimetypes.types_map[".jpg"],
+            mimetypes.types_map[".jpeg"],
             mimetypes.types_map[".png"],
         ]:
-            image_path = Path(str(image_path).replace(image_path.suffix, ".avif"))
+            image_path = Path(
+                str(image_path).replace(image_path.suffix, efficient_image_suffix)
+            )
 
         attributes["src"] = build_path_to_url(image_path)
 

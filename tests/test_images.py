@@ -21,6 +21,11 @@ from blurry.images import get_widths_for_image_width
             [240, 800],
             "dummy_image-240.avif 240w, dummy_image-800.avif 800w",
         ),
+        (
+            "dummy_image.webp",
+            [240, 800],
+            "dummy_image-240.webp 240w, dummy_image-800.webp 800w",
+        ),
     ],
 )
 def test_generate_srcset_string(

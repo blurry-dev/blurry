@@ -16,6 +16,7 @@ from mistune.plugins.url import url
 from mistune.util import escape
 from wand.image import Image
 
+from blurry.constants import EFFICIENT_IMAGE_FORMATS
 from .front_matter import parse_front_matter
 from .renderer_functions.render_video import render_video
 from blurry.images import add_image_width_to_path
@@ -26,6 +27,7 @@ from blurry.plugins import discovered_markdown_plugins
 from blurry.plugins.jinja_plugins.filters import slugify
 from blurry.settings import get_content_directory
 from blurry.settings import get_settings
+from blurry.settings import get_efficient_image_format
 from blurry.types import is_str
 from blurry.utils import content_path_to_url
 from blurry.utils import convert_relative_path_in_markdown_file_to_pathname
@@ -37,6 +39,8 @@ from blurry.utils import resolve_relative_path_in_markdown
 ImageObject: TypeAlias = dict
 
 SETTINGS = get_settings()
+
+efficient_image_format = get_efficient_image_format()
 
 
 class BlurryRenderer(mistune.HTMLRenderer):
@@ -78,10 +82,10 @@ class BlurryRenderer(mistune.HTMLRenderer):
                 image_width = img.width
                 image_height = img.height
                 # The .animated property doesn't always detect animated .webp images
-                # and .webp is optimized enough not to benefit much from .avif
-                image_is_animated = img.animation or extension.lower() == "webp"
+                image_is_animated = img.animation
                 attributes["width"] = image_width
                 attributes["height"] = image_height
+                image_format = img.format
 
             if image_is_animated or extension.lower() == "svg":
                 attributes_str = " ".join(
@@ -93,11 +97,18 @@ class BlurryRenderer(mistune.HTMLRenderer):
 
             attributes["sizes"] = generate_sizes_string(image_widths)
             attributes["srcset"] = generate_srcset_string(src, image_widths)
-            avif_srcset = generate_srcset_string(
-                src.replace(extension, "avif"), image_widths
+            new_extension = (
+                extension
+                if image_format in EFFICIENT_IMAGE_FORMATS
+                else efficient_image_format.lower()
             )
-            source_tag = '<source srcset="{}" sizes="{}" type="image/avif" />'.format(
-                avif_srcset, attributes["sizes"]
+
+            efficient_srcset = generate_srcset_string(
+                src.replace(extension, new_extension),
+                image_widths,
+            )
+            source_tag = '<source srcset="{}" sizes="{}" type="image/{}" />'.format(
+                efficient_srcset, attributes["sizes"], new_extension
             )
 
         attributes_str = " ".join(
