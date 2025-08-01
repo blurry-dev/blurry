@@ -36,7 +36,7 @@ typer = ">=0.15.1,<0.17.0"
 htmlmin2 = "^0.1.13"
 dpath = "^2.2.0"
 jinja2-simple-tags = "^0.6.1"
-jinjax = ">=0.48,<0.58"
+jinjax = ">=0.48,<0.61"
 pydantic = "^2.10.5"
 
 [tool.poetry.scripts]
