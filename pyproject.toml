@@ -51,7 +51,7 @@ nox = ">=2024.10.9,<2026.0.0"
 pyright = "^1.1.391"
 pytest = "^8.3.4"
 pytest-cov = "^6.0.0"
-ruff = ">=0.8.6,<0.12.0"
+ruff = ">=0.8.6,<0.15.0"
 pytest-watcher = "^0.4.3"
 
 [build-system]
