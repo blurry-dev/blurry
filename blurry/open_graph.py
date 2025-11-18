@@ -36,6 +36,8 @@ def open_graph_meta_tags(schema_data: dict[str, Any]) -> str:
         open_graph_properties["type"] = open_graph_type_from_schema_type(type)
     if headline := schema_data.get("headline"):
         open_graph_properties["title"] = headline
+    if name := schema_data.get("name"):
+        open_graph_properties["title"] = name
     if url := schema_data.get("url"):
         open_graph_properties["url"] = url
     if abstract := schema_data.get("abstract"):
