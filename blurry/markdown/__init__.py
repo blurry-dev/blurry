@@ -104,12 +104,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
             f'{name}="{value}"' for name, value in attributes.items()
         )
 
-        return (
-            f"<figure>"
-            f"<picture>{source_tag}<img {attributes_str}></picture>"
-            f"<figcaption>{attributes['alt']}</figcaption>"
-            f"</figure>"
-        )
+        return f"<figure><picture>{source_tag}<img {attributes_str}></picture></figure>"
 
     def link(self, text, url, title: str | None = None) -> str:
         CONTENT_DIR = get_content_directory()
