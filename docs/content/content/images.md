@@ -48,10 +48,6 @@ Blurry adds lazy loading (`loading="lazy"`) to all images in body content.
 
 This provides a page speed boost by waiting to load most images on a page until they're needed.
 
-### Figure caption
-
-Blurry adds the image's `alt` description as a figure caption (`<figcaption>`).
-
 ## Example
 
 Given the following Markdown syntax for an image with dimensions of 2160x1620 and with a `MAXIMUM_IMAGE_WIDTH` [setting](../configuration/settings.md) of 750px:
@@ -81,6 +77,5 @@ When configured with a maximum image width of 750px, Blurry's image plugin, by c
             width="2160"
             height="1620">
     </picture>
-    <figcaption>Screenshot of Black's playground</figcaption>
 </figure>
 ```
