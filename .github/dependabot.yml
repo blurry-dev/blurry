@@ -20,5 +20,3 @@ updates:
         update-types:
           - "patch"
           - "minor"
-        labels:
-          - "dependabot/dev-deps"
