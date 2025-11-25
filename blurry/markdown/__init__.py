@@ -14,7 +14,7 @@ from mistune.plugins.table import table
 from mistune.plugins.task_lists import task_lists
 from mistune.plugins.url import url
 from mistune.util import escape
-from wand.image import Image
+from PIL import Image
 
 from .front_matter import parse_front_matter
 from .renderer_functions.render_video import render_video
@@ -74,14 +74,11 @@ class BlurryRenderer(mistune.HTMLRenderer):
                 return render_video(src, absolute_path, extension, title=title)
 
             # Tailor srcset and sizes to image width
-            with Image(filename=str(absolute_path)) as img:
-                image_width = img.width
-                image_height = img.height
-                # The .animated property doesn't always detect animated .webp images
-                # and .webp is optimized enough not to benefit much from .avif
-                image_is_animated = img.animation or extension.lower() == "webp"
-                attributes["width"] = image_width
-                attributes["height"] = image_height
+            with Image.open(absolute_path) as img:
+                image_width, image_height = img.size
+                image_is_animated = getattr(img, "n_frames", 0) > 1
+                attributes["width"] = str(image_width)
+                attributes["height"] = str(image_height)
 
             if image_is_animated or extension.lower() == "svg":
                 attributes_str = " ".join(
@@ -91,13 +88,12 @@ class BlurryRenderer(mistune.HTMLRenderer):
 
             image_widths = get_widths_for_image_width(image_width)
 
-            attributes["sizes"] = generate_sizes_string(image_widths)
-            attributes["srcset"] = generate_srcset_string(src, image_widths)
+            sizes = generate_sizes_string(image_widths)
             avif_srcset = generate_srcset_string(
                 src.replace(extension, "avif"), image_widths
             )
             source_tag = '<source srcset="{}" sizes="{}" type="image/avif" />'.format(
-                avif_srcset, attributes["sizes"]
+                avif_srcset, sizes
             )
 
         attributes_str = " ".join(

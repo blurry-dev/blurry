@@ -1,6 +1,5 @@
 from rich.console import Console
 from rich.table import Table
-import wand.version
 
 from blurry.plugins import discovered_html_plugins
 from blurry.plugins import discovered_jinja_extensions
@@ -36,11 +35,3 @@ def print_plugin_table():
     )
 
     console.print(plugin_table)
-
-
-def check_avif_support(console: Console):
-    if "AVIF" in wand.version.formats():
-        return
-    console.print(
-        "AVIF support not found. Falling back to WEBP. See https://trac.ffmpeg.org/wiki/Encode/AV1"
-    )
