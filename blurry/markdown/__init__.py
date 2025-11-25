@@ -89,12 +89,11 @@ class BlurryRenderer(mistune.HTMLRenderer):
             image_widths = get_widths_for_image_width(image_width)
 
             sizes = generate_sizes_string(image_widths)
-            avif_srcset = generate_srcset_string(
-                src.replace(extension, "avif"), image_widths
-            )
-            source_tag = '<source srcset="{}" sizes="{}" type="image/avif" />'.format(
-                avif_srcset, sizes
-            )
+            # Use AVIF for all remaining images, except WEBP
+            new_extension = "webp" if src.endswith(".webp") else "avif"
+            src = src.replace(extension, "avif") if new_extension != "webp" else src
+            srcset = generate_srcset_string(src, image_widths)
+            source_tag = f'<source srcset="{srcset}" sizes="{sizes}" type="image/{new_extension}" />'
 
         attributes_str = " ".join(
             f'{name}="{value}"' for name, value in attributes.items()
