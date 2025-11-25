@@ -1,3 +1,4 @@
+from concurrent.futures import Future
 from pathlib import Path
 
 from blurry.settings import get_build_directory
@@ -99,3 +100,10 @@ def format_schema_data(schema_data: dict) -> dict:
     formatted_schema_data = {"@context": "https://schema.org"}
     formatted_schema_data.update(schema_data)
     return formatted_schema_data
+
+
+def handle_future_result(future: Future, message: str):
+    exception = future.exception()
+    if not exception:
+        return
+    print(message, "-", exception)

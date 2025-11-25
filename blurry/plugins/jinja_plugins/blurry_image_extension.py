@@ -1,11 +1,9 @@
 import mimetypes
-from pathlib import Path
 from urllib.parse import urlparse
 
 from jinja2_simple_tags import StandaloneTag
 from rich.console import Console
-from wand.exceptions import BlobError
-from wand.image import Image
+from PIL import Image
 
 from blurry.images import add_image_width_to_path
 from blurry.settings import get_build_directory
@@ -31,17 +29,16 @@ class BlurryImage(StandaloneTag):
         image_path = get_build_directory() / image_relative_pathname
 
         try:
-            with Image(filename=str(image_content_path)) as image:
-                image_width = image.width
-                image_height = image.height
-                image_mimetype = image.mimetype
-        except BlobError:
+            with Image.open(image_content_path) as image:
+                image_width, image_height = image.size
+                image_mimetype = image.get_format_mimetype()
+        except Exception:
             warning_console.print(f"Could not find image: {image_content_path}")
             return ""
 
         attributes = {
-            "width": image_width,
-            "height": image_height,
+            "width": str(image_width),
+            "height": str(image_height),
         }
         for attribute_key in kwargs:
             if attribute_key in ["width", "height"]:
@@ -49,7 +46,9 @@ class BlurryImage(StandaloneTag):
                     f"blurry_image: Received {attribute_key} in template {self.template} but this attribute is dynamic. Skipping."
                 )
                 continue
-            attributes[attribute_key] = kwargs.get(attribute_key)
+            attribute_value = kwargs.get(attribute_key)
+            if attribute_value is not None:
+                attributes[attribute_key] = attribute_value
 
         if width:
             image_path = add_image_width_to_path(image_path, width)
@@ -58,7 +57,7 @@ class BlurryImage(StandaloneTag):
             mimetypes.types_map[".jpg"],
             mimetypes.types_map[".png"],
         ]:
-            image_path = Path(str(image_path).replace(image_path.suffix, ".avif"))
+            image_path = image_path.with_suffix(".avif")
 
         attributes["src"] = build_path_to_url(image_path)
 

@@ -16,7 +16,7 @@ from rich.progress import TaskProgressColumn
 from rich.progress import TextColumn
 
 from blurry.async_typer import AsyncTyper
-from blurry.cli import check_avif_support, print_blurry_name
+from blurry.cli import print_blurry_name
 from blurry.cli import print_plugin_table
 from blurry.commands.clean import clean_build_directory
 from blurry.commands.init import initialize_new_project
@@ -34,6 +34,7 @@ from blurry.settings import get_settings
 from blurry.settings import update_settings
 from blurry.sitemap import write_sitemap_file
 from blurry.templates import get_jinja_env
+from blurry.utils import handle_future_result
 
 
 warning_console = Console(stderr=True, style="bold yellow")
@@ -66,7 +67,6 @@ async def build(release=True, clean: bool = False):
         update_settings()
         print_blurry_name()
         print_plugin_table()
-        check_avif_support(console=warning_console)
 
     build_directory = get_build_directory()
 
@@ -97,6 +97,12 @@ async def build(release=True, clean: bool = False):
             other_task = progress.add_task("[blue]Other")
 
             sitemap_future = executor.submit(write_sitemap_file, file_data_by_directory)
+            sitemap_future.add_done_callback(
+                lambda future: handle_future_result(
+                    future,
+                    "Could not generate sitemap",
+                )
+            )
             sitemap_future.add_done_callback(lambda _: progress.advance(other_task))
 
             for filepath in content_directory.rglob("*"):
@@ -165,7 +171,6 @@ def runserver():
     """Starts HTTP server with live reloading."""
     print_blurry_name()
     print_plugin_table()
-    check_avif_support(console=warning_console)
 
     SETTINGS = get_settings()
     os.environ.setdefault(f"{ENV_VAR_PREFIX}BUILD_MODE", "dev")

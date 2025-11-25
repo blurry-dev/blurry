@@ -23,15 +23,13 @@ These enable [responsive images](https://developer.mozilla.org/en-US/docs/Learn/
 
 This improves page speed by ensuring that devices aren't loading larger images than they can display.
 
-### AVIF/WEBP
+### AVIF
 
 Rather than rendering images as plain `<img>` elements, Blurry uses [the `<picture>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture) to support [AVIF](https://en.wikipedia.org/wiki/AVIF), while providing a fallback for browsers that do not yet support AVIF.
 
 Blurry automatically generates AVIF versions of your images, including the resized images mentioned above.
 
 This improves page speed because AVIF provides excellent image quality at smaller file sizes than other image codecs.
-
-**Note:** If AVIF support is not available, WEBP is used as a backup.
 
 ### Width & height
 
