@@ -73,6 +73,19 @@ class BlurryRenderer(mistune.HTMLRenderer):
             if extension.lower() in SETTINGS.get("VIDEO_EXTENSIONS"):
                 return render_video(src, absolute_path, extension, title=title)
 
+            if extension.lower() == "svg":
+                import xml.etree.ElementTree as ET
+
+                svg_element = ET.parse(absolute_path).getroot()
+                if width := svg_element.get("width"):
+                    attributes["width"] = width
+                if height := svg_element.get("height"):
+                    attributes["height"] = height
+                attributes_str = " ".join(
+                    f'{name}="{value}"' for name, value in attributes.items()
+                )
+                return f"<img {attributes_str}>"
+
             # Tailor srcset and sizes to image width
             with Image.open(absolute_path) as img:
                 image_width, image_height = img.size
@@ -80,7 +93,7 @@ class BlurryRenderer(mistune.HTMLRenderer):
                 attributes["width"] = str(image_width)
                 attributes["height"] = str(image_height)
 
-            if image_is_animated or extension.lower() == "svg":
+            if image_is_animated:
                 attributes_str = " ".join(
                     f'{name}="{value}"' for name, value in attributes.items()
                 )
