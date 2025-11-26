@@ -88,18 +88,21 @@
         </nav>
     </aside>
 
+    {% set headings = body|headings %}
+    {% if headings %}
     <aside id="table-of-contents">
         <nav class="is-sticky-above-lg ">
             <details open="">
                 <summary>Content</summary>
                 <ul>
-                    {% for heading in body|headings %}
+                    {% for heading in headings %}
                     <li><a class="secondary" data-discover="true" href="#{{ heading.id }}">{{ heading.text }}</a></li>
                     {% endfor %}
                 </ul>
             </details>
         </nav>
     </aside>
+    {% endif %}
     <div id="content" role="document">
       {% block body %}{{body|safe}}{% endblock %}
     </div>
