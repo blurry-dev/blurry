@@ -11,8 +11,6 @@ dateModified = 2025-01-03
 ## Requirements
 
 - [Python](https://www.python.org/) >= 3.11
-- [ImageMagick](https://imagemagick.org/index.php) >= [7.1.0-20](https://github.com/ImageMagick/Website/blob/main/ChangeLog.md#710-20---2022-01-22)
-- [FFmpeg](https://ffmpeg.org/)
 
 ## Installation
 
