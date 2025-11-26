@@ -45,3 +45,7 @@ Blurry blends together high-quality libraries:
 - [ImageMagick](https://imagemagick.org/index.php) to resize and convert images
 
 &copy; 2020-present, John Franey
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=blurry-dev/blurry&type=date&legend=top-left)](https://www.star-history.com/#blurry-dev/blurry&type=date&legend=top-left)
