@@ -1,14 +1,20 @@
 from pathlib import Path
 
-import ffmpeg
+from pymediainfo import MediaInfo
 from mistune.util import escape
 
 
 def render_video(src: str, absolute_path: Path, extension: str, title: str | None):
-    video_probe_output = ffmpeg.probe(absolute_path)
-    video_info = video_probe_output["streams"][0]
-    video_width = video_info["width"]
-    video_height = video_info["height"]
+    media_info = MediaInfo.parse(absolute_path)
+    video_width = 0
+    video_height = 0
+    for track in media_info.tracks:
+        if track.track_type == "Video":
+            video_width = track.width
+            video_height = track.height
+
+    if 0 in {video_width, video_height}:
+        raise Exception("Video width and/or height undefined")
 
     video_attributes = {
         "height": video_height,
