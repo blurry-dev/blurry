@@ -9,7 +9,7 @@ from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
 from blurry.settings import SETTINGS
 from blurry.types import MarkdownFileData
-from blurry.utils import content_path_to_url
+from blurry.utils import content_path_to_url, schema_variables_to_json
 from blurry.utils import convert_content_path_to_directory_in_build
 from blurry.utils import convert_relative_path_in_markdown_file_to_pathname
 from blurry.utils import format_schema_data
@@ -150,3 +150,13 @@ def test_format_schema_data():
         "@context": "https://schema.org",
         "@type": "BlogPosting",
     }
+
+
+def test_schema_variables_to_json():
+    output = schema_variables_to_json(
+        {"@type": "BlogPosting", "datePublished": date(2025, 11, 30)}
+    )
+    assert (
+        output
+        == '{"@context": "https://schema.org", "@type": "BlogPosting", "datePublished": "2025-11-30"}'
+    )

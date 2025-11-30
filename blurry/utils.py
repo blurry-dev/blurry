@@ -1,5 +1,8 @@
+import json
 from concurrent.futures import Future
+from datetime import datetime, date
 from pathlib import Path
+from typing import Any
 
 from blurry.settings import get_build_directory
 from blurry.settings import get_content_directory
@@ -100,6 +103,18 @@ def format_schema_data(schema_data: dict) -> dict:
     formatted_schema_data = {"@context": "https://schema.org"}
     formatted_schema_data.update(schema_data)
     return formatted_schema_data
+
+
+def json_converter_with_dates(item: Any) -> None | str:
+    if isinstance(item, (date, datetime)):
+        return item.strftime("%Y-%m-%d")
+
+
+def schema_variables_to_json(schema_variables: dict):
+    return json.dumps(
+        format_schema_data(schema_variables),
+        default=json_converter_with_dates,
+    )
 
 
 def handle_future_result(future: Future, message: str):

@@ -1,12 +1,10 @@
 import asyncio
 import dataclasses
-import json
 import mimetypes
 import shutil
 from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
-from typing import Any
 
 from jinja2 import Environment
 from rich.console import Console
@@ -20,9 +18,8 @@ from blurry.settings import get_content_directory
 from blurry.settings import get_settings
 from blurry.types import MarkdownFileData
 from blurry.types import TemplateContext
-from blurry.utils import content_path_to_url
+from blurry.utils import content_path_to_url, schema_variables_to_json
 from blurry.utils import convert_content_path_to_directory_in_build
-from blurry.utils import format_schema_data
 from blurry.utils import write_index_file_creating_path
 
 
@@ -79,11 +76,6 @@ def process_jinja_file(filepath: Path, jinja_env: Environment, file_data_by_dire
     filepath_in_build.write_text(html)
 
 
-def json_converter_with_dates(item: Any) -> None | str:
-    if isinstance(item, datetime):
-        return item.strftime("%Y-%M-%D")
-
-
 def write_html_file(
     filepath: Path,
     file_data_by_directory: dict[Path, list[MarkdownFileData]],
@@ -132,13 +124,9 @@ def write_html_file(
             continue
         schema_variables[key] = value
 
-    schema_data = json.dumps(
-        format_schema_data(schema_variables),
-        default=json_converter_with_dates,
-    )
-
     validate_front_matter_as_schema(filepath, schema_variables, warning_console)
 
+    schema_data = schema_variables_to_json(schema_variables)
     schema_type_tag = f'<script type="application/ld+json">{schema_data}</script>'
 
     template_context = {
