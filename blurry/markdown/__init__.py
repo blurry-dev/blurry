@@ -89,7 +89,8 @@ class BlurryRenderer(mistune.HTMLRenderer):
             # Tailor srcset and sizes to image width
             with Image.open(absolute_path) as img:
                 image_width, image_height = img.size
-                image_is_animated = getattr(img, "n_frames", 0) > 1
+                image_is_animated = getattr(img, "is_animated", False)
+
                 attributes["width"] = str(image_width)
                 attributes["height"] = str(image_height)
 
