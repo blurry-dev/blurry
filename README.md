@@ -42,7 +42,7 @@ Blurry blends together high-quality libraries:
 - [JinjaX](https://jinjax.scaletti.dev/) for Jinja components
 - [LiveReload](https://livereload.readthedocs.io/) for an HTTP server with automatic browser reloading
 - [Typer](https://typer.tiangolo.com/) for its CLI interface
-- [ImageMagick](https://imagemagick.org/index.php) to resize and convert images
+- [Pillow](https://pillow.readthedocs.io/en/stable/)
 
 &copy; 2020-present, John Franey
 

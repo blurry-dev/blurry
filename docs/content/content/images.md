@@ -7,7 +7,7 @@ datePublished = 2023-04-09
 
 # Content: images
 
-Image handling is one of Blurry's strengths, and under the hood, Blurry performs some image magic using [ImageMagick](https://imagemagick.org/).
+Image handling is one of Blurry's strengths, and under the hood, Blurry doesn't sleep on image processing by making good use of [Pillow](https://pillow.readthedocs.io/en/stable/).
 
 ## Blurry image handling improvements
 
