@@ -28,7 +28,7 @@ class Settings(TypedDict):
 
 
 SETTINGS: Settings = {
-    "IMAGE_COMPRESSION_QUALITY": 90,
+    "IMAGE_COMPRESSION_QUALITY": 55,
     "BUILD_DIRECTORY_NAME": "dist",
     "CONTENT_DIRECTORY_NAME": "content",
     "TEMPLATES_DIRECTORY_NAME": "templates",
