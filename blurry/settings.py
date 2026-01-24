@@ -17,6 +17,7 @@ class Settings(TypedDict):
 
     DEV_HOST: str
     DEV_PORT: int
+    DEV_HEADERS: dict[str, str]
     DOMAIN: str
     IMAGE_WIDTHS: list[int]
     MAXIMUM_IMAGE_WIDTH: int
@@ -34,6 +35,7 @@ SETTINGS: Settings = {
     "TEMPLATES_DIRECTORY_NAME": "templates",
     "DEV_HOST": "127.0.0.1",
     "DEV_PORT": 8000,
+    "DEV_HEADERS": {},
     "DOMAIN": "example.com",
     # Sizes adapted from: https://link.medium.com/UqzDeLKwyeb
     "IMAGE_WIDTHS": [360, 640, 768, 1024, 1366, 1600, 1920],

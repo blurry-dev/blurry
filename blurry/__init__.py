@@ -214,6 +214,10 @@ def runserver():
     livereload_server.watch(
         "blurry.toml", lambda: event_loop.create_task(build(release=False))
     )
+
+    for header_name, header_value in SETTINGS["DEV_HEADERS"].items():
+        livereload_server.setHeader(header_name, header_value)
+
     livereload_server.serve(
         host=SETTINGS["DEV_HOST"], port=SETTINGS["DEV_PORT"], root=get_build_directory()
     )
