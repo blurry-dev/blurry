@@ -28,7 +28,7 @@ def gather_file_data_by_directory() -> DirectoryFileData:
     content_directory = get_content_directory()
 
     markdown_future_to_path: dict[concurrent.futures.Future, Path] = {}
-    with concurrent.futures.ProcessPoolExecutor() as executor:
+    with concurrent.futures.ThreadPoolExecutor() as executor:
         for filepath in content_directory.rglob("*.md"):
             # Extract filepath for storing context data and writing out
             relative_filepath = filepath.relative_to(content_directory)
