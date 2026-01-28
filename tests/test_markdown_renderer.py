@@ -1,4 +1,4 @@
-from blurry.markdown import markdown
+from blurry.markdown import get_markdown_instance
 
 MARKDOWN_WITH_HEADINGS = """
 # Home
@@ -23,6 +23,8 @@ Now we're nesting.
 
 Look! A section!
 """
+
+markdown = get_markdown_instance()
 
 
 def test_renderer_headings():
