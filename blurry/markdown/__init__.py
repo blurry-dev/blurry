@@ -101,7 +101,6 @@ class BlurryRenderer(mistune.HTMLRenderer):
                 return f"<img {attributes_str}>"
 
             image_widths = get_widths_for_image_width(image_width)
-
             sizes = generate_sizes_string(image_widths)
             # Use AVIF for all remaining images, except WEBP
             new_extension = "webp" if src.endswith(".webp") else "avif"
@@ -155,25 +154,28 @@ def is_blurry_renderer(
     return isinstance(renderer, BlurryRenderer)
 
 
-renderer = BlurryRenderer(escape=False)
-markdown = mistune.Markdown(
-    renderer,
-    # Ignoring types because the renderer is expecting markdown: Markdown rather than md: Markdown
-    plugins=[  # type: ignore
-        abbr,
-        def_list,
-        footnotes,
-        strikethrough,
-        table,
-        task_lists,
-        url,
-    ]
-    + [plugin.load() for plugin in discovered_markdown_plugins],
-)
+def get_markdown_instance():
+    renderer = BlurryRenderer(escape=False)
+    markdown = mistune.Markdown(
+        renderer,
+        # Ignoring types because the renderer is expecting markdown: Markdown rather than md: Markdown
+        plugins=[  # type: ignore
+            abbr,
+            def_list,
+            footnotes,
+            strikethrough,
+            table,
+            task_lists,
+            url,
+        ]
+        + [plugin.load() for plugin in discovered_markdown_plugins],
+    )
+    return markdown
 
 
 def convert_markdown_file_to_html(filepath: Path) -> tuple[str, dict[str, Any]]:
     CONTENT_DIR = get_content_directory()
+    markdown = get_markdown_instance()
     if not markdown.renderer:
         raise Exception("Blurry markdown renderer not set on Mistune Markdown instance")
 
