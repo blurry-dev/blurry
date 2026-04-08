@@ -177,7 +177,8 @@ def runserver():
 
     SETTINGS["RUNSERVER"] = True
 
-    event_loop = asyncio.get_event_loop()
+    event_loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(event_loop)
     event_loop.create_task(build(release=False))
 
     jinja_env = get_jinja_env()
