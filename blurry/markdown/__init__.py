@@ -16,6 +16,8 @@ from mistune.plugins.url import url
 from mistune.util import escape
 from PIL import Image
 
+from rich.console import Console
+
 from .front_matter import parse_front_matter
 from .renderer_functions.render_video import render_video
 from blurry.images import add_image_width_to_path
@@ -31,6 +33,8 @@ from blurry.utils import content_path_to_url
 from blurry.utils import convert_relative_path_in_markdown_file_to_pathname
 from blurry.utils import path_to_url_pathname
 from blurry.utils import resolve_relative_path_in_markdown
+
+warning_console = Console(stderr=True, style="bold yellow")
 
 
 # https://schema.org/ImageObject
@@ -118,6 +122,12 @@ class BlurryRenderer(mistune.HTMLRenderer):
         CONTENT_DIR = get_content_directory()
         link_is_relative = url.startswith(".")
         if link_is_relative:
+            if url.endswith(".md"):
+                resolved = resolve_relative_path_in_markdown(url, self.filepath)
+                if not resolved.exists():
+                    warning_console.print(
+                        f"Relative Markdown link not found: {url} (in {self.filepath})"
+                    )
             url = convert_relative_path_in_markdown_file_to_pathname(
                 content_directory=CONTENT_DIR, filepath=self.filepath, relative_path=url
             )
