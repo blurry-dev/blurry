@@ -10,7 +10,8 @@ class AsyncTyper(Typer):
             # Convert async function to synchronous
             @wraps(async_func)
             def sync_func(*_args, **_kwargs):
-                loop = asyncio.get_event_loop()
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
                 return loop.run_until_complete(async_func(*_args, **_kwargs))
 
             # Register synchronous function
