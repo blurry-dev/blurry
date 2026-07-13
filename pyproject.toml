@@ -25,7 +25,7 @@ packages = [{ include = "blurry" }]
 
 [tool.poetry.dependencies]
 Jinja2 = "^3.1.5"
-PyLD = "^2.0.4"
+PyLD = ">=2.0.4,<4.0.0"
 livereload = "^2.7.1"
 mistune = "^3.1.0"
 python = "^3.11"
