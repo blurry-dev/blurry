@@ -6,7 +6,7 @@ authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-blurry-cli = { path = "..", develop = true }
+blurry-cli = {path = "..", develop = true}
 
 [build-system]
 requires = ["poetry-core"]
