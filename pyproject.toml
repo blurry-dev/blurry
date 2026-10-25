@@ -38,7 +38,7 @@ dpath = "^2.2.0"
 jinja2-simple-tags = "^0.6.1"
 jinjax = ">=0.48,<0.66"
 pydantic = "^2.10.5"
-pillow = ">=12,<14"
+pillow = ">=13,<14"
 pymediainfo = "^7.0.1"
 
 [tool.poetry.scripts]
